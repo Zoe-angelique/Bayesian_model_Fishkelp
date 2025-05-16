@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="AJ Smit, Zoë-Angelique Petersen &amp; David Dyer">
+
+<title>Kelp Forest Dependence of South African Fish Species</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Proirs_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Proirs_files/libs/quarto-html/quarto.js"></script>
+<script src="Proirs_files/libs/quarto-html/popper.min.js"></script>
+<script src="Proirs_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Proirs_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Proirs_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Proirs_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Proirs_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Proirs_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Proirs_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#bayesian-analysis-framework" id="toc-bayesian-analysis-framework" class="nav-link active" data-scroll-target="#bayesian-analysis-framework">Bayesian Analysis Framework</a></li>
+  <li><a href="#trophic-dependency-ranking-tdr" id="toc-trophic-dependency-ranking-tdr" class="nav-link" data-scroll-target="#trophic-dependency-ranking-tdr">Trophic Dependency Ranking (TDR)</a>
+  <ul class="collapse">
+  <li><a href="#priors" id="toc-priors" class="nav-link" data-scroll-target="#priors">Priors</a>
+  <ul class="collapse">
+  <li><a href="#step-1-assigning-priors-selection" id="toc-step-1-assigning-priors-selection" class="nav-link" data-scroll-target="#step-1-assigning-priors-selection">Step 1: Assigning priors selection</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Kelp Forest Dependence of South African Fish Species</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>AJ Smit, Zoë-Angelique Petersen &amp; David Dyer </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="bayesian-analysis-framework" class="level1">
+<h1>Bayesian Analysis Framework</h1>
+<p>The Bayesian analysis framework underpins the assessment of clarifying the dependency of line-fish into categories of dependency or association based on their relationship with kelp forests. Previous literature studies have been nuanced in their descriptions and understanding with the terms dependency and association, often using these terms synonymously. The background of this models aims to establish a difference between the terms dependency and association with each being specified in accordance with the following belong:<br>
+</p>
+<ul>
+<li><em>Ecological benefit</em>: Increased fitness</li>
+<li><em>Association</em>: The geographical overlap of line-fish and kelp forests along the coast, with no ecological benefit derived from kelp forests by line-fish</li>
+<li><em>Dependency</em>: Line-fish obtain an ecological benefit from kelp forests, either in the form of habitat or trophic provisioning</li>
+</ul>
+<p>Dependency can be specifically subdivided to provide clarity on the degree of the ecological benefit line-fish obtain from kelp forests, including:</p>
+<ul>
+<li><em>Facultative</em>: Line-fish benefit ecologically from kelp forests, but can obtain a benefit from other ecosystems</li>
+<li><em>Obligatory</em>: Line-fish strictly and only benefit ecologically from kelp forests</li>
+</ul>
+<p>The Bayesian analysis framework intends on providing clarity to the interactions that occur between line-fish and kelp forests and will make use of the above the terminology. A methodology will be setup to determine the dependency ranking of line-fish, focusing specifically on trophic and habitat provisioning. The priors will be set up separately for these two ranking systems, with each focusing on factors that will determine whether fish benefit on kelp and the degree to which the benefit is received.</p>
+</section>
+<section id="trophic-dependency-ranking-tdr" class="level1">
+<h1>Trophic Dependency Ranking (TDR)</h1>
+<p>The Bayesian analysis framework aims to determine the TDR of line-fish on kelp forests. This will follow a methodological structure, of which priors will be first be set-up. The priors selected in this section will infer knowledge on the possible interactions line-fish have with kelp forests. Due to the lack of information there are with certain fish species, uncertainties will also be taken into consideration to provide a probabilistic estimate of the interaction occurring. Priors will be set up to account for this uncertainty and will later be integrated to include the different categories to display an overall TDR of line-fish on kelp forests.</p>
+<section id="priors" class="level2">
+<h2 class="anchored" data-anchor-id="priors">Priors</h2>
+<p>The priors are categories that will be used to determine the possible interaction between line-fish of kelp forests. These priors will encompass factors that will touch on the boundaries and extent of fish occurence along the coast, along with the degree of consumption of kelp or kelp associated organisms. These priors were selected based on the knowledge sourced from literature sources.</p>
+<p>The prior represents our initial <em>beliefs</em> about a parameter’s effect on the TDR estimate before observing the current data. In this context, the priors will encode our expert knowledge and assumptions about the TDR based on the answers to Questions 1-x (<strong>?@sec-TDR</strong>). These priors will then be updated with the data (likelihood) to produce the posterior distribution, which reflects our updated beliefs about the TDR.</p>
+<p>Each question provides qualitative information that can be quantitatively translated into prior distributions for the TDR.</p>
+<section id="step-1-assigning-priors-selection" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-assigning-priors-selection">Step 1: Assigning priors selection</h3>
+<p>The priors play a big role in shaping the posterior distributions. The type of prior—whether <strong>Diffuse</strong>, <strong>Weakly Informative</strong>, or <strong>Informative</strong>—reflects different levels of prior knowledge or assumptions about the parameter before seeing the data. Pay careful attention to assigning priors. A diffuse or non-informative prior is chosen to exert minimal influence on the posterior distribution and allows the data to drive the posterior in the absence of strong prior beliefs. Weakly informative priors provide some guidance without strongly biasing the posterior. They reflect a minimal level of knowledge or reasonable assumptions about the parameter’s likely range without assuming high confidence in specific values. Informative priors are used when there is strong prior knowledge or beliefs about the parameter.</p>
+<p><strong>Question 1: Geographic Distribution</strong></p>
+<p>Because the distribution of kelp forests and the availability of kelp as a food source vary between the west and east coasts (<em>Ecklonia maxima</em> at De Hoop) regions, fish species that are distributed in different regions along the South African coast may have different TDRs.</p>
+<p>Select the option that best describes the geographical distribution of the fish species along the South African coast in relation to the distribution of kelp forests (<em>Ecklonia maxima</em> and/or <em>Laminaria pallida</em>). This information will help assess the species’ potential Trophic Dependency Rank (TDR) on kelp.</p>
+<p><strong><em>Choices: [West | East | Both]</em></strong></p>
+<ul>
+<li><strong>[West]</strong>: The species is <em>exclusively</em> found in the western region of the South African (and/or Namibian) coast, which is dominated by kelp forests (<em>Ecklonia maxima</em> and/or <em>Laminaria pallida</em>). Therefore, it is <em>likely</em> that the species has a <em>higher Trophic Dependency Rank (TDR)</em> on kelp, potentially even indicating an <em>obligate dependency</em> on kelp-derived carbon.</li>
+<li><strong>[East]</strong>: The species is <em>exclusively</em> found along the coastline <em>east of the eastern limit</em> of kelp forests (east of De Hoop), where <em>Ecklonia maxima</em> does not occur, and kelp forests are absent (but there’s still <em>Ecklonia radiata</em>). Consequently, the species is expected to have a TDR <em>close to zero</em> (not zero due to chance of accessing <em>E. radiata</em>), indicating <em>no to minimal dependency</em> on kelp-derived carbon.</li>
+<li><strong>[Both]</strong>: The species is found in <em>both</em> the western region (with kelp forests) and the eastern region (without kelp forests). As a result, the species may have an <em>intermediate TDR</em>, suggesting a <em>facultative dependency</em> on kelp-derived carbon, where the species utilises kelp when available but can also thrive without it.</li>
+</ul>
+<p>Three dependency types are accommodated by these options. <strong>Obligate Dependency</strong> indicates that the species relies heavily on kelp-derived carbon and may not thrive without it. <strong>Facultative Dependency</strong> is when species can utilise kelp-derived carbon when available but can also survive without it. Lastly, <strong>No Dependency</strong> when a species does not rely on kelp-derived carbon and can thrive without it.</p>
+<p>Translation into Priors:</p>
+<p>To model a parameter like TDR, which is a proportion bounded between 0 and 1 (or 0% to 100%), use a Beta distribution. It has a flexible shape and so will allow for various levels of certainty and mean values. The Beta distribution has two shape parameters, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, which determine the mean (<a href="#eq-equation1">Equation&nbsp;1</a>) and variance (<a href="#eq-equation2">Equation&nbsp;2</a>) of the distribution:</p>
+<p><span id="eq-equation1"><span class="math display">\[ \mu = \frac{\alpha}{\alpha + \beta}  \tag{1}\]</span></span></p>
+<p><span id="eq-equation2"><span class="math display">\[ \sigma^2 = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}  \tag{2}\]</span></span></p>
+<p>Example profiles of the Beta distribution for different values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are shown in <a href="#fig-fig0">Figure&nbsp;1</a>:</p>
+<div class="cell" data-layout-align="center" data-messages="false" data-fig.asp="0.85">
+<div class="cell-output-display">
+<div id="fig-fig0" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Proirs_files/figure-html/fig-fig0-1.png" class="img-fluid figure-img" width="1152"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Parameters of the Beta distribution.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We can solve for α and β given the desired mean and variance.</p>
+<p>For example, for the ‘West’ region, our desired mean is <span class="math inline">\(\mu = 0.8\)</span>, which reflects a higher TDR. We choose a variance that indicates more uncertainty (because a species simply being confined to this region offers little certainty that it has a TDR reflective of kelp usage). Since we want a wider distribution (higher uncertainty), we can choose <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> to be smaller. A Beta(4,1) distribution can be chosen to reflect a high TDR (mean = 0.8 from <a href="#eq-equation3">Equation&nbsp;3</a>) with moderate uncertainty (variance ~0.0267 from <a href="#eq-equation4">Equation&nbsp;4</a>). The calculations are as follows:</p>
+<p><span id="eq-equation3"><span class="math display">\[\mu = \frac{4}{4 + 1} = 0.8 \tag{3}\]</span></span></p>
+<p><span id="eq-equation4"><span class="math display">\[\sigma^2 = \frac{4 \times 1}{(4 + 1)^2 (4 + 1 + 1)} = \frac{4}{25 \times 6} = \frac{4}{150} \approx 0.0267 \tag{4}\]</span></span></p>
+<p>The priors for the ‘West,’ ‘East,’ and ‘Both’ geographic regions are therefore:</p>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 38%">
+<col style="width: 19%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Region</strong></th>
+<th><strong>Beta Parameters (α, β)</strong></th>
+<th><strong>Mean (μ)</strong></th>
+<th><strong>Variance (σ²)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>West</strong></td>
+<td>α = 4, β = 1</td>
+<td>μ = 0.8</td>
+<td>σ² ≈ 0.0267</td>
+</tr>
+<tr class="even">
+<td><strong>East</strong></td>
+<td>α = 1, β = 19</td>
+<td>μ = 0.05</td>
+<td>σ² ≈ 0.00226</td>
+</tr>
+<tr class="odd">
+<td><strong>Both</strong></td>
+<td>α = 2, β = 2</td>
+<td>μ = 0.5</td>
+<td>σ² = 0.05</td>
+</tr>
+</tbody>
+</table>
+<p>Visualising these priors helps us understand how they reflect our prior beliefs about the TDR. The priors are shown in <a href="#fig-fig1">Figure&nbsp;2</a>:</p>
+<div class="cell" data-layout-align="center" data-messages="false" data-fig.asp="0.65">
+<div class="cell-output-display">
+<div id="fig-fig1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Proirs_files/figure-html/fig-fig1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Plot of prior distributions for the geographic distribution effect of fish regional distribution on TDR.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Question 2: Habitat</strong></p>
+<p>In this question you are asked to select the answer that best describes the habitat of the fish species in relation to kelp forests. Answering ‘In’, ‘Adjacent’, or ‘Both’ pertains to instances when you answered ‘West’ in Question 1. Answering ‘Away’ applies only to when you answered ‘East’ in Question 1.</p>
+<p><strong><em>Choices: [In | Adjacent | Both | Away]</em></strong></p>
+<ul>
+<li><strong>[In]</strong>: The species is <em>found within</em> kelp forests, where it is likely to have a <em>higher Trophic Dependency Rank (TDR)</em> on kelp, positioning the species more towards an <em>obligate dependency</em> on kelp-derived carbon.</li>
+<li><strong>[Adjacent]</strong>: The species is <em>found adjacent to</em> kelp forests, where it may have a <em>moderate TDR</em> on kelp, indicating a <em>facultative dependency</em> on kelp-derived carbon (via allochthonous kelp-derived carbon).</li>
+<li><strong>[Both]</strong>: The species is found in <em>both</em> kelp forests and adjacent areas, suggesting an <em>intermediate TDR</em> on kelp-derived carbon, possibly positioning it towards a <em>facultative dependency</em>.</li>
+<li><strong>[Away]</strong>: The species is <em>found away from</em> kelp forests, where it is expected to have a <em>low TDR</em> on kelp, indicating <em>no dependency</em> on kelp-derived carbon.</li>
+</ul>
+<p>Translation into Priors:</p>
+<table class="table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 37%">
+<col style="width: 18%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Habitat</strong></th>
+<th><strong>Beta Parameters (α, β)</strong></th>
+<th><strong>Mean (μ)</strong></th>
+<th><strong>Variance (σ²)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>In</strong></td>
+<td>α = 8, β = 1</td>
+<td>μ ≈ 0.8889</td>
+<td>σ² ≈ 0.00988</td>
+</tr>
+<tr class="even">
+<td><strong>Adjacent</strong></td>
+<td>α = 4, β = 1</td>
+<td>μ = 0.8</td>
+<td>σ² ≈ 0.02667</td>
+</tr>
+<tr class="odd">
+<td><strong>Both</strong></td>
+<td>α = 6, β = 1</td>
+<td>μ ≈ 0.8571</td>
+<td>σ² ≈ 0.01531</td>
+</tr>
+<tr class="even">
+<td><strong>Away</strong></td>
+<td>α = 5, β = 85</td>
+<td>μ ≈ 0.0556</td>
+<td>σ² ≈ 0.0005765</td>
+</tr>
+</tbody>
+</table>
+<p>A visualisation of these priors is given in <a href="#fig-fig2">Figure&nbsp;3</a>:</p>
+<div class="cell" data-layout-align="center" data-messages="false" data-fig.asp="0.65">
+<div class="cell-output-display">
+<div id="fig-fig2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Proirs_files/figure-html/fig-fig2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: Plot of prior distributions for the habitat effect on TDR.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><em>[Note: We would have to run a sensitivity analysis to determine the effect of the priors. For example, in a situation where a species in Question 1 is scored as ‘West’ and in Question 2 as ‘In’, the priors for the geographic distribution effect and the habitat effect would be combined to determine the overall effect on TDR. Since the species is found in the west and within kelp forests, the priors for the geographic distribution effect and the habitat effect would be multiplied to determine the overall effect on TDR, which could be close to 1 making it obligative (the fish only</em> occurs directly within kelp forests, but at this point we still have no insight about whether it is a trophic or habitat dependence, or both). This process would be repeated for all possible combinations of answers to Questions 1 and 2.]</p>
+<p><strong>Question 3: Depth</strong></p>
+<p>The priors for the depth effect on TDR will have to reflect the fact that species that occur at the same depth as kelp forests are more likely to have a higher TDR on kelp, and as we go into deeper water, the TDR on kelp is expected to decrease. The priors for this question are as follows:</p>
+<p><strong><em>Choices: [0 | 5 | 15 | 30 | 60]</em></strong></p>
+<p>Set up a continuous series of Beta distributions as priors for the effect of depth from shallow to deep water on the TDR on kelp. This reflects the reasoning that species occurring within shallow water <em>could</em> have a higher TDR on kelp, with a decreasing response as depth increases.<br>
+</p>
+<p>following AJs distance formula</p>
+<p><strong><em>Step 1: Define the Prior Mean TDR as a function of Depth</em></strong><br>
+</p>
+<p>We will start by modelling the expected mean TDR as a function of depth from the shore (<em>D</em>). Since kelp dominance and TDR decrease with increasing depth, an exponential decay function is appropriate.</p>
+<p><span class="math display">\[ mean\_TDR(D) = M \cdot e^{(-k \cdot D)} \]</span></p>
+<p>Where:</p>
+<ul>
+<li><em>M</em> is the maximum expected TDR at the surface (<em>D</em> = 5m)</li>
+<li><em>k</em> is the decay constant determining how quickly TDR decreases with depth</li>
+<li><em>D</em> is depth (in m)</li>
+</ul>
+<p>Choosing <em>M</em> and <em>k</em> :</p>
+<ul>
+<li>Set M = 0.9 to represent a high TDR at the shore</li>
+<li>Determine k so that <em>D</em> = 15m (intermediate water), the mean TDR reflects the diminishing importance of kelp. Suppose we expect mean TDR to be 0.75 at this point (kelp is still present here and forests are prevalent)</li>
+</ul>
+<p>Calculate <em>k</em>:</p>
+<p><span class="math display">\[
+0.75 =  0.9 \cdot e^{(-k \cdot 15)}
+\]</span></p>
+<p>We start with the equation:</p>
+<p><span class="math display">\[
+0.75 = 0.9 \cdot e^{-k \cdot 15}
+\]</span></p>
+<p><span class="math display">\[
+e^{-k \cdot 15} = \frac{0.75}{0.9}
+\]</span></p>
+<p><span class="math display">\[
+-k \cdot 15 = \ln\left(\frac{0.75}{0.9}\right)
+\]</span></p>
+<p><span class="math display">\[
+k = -\frac{1}{15} \cdot \ln\left(\frac{0.75}{0.9}\right) \approx 0.0122
+\]</span></p>
+<p>Resulting Function:<br>
+</p>
+<p><span class="math display">\[ mean\_TDR(D) =  0.9 \cdot e^{-0.0122 \cdot D} \]</span></p>
+<p>Note to consider: The distance-decay model assumes exponential decay of kelp influence, but we need to empirically validate this assumption.<br>
+</p>
+<p><strong><em>Step 2: Define the Shape Parameters α and β</em></strong><br>
+</p>
+<p>Next, we’ll express α and β as functions of distance decay to shape the Beta distributions accordingly.<br>
+</p>
+<p>Option 1: Constant Total Information<br>
+Assuming a constant total information (α + β) reflects consist confidence in our prior across distances.<br>
+</p>
+<ul>
+<li>Set α + β = 20 for moderate confidence</li>
+<li>calculate α and β at each distance</li>
+</ul>
+<p><span class="math display">\[ α(D) = mean\_TDR(D) \cdot (α+β) \]</span> <span class="math display">\[ β(D) = (1 - mean\_TDR(D)) \cdot (α+β) \]</span></p>
+<p>Note: The total information parameter (α + β = 20) seems arbitrarily chosen.<br>
+</p>
+<p>Option 2: Decreasing Total Information<br>
+Alternatively, if uncertainty increases with distance, let (α+β) decrease exponentially:</p>
+<p><span class="math display">\[ (α + β) = A \cdot e ^{-h \cdot D} \]</span></p>
+<p>Where:</p>
+<ul>
+<li><em>A</em> is the initial information weight at <em>D</em> = 5.</li>
+<li><em>h</em> controls the rate of decrease of information.</li>
+</ul>
+<p>We need to select appropriate values for <em>A</em> and <em>h</em> to model the decreasing confidence.</p>
+<ul>
+<li>Initial information (<em>A</em>): Let’s set <em>A</em> = 20 to match the initial total information used in Option 1.</li>
+<li>Decay Rate (<em>h</em>): We’ll choose <em>h</em> such that the total information halves at <em>D</em> = 15m (shallow water).</li>
+</ul>
+<p>Using the half-life formula for exponential decay:</p>
+<p><span class="math display">\[ D_{1/2} = \frac{In(2)}{h} \]</span></p>
+<p>Solving for <em>h</em>:</p>
+<p><span class="math display">\[ h = \frac{In(2)}{D_{1/2}} = \frac{In(2)}{15} \approx 0.0462 \]</span></p>
+<p><strong><em>Step 3: Compute α and β at Specific Depth</em></strong><br>
+Let’s calculate α and β at various distances using Option 1.<br>
+At <em>D</em> = 0m <span class="math display">\[ mean\_TDR(0) = 0.1 \]</span> <span class="math display">\[ α(0) = 0.1 \cdot 20 = 2 \]</span> <span class="math display">\[ β(0) = (1-0.1) \cdot 20 = 18 \]</span></p>
+<p>At <em>D</em> = 5m</p>
+<p><span class="math display">\[ mean\_TDR(5) = 0.9 \]</span> <span class="math display">\[ α(5) = 0.9 \cdot 20 = 18 \]</span> <span class="math display">\[ β(5) = (1-0.9) \cdot 20 = 2 \]</span></p>
+<p>At <em>D</em> = 15m</p>
+<p><span class="math display">\[ mean\_TDR(15) = 0.75 \]</span> <span class="math display">\[ α(15) = 0.75 \cdot 20 = 15 \]</span> <span class="math display">\[ β(15) = (1-0.75) \cdot 20 = 5 \]</span></p>
+<p>At <em>D</em> = 30m <span class="math display">\[ mean\_TDR(30) \approx 0.624 \]</span></p>
+<p><span class="math display">\[ α(30) = 0.624 \cdot 20 = 12.48 \]</span></p>
+<p><span class="math display">\[ β(30) = (1-0.624) \cdot 20 = 7.52 \]</span></p>
+<p>At <em>D</em> = 60m <span class="math display">\[ mean\_TDR(60) = 0.433 \]</span> <span class="math display">\[ α(60) = 0.433 \cdot 20 = 8.66 \]</span></p>
+<p><span class="math display">\[ β(60) = (1-0.433) \cdot 20 = 11.34 \]</span></p>
+<p>Now let us calculate the total information (α + β) for Option 2 and model the total information as decreasing exponentially with depth from the shore. This will reflect as increasing uncertainty as we move offshore.<br>
+Using the exponential decay formula:</p>
+<p><span class="math display">\[ (α + β)(D) = 20 \cdot e ^{-0.0462 \cdot D} \]</span></p>
+<p>Calculate at different depths:<br>
+At <em>D</em> = 0m:<br>
+<span class="math display">\[ (α+β)(0) = 20 \cdot e^{-0} = 20 \]</span><br>
+At <em>D</em> = 5m:<br>
+<span class="math display">\[ (α+β)(5) = 20 \cdot e^{-0.0462 \cdot 5} \approx 10.001 \]</span><br>
+At <em>D</em> = 15m:<br>
+<span class="math display">\[ (α+β)(15) = 20 \cdot e^{-0.0462 \cdot 15 } \approx 2.501 \]</span><br>
+At <em>D</em> = 30m:<br>
+<span class="math display">\[ (α+β)(30) = 20 \cdot e^{-0.1386 \cdot 30} \approx 0.313 \]</span></p>
+<p><strong><em>Step 4: Define the Beta Distributions</em></strong><br>
+Now we need to defined the Beta distributions at each depth<br>
+(Option 1):</p>
+<ul>
+<li><em>D</em> = 0m: Beta(α = 18, β = 2)</li>
+<li><em>D</em> = 5m: Beta(α = 15, β = 5)</li>
+<li><em>D</em> = 15m: Beta(α = 10.42, β = 9.58)</li>
+<li><em>D</em> = 30m: Beta(α = 6.02, β = 13.98)</li>
+</ul>
+<p>These distributions reflect a high TDR at shallow water that decreases with increasing depth.<br>
+Similarly, we need to set up the Beta distribution for Option 2.<br>
+Using the mean TDR function:</p>
+<p><span class="math display">\[ mean\_TDR(D) = M \cdot e ^{-k \cdot D} \]</span></p>
+<p>Where:</p>
+<ul>
+<li><em>M</em> = 0.9 (maximum expected TDR at shore)</li>
+<li><em>k</em> = 0.0365 (decay constant for mean TDR)</li>
+</ul>
+<p>Calculate α and β at different distances:<br>
+At <em>D</em> = 0m</p>
+<ul>
+<li>mean_TDR(0) = 0.1 · e<sup>-0</sup> = 0.1</li>
+<li>Total Information: (α + β) = 20</li>
+<li>α(0) = 0.1 · 20 = 18 and β(0) = (1 - 0.1) · 20 = 2</li>
+</ul>
+<p>At <em>D</em> = 5m</p>
+<ul>
+<li>mean_TDR(5) = 0.9 · e<sup>-0.0365 · 5</sup> <span class="math inline">\(\approx\)</span> 0.75</li>
+<li>Total Information: (α + β) = 10</li>
+<li>α(5) = 0.75 · 10 = 7.5 and β(5) = (1 - 0.75) · 10 = 2.5</li>
+</ul>
+<p>At <em>D</em> = 15m</p>
+<ul>
+<li>mean_TDR(15) = 0.9 · e<sup>-0.0365 · 15</sup> <span class="math inline">\(\approx\)</span> 0.521</li>
+<li>Total Information: (α + β) = 2.5</li>
+<li>α(15) = 0.52 · 2.5 <span class="math inline">\(\approx\)</span> 1.3 and β(15) = (1 - 0.52) · 2.5 <span class="math inline">\(\approx\)</span> 1.2</li>
+</ul>
+<p>At <em>D</em> = 30m</p>
+<ul>
+<li>mean_TDR(30) = 0.9 · e<sup>-0.0365 · 30</sup> <span class="math inline">\(\approx\)</span> 0.301</li>
+<li>Total Information: (α + β) <span class="math inline">\(\approx\)</span> 0.31</li>
+<li>α(30) = 0.301 · 0.31 <span class="math inline">\(\approx\)</span> 0.09 and β(30) = (1 - 0.301) · 0.31 <span class="math inline">\(\approx\)</span> 0.22</li>
+</ul>
+<p>The table below summaries the calculated values for <em>Option 2</em></p>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 19%">
+<col style="width: 40%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Depth (m)</strong></th>
+<th><strong>Mean TDR</strong></th>
+<th><strong>Total Information (α+β)</strong></th>
+<th><strong>α</strong></th>
+<th><strong>β</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0.9</td>
+<td>20</td>
+<td>18</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>0.75</td>
+<td>10</td>
+<td>7.5</td>
+<td>2.5</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>0.521</td>
+<td>5</td>
+<td>1.3</td>
+<td>1.2</td>
+</tr>
+<tr class="even">
+<td>30</td>
+<td>0.301</td>
+<td>2.5</td>
+<td>0.09</td>
+<td>0.22</td>
+</tr>
+</tbody>
+</table>
+<p>The Beta distributions at these depths are plotted in the figure below</p>
+<div class="cell" data-layout-align="center" data-messages="false" data-fig.asp="0.65">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Proirs_files/figure-html/question4-depth-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure #: Plot of A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Question 4: Distance from the shore</strong></p>
+<p>The priors for the distance from the shore effect on TDR will have to reflect the fact that species that occur closer to the shore are more likely to have a higher TDR on kelp, and as we move further offshore, the TDR on kelp is expected to decrease. The priors for this question are as follows:</p>
+<p><strong><em>Choices: [0 km |1.5 km |3 km |6 km ]</em></strong> Set up a continuous series of Beta distributions as priors for the effect of distance from the shore on the TDR on kelp. This reflects our reasoning that species closer to the shore could have a higher TDR on kelp, with a decreasing trend as we move further offshore. (As with the other questions, this is a belief implying we have no actual evidence at this stage. Later, specific evidence will be used to update these (weakly-informative) priors.)<br>
+</p>
+<p><strong><em>Step 1: Define the Prior Mean TDR as a Function of Distance</em></strong><br>
+</p>
+<p>We’ll start by modelling the expected mean TDR as a function of distance from the shore (<em>d</em>). Since kelp dominance and TDR decrease with distance, an exponential decay function is appropriate.</p>
+<p><span class="math display">\[ mean\_TDR(d) = M \cdot e^{(-k \cdot d)} \]</span></p>
+<p>Where:</p>
+<ul>
+<li><em>M</em> is the maximum expected TDR at the shoreline (<em>d</em> = 0km)</li>
+<li><em>k</em> is the decay constant determining how quickly TDR decreases with distance</li>
+<li><em>d</em> is distance (in km)</li>
+</ul>
+<p>Choosing <em>M</em> and <em>k</em> :</p>
+<ul>
+<li>Set M = 0.9 to represent a high TDR at the shore</li>
+<li>Determine k so that <em>d</em> = 1.5km (edge of nearshore), the mean TDR reflects the diminishing importance of kelp.</li>
+</ul>
+<p>Calculate <em>k</em>:</p>
+<p><span class="math display">\[
+0.5 =  0.9 \cdot e^{(-k \cdot 1.5)}
+\]</span></p>
+<p>We start with the equation:</p>
+<p><span class="math display">\[
+e^{(-k \cdot 1.5)} = \frac{0.5}{0.9}
+\]</span><br>
+</p>
+<p><span class="math display">\[
+-k \cdot 1.5 = \ln\left(\frac{0.5}{0.9}\right)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+k = - \frac{1}{1.5}\ln\left(\frac{0.7}{0.9}\right) \approx 0.3919
+\]</span><br>
+</p>
+<p>Resulting function:<br>
+</p>
+<p><span class="math display">\[
+mean\_TDR(d) = 0.9 \cdot e^{-0.3919 \cdot d}
+\]</span><br>
+</p>
+<p>Note to consider: The distance-based model assumes exponential decay of kelp influence, but we need to empirically validate this assumption.</p>
+<p><strong><em>Step 2: Define the Shape Parameters 𝛼 and 𝛽</em></strong><br>
+</p>
+<p>Next, we’ll express α and β as functions of distance to shape the Beta distribution accordingly.<br>
+</p>
+<p>Option 1: Constant Total Information<br>
+</p>
+<p>Assuming a constant total information (𝛼 + 𝛽) reflects consistent confidence in our prior across distances.</p>
+<p>• Set𝛼 +𝛽 =20 for moderate confidence. • Calculate α and β at each distance:</p>
+<p><span class="math display">\[
+a(d) = mean\_TDR(d) \cdot (𝛼 + 𝛽 )
+\]</span><br>
+</p>
+<p><span class="math display">\[
+𝛽(d) = (1 - mean\_TDR(d) \cdot (𝛼 + 𝛽 )
+\]</span><br>
+</p>
+<p>Note: The total information parameter (𝛼 + 𝛽 = 20) seems arbitrarily chosen.<br>
+</p>
+<p>Option 2: Decreasing Total Information<br>
+</p>
+<p>Alternatively, if uncertainty increases with distance, let (𝛼 + 𝛽) decrease exponentially:<br>
+</p>
+<p><span class="math display">\[
+(𝛼 + 𝛽)(d) = A \cdot e^{-h \cdot d}
+\]</span><br>
+</p>
+<p>Where:<br>
+</p>
+<ul>
+<li><em>𝐴</em> is the initial information weight at <em>𝑑</em> = 0.</li>
+<li><em>ℎ</em> controls the rate of decrease in information.<br>
+</li>
+</ul>
+<p>We need to select appropriate values for <em>𝐴</em> and <em>ℎ</em> to model the decreasing confidence.<br>
+</p>
+<ul>
+<li>Initial Information (<em>𝐴</em>): Let’s set <em>𝐴</em> = 20 to match the initial total information used in Option 1.</li>
+<li>Decay Rate (<em>ℎ</em>): We’ll choose <em>ℎ</em> such that the total information halves at <em>𝑑</em> = 1.5km (edge of the nearshore area).</li>
+</ul>
+<p>Using the half-life formula for exponential decay<br>
+<span class="math display">\[
+d_{1/2} = \frac{ln(2)}{h}
+\]</span><br>
+Solving for <em>h</em>:<br>
+<span class="math display">\[
+h = \frac{ln(2)}{d_{1/2}} = \frac{ln(2)}{1.5} \approx 0.4621
+\]</span><br>
+</p>
+<p><strong><em>Step 3: Compute α and β at Specific Distances</em></strong><br>
+Let’s calculate 𝛼 and 𝛽 at various distances using Option 1.<br>
+At *d** = 0km:<br>
+</p>
+<p><span class="math display">\[ mean\_TDR(0) = 0.9 \]</span><br>
+<span class="math display">\[ α(0) = 0.9 \cdot 20 = 18 \]</span><br>
+<span class="math display">\[ 𝛽(0) = (1 - 0.9) \cdot 20 = 2 \]</span><br>
+</p>
+<p>At <em>d</em> = 1.5km:<br>
+</p>
+<p><span class="math display">\[ mean\_TDR(1.5) = 0.5 \]</span><br>
+<span class="math display">\[ α(1.5) = 0.5 \cdot 20 = 10 \]</span><br>
+<span class="math display">\[ 𝛽(1.5) = (1 - 0.5) \cdot 20 = 10 \]</span><br>
+</p>
+<p>At <em>d</em> = 3km:<br>
+</p>
+<p><span class="math display">\[ mean\_TDR(3) = 0.277 \]</span><br>
+<span class="math display">\[ α(3) = 0.277 \cdot 20 \approx 5.54 \]</span><br>
+<span class="math display">\[ 𝛽(3) = (1 - 0.277) \cdot 20 \approx 14.46 \]</span><br>
+</p>
+<p>At <em>d</em> = 6km:<br>
+<span class="math display">\[ mean\_TDR(6) = 0.085 \]</span><br>
+<span class="math display">\[ α(6) = 0.085 \cdot 20 \approx 1.70 \]</span><br>
+<span class="math display">\[ 𝛽(6) = (1 - 0.085) \cdot 20 \approx 18.30 \]</span><br>
+</p>
+<p>Now let us calculate the total information (𝛼 + 𝛽) for Option 2 and model the total information as decreasing exponentially with distance from the shore. This will reflect an increasing uncertainty as we move offshore.<br>
+<br>
+Using the exponential decay formula:<br>
+</p>
+<p><span class="math display">\[
+(𝛼 + 𝛽)(d) = 20 \cdot e^{-0.4621 \cdot d}
+\]</span><br>
+</p>
+<p>Calculate at different distances:<br>
+</p>
+<p>At <em>d</em> = 0km:<br>
+<span class="math display">\[ (𝛼 + 𝛽)(0) = 20 \cdot e^{-0} = 20 \]</span><br>
+</p>
+<p>At <em>d</em> = 1.5km:<br>
+<span class="math display">\[ (𝛼 + 𝛽)(1.5) = 20 \cdot e^{-0.4621 \cdot 1.5} = 20 \cdot 0.5 = 10 \]</span><br>
+</p>
+<p>At <em>d</em> = 3km: <span class="math display">\[ (𝛼 + 𝛽)(3) = 20 \cdot e^{-0.4621 \cdot 3} = 20 \ cdot 0.25 = 5 \]</span><br>
+</p>
+<p>At <em>d</em> = 6km:<br>
+<span class="math display">\[ (𝛼 + 𝛽)(6) = 20 \cdot e^{-0.4621 \cdot 6} = 20 \cdot 0.0625  = 1.25 \]</span><br>
+</p>
+<p><strong><em>Step 4: Define the Beta Distributions</em></strong><br>
+</p>
+<p>Now, we can define the Beta distributions at each distance (Option 1):<br>
+</p>
+<ul>
+<li>𝑑 = 0km: Beta(𝛼 = 18,𝛽 = 2)</li>
+<li>𝑑 = 1.5km: Beta(𝛼 = 10,𝛽 = 10)</li>
+<li>𝑑 = 3km: Beta(𝛼 = 5.54,𝛽 = 14.46)</li>
+<li>𝑑 = 6km: Beta(𝛼 = 1.70,𝛽 = 18.30)</li>
+</ul>
+<p>These distributions reflect a high TDR nearshore that decreases with distance.<br>
+</p>
+<p>Similarly, we need to set up the Beta distribution for Option 2. Using the mean TDR function:<br>
+</p>
+<p><span class="math display">\[
+mean\_TDR(d) = M \cdot e^{-k \cdot d}
+\]</span><br>
+</p>
+<p>Where:<br>
+</p>
+<ul>
+<li><em>𝑀</em>= 0.9 (maximum expected TDR at the shore)</li>
+<li><em>𝑘</em> = 0.3919 (decay constant for mean TDR)</li>
+</ul>
+<p>Calculate 𝛼 and 𝛽 at different distances:<br>
+At <em>𝑑</em> = 0km:</p>
+<ul>
+<li>mean_TDR(0) = 0.9 ⋅𝑒−0 = 0.9</li>
+<li>Total Information: (𝛼 + 𝛽)(0) = 20</li>
+<li>𝛼(0) = 0.9 ⋅ 20 = 18 and 𝛽(0) = (1 − 0.9) ⋅ 20 =<br>
+</li>
+</ul>
+<p><br>
+At <em>𝑑</em> = 1.5km:<br>
+</p>
+<ul>
+<li>mean_TDR(1.5) = 0.9 ⋅ 𝑒−0.3919 ⋅ 1.5 ≈ 0.5</li>
+<li>Total Information: (𝛼 + 𝛽)(1.5) = 10</li>
+<li>𝛼(1.5) = 0.5 ⋅ 10 = 5 and 𝛽(1.5) = (1 − 0.5) ⋅ 10 =</li>
+</ul>
+<p><br>
+At <em>𝑑</em> = 3km:<br>
+</p>
+<ul>
+<li>mean_TDR(3) = 0.9 ⋅ 𝑒−0.3919 ⋅ 3 ≈ 0.277</li>
+<li>Total Information: (𝛼 + 𝛽)(3) = 5</li>
+<li>𝛼(3) = 0.277 ⋅ 5 ≈ 1.385 and 𝛽(3) = (1 − 0.277) ⋅ 5 ≈ 3.61</li>
+</ul>
+<p><br>
+5 At <em>𝑑</em> = 6km:<br>
+</p>
+<ul>
+<li>mean_TDR(6) = 0.9 ⋅ 𝑒−0.3919 ⋅ 6 ≈ 0.085</li>
+<li>Total Information: (𝛼 + 𝛽)(6) = 1.25</li>
+<li>𝛼(6) = 0.085 ⋅ 1.25 ≈ 0.106 and 𝛽(6) = (1 − 0.085) ⋅ 1.25 ≈ 1.144</li>
+</ul>
+<p><br>
+The table below summarises the calculated values:<br>
+<br>
+For Option 1:<br>
+</p>
+<table class="table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 18%">
+<col style="width: 38%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Distance (km)</strong></th>
+<th><strong>Mean TDR</strong></th>
+<th><strong>Total Information (α+β)</strong></th>
+<th><strong>α</strong></th>
+<th><strong>β</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0.9</td>
+<td>20</td>
+<td>18</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>1.5</td>
+<td>0.5</td>
+<td>10</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>0.277</td>
+<td>5</td>
+<td>5.54</td>
+<td>14.46</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>0.085</td>
+<td>1.25</td>
+<td>1.70</td>
+<td>18.30</td>
+</tr>
+</tbody>
+</table>
+<p>For Option 2:<br>
+</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 18%">
+<col style="width: 38%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Distance (km)</strong></th>
+<th><strong>Mean TDR</strong></th>
+<th><strong>Total Information (α+β)</strong></th>
+<th><strong>α</strong></th>
+<th><strong>β</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0.9</td>
+<td>20</td>
+<td>18</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>1.5</td>
+<td>0.5</td>
+<td>10</td>
+<td>5</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>0.277</td>
+<td>5</td>
+<td>1.385</td>
+<td>3.615</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>0.085</td>
+<td>1.25</td>
+<td>0.106</td>
+<td>1.144</td>
+</tr>
+</tbody>
+</table>
+<p>The Beta distributions at these distances are then plotted in the figure below:</p>
+<div class="cell" data-layout-align="center" data-messages="false" data-fig.asp="0.65">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Proirs_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure #: Plot of option 1 and B showing, A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Question 5: Trophic hierarchy</strong><br>
+</p>
+<ol type="1">
+<li>Define Primary Categories for Trophic Level Start with three main trophic level categories:<br>
+</li>
+</ol>
+<ul>
+<li>𝜃<sub>Herbivore</sub>: Probability of a species being strictly herbivorous.</li>
+<li>𝜃<sub>Carnivore</sub>: Probability of a species being strictly carnivorous.</li>
+<li>𝜃<sub>Omnivore</sub>: Probability of a species being omnivorous.</li>
+</ul>
+<p>Define these in a Dirichlet distribution:</p>
+<p><span class="math display">\[
+(𝜃_{Herbivore} , 𝜃_{Carnivore} , 𝜃_{Omnivore}) ∼ Dirichlet (𝛼_{Herbivore} ,
+𝛼_{Carnivore} , 𝛼_{Omnivore})
+\]</span><br>
+</p>
+<ol start="2" type="1">
+<li>Establish Proportions within the Omnivore Category<br>
+</li>
+</ol>
+<p>Since an omnivore may have a mixed diet of animal and plant-based items, let’s introduce two sub-parameters within the omnivore category to capture the dietary proportions:</p>
+<ul>
+<li>𝜙<sub>Plant</sub>: Proportion of the omnivore diet that is plant-based.</li>
+<li>𝜙<sub>Animal</sub>: Proportion of the omnivore diet that is animal-based.</li>
+</ul>
+<p>These should satisfy:<br>
+</p>
+<p><span class="math display">\[
+𝜙_{Plant} + 𝜙_{Animal} = 1
+\]</span><br>
+</p>
+<p>To account for different dietary proportions, model 𝜙<sub>Plant</sub> and 𝜙<sub>Animal</sub> with a Dirichlet prior as well:<br>
+</p>
+<p><span class="math display">\[
+(𝜙_{Plant} , 𝜙_{Animal}) ∼ Dirichlet (𝛽_{Plant} , 𝛽_{Animal})
+\]</span><br>
+</p>
+<p>where 𝛽<sub>Plant</sub> and 𝛽<sub>Animal</sub> are the concentration parameters that reflect prior beliefs about the typical proportion of plant and animal components in an omnivorous diet.<br>
+</p>
+<ol start="3" type="1">
+<li>Integrate the Omnivore Proportions into the Overall Model<br>
+</li>
+</ol>
+<p>Now,if the overall probability of an omnivorous diet is 𝜃<sub>Omnivore</sub>, then the expected contribution of plant and animal items to the omnivorous diet is given by:<br>
+</p>
+<p><span class="math display">\[
+𝜃_{Omnivore, Plant} = 𝜃_{Omnivore} × 𝜙_{Plant}
+\]</span><br>
+<span class="math display">\[
+𝜃_{Omnivore, Animal} = 𝜃_{Omnivore} × 𝜙_{Animal}
+\]</span><br>
+</p>
+<ol start="4" type="1">
+<li>Define the Joint Model<br>
+</li>
+</ol>
+<p>The joint model now includes both the trophic level and dietary proportions: • First, assign a Dirichlet distribution to the main trophic levels (𝜃<sub>Herbivore</sub> ,𝜃<sub>Carnivore</sub> , 𝜃<sub>Omnivore</sub> ). • Next, conditionally on the species being omnivorous, assign a Dirichlet distribution to the proportions of plant and animal components within the omnivore category.</p>
+<p>The final model reflects both the probability of a species being omnivorous and the specific proportions within that dietary choice:<br>
+</p>
+<p><span class="math display">\[
+𝜃 =(𝜃_{Herbivore} , 𝜃_{Carnivore} , 𝜃_{Omnivore, Plant} , 𝜃_{Omnivore,Animal} ) ∼ Dirichlet(𝛼_{Herbivore}, 𝛼_{Carnivore} , 𝛼_{Omnivore} ⋅𝜙_{Plant} , 𝛼_{Omnivore} ⋅𝜙_{Animal})
+\]</span></p>
+<ol start="5" type="1">
+<li>Choosing Concentration Parameters<br>
+</li>
+</ol>
+<p>The concentration parameters 𝛼 and 𝛽 determine the strength of prior belief in each category. If 𝜙<sub>Plant</sub> = 0.8 and 𝜙<sub>Animal</sub> = 0.2, then the parameters 𝛽<sub>Plant</sub> = 8 and 𝛽<sub>Animal</sub> = 2 reflect moderate certainty in this distribution.Adjust 𝛼Omnivore accordingly based on the observed data or expert input.</p>
+<p><strong><em>Process for selecting Alpha and Beta Paramaters</em></strong><br>
+</p>
+<p><em>Step 1: Understanding the Ecological Relationship</em><br>
+The expected TDR of line fish will be high for individuals that are herbivores, and smaller for line fish that are carnivores. Omnivores display a mixed diet, and will thus have an intermediate TDR.<br>
+</p>
+<p>The TDR of omnivores will differ based on the proportion of plant and animal consumed by line fish. Omnivores with a greater proportion of plants to animals in their diet will display a greater TDR, than those with a greater proportion of animals to plants in their diet.<br>
+</p>
+<p><em>Step 2: Translating to Statistical Properties</em><br>
+For the beta distributions we will set alpha (α) and beta (β) values based on the following:</p>
+<ul>
+<li>Mean = α/(α+β)</li>
+<li>Mode = (α-1)/(α+β-2) [when α,β &gt; 1]</li>
+<li>Variance = αβ/[(α+β)²(α+β+1)]</li>
+</ul>
+<p><em>Step 3: Setting Target Mean Values</em><br>
+I will select target mean values that would reflect the ecological relationships mentioned:</p>
+<ul>
+<li>Herbivore ~ 0.8 (high dependency)</li>
+<li>Omnivore ~ 0.55 (moderate dependency)</li>
+<li>Carnivores ~ 0.25 (low dependency)</li>
+</ul>
+<p>These values create clear separation while remaining in the [0,1] interval appropriate for dependency measure.<br>
+</p>
+<p><em>Step 4: Determining Alpha and Beta Values</em><br>
+For each target mean, I solved for paramter combinations:</p>
+<ol type="1">
+<li>Herbivores (target mean = 0.8) Using mean = α/(α+β) = 0.8</li>
+</ol>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.8
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.8 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.8α + 0.8β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.2α = 0.8β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 4β
+\]</span><br>
+</p>
+<p>I selected β = 2 for moderate variance, giving α = 8<br>
+</p>
+<ol start="2" type="1">
+<li>Omnivores (target mean = 0.556):</li>
+</ol>
+<ul>
+<li>Using similar equations: α/(α+β) = 0.556</li>
+</ul>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.5
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.5 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.5α + 0.5β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.5α = 0.5β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 1β
+\]</span><br>
+</p>
+<p>I selected β = 5, giving α = 5</p>
+<ol start="3" type="1">
+<li>Carnivores (target mean = 0.25):</li>
+</ol>
+<ul>
+<li>Using mean = α/(α+β) = 0.25</li>
+</ul>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.25
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.25 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.25α + 0.25β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.75α = 0.25β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = \frac{1}{3}β
+\]</span><br>
+</p>
+<p>I selected β = 6, giving α = 2</p>
+<p><em>Step 5: Verifying Distribution Shapes</em><br>
+For each parameter set, I verified:</p>
+<ul>
+<li>The shape matched ecological expectations</li>
+<li>There was appropriate separation between distributions</li>
+<li>Variance was reasonable (not too narrow or wide)</li>
+</ul>
+<p><em>Step 6: Checking Practical Interpretation</em><br>
+Finally, I confirmed that:</p>
+<ul>
+<li>The distributions aligned with ecological understanding</li>
+<li>The overlaps between categories reflected natural variation</li>
+<li>The mode and concentration were appropriate for biological variability in trophic dependencies</li>
+</ul>
+<p><strong><em>Visual representation of priors</em></strong><br>
+</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><strong>Distance (km)</strong></th>
+<th><strong>Mean TDR</strong></th>
+<th><strong>α</strong></th>
+<th><strong>β</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Herbivore</strong></td>
+<td>0.8</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td><strong>Omnivore</strong></td>
+<td>0.557</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td><strong>Carnivore</strong></td>
+<td>0.25</td>
+<td>2</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p>Plot the Beta prior distributions</p>
+<div class="cell" data-layout-align="center" data-messages="false" data-fig.asp="0.65">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "factor"</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Proirs_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure #: Plot of A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Question 6: Proportion of kelp/kelp associated organisms consumed</strong> The proportion of stomachs that kelp or kelp associated organisms were found in can indicate the degree at which species rely on those particular food types. Species with a greater proportion of food items that are kelp/associated to kelp are more likely to have a higher TDR on kelp, while as the proportion of food items consumed decreases, the TDR on kelp is expected to decrease. The priors for this section are as follows:</p>
+<p><strong><em>Choices: [0 | 0.25| 0.5 | 0.75 | 1]</em></strong></p>
+<p>Since 1 has the greatest proportion of kelp/kelp associated organisms in the diet of line-fish, the mean will be 0.95 with a small variance. As fish with greater amounts of kelp related organisms in their diet will have a greater chance of depending on kelp, thus benefit and improve their fitness.</p>
+<ul>
+<li>0.00 = Beta(α = 1, β = 19) mean = 0.05, va = 0.015</li>
+<li>0.25 = Beta(α = 2, β = 15) me = 0.29, va = 0.026</li>
+<li>0.50 = Beta(α = 10, β = 10) me = 0.5, va = 0.012</li>
+<li>0.75 = Beta(α = 15, β = 5) me = 0.75, va = 0.009</li>
+<li>1.00 = Beta(α = 19, β = 1) me = 0.95, va = 0.002</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for the mean</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span>)<span class="sc">/</span>(<span class="dv">2</span><span class="sc">+</span><span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for the variance</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span><span class="sc">*</span><span class="dv">8</span>) <span class="sc">/</span> ((<span class="dv">2</span><span class="sc">+</span><span class="dv">8</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">2</span><span class="sc">+</span><span class="dv">8</span><span class="sc">+</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01454545</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from claude</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define prior parameters for different dependency levels</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>prior_params <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">greatest_dependency =</span> <span class="fu">list</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="dv">19</span>, <span class="at">beta =</span> <span class="dv">1</span>,    <span class="co"># Mean ~0.8, concentrated distribution</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="st">"Greatest proportion of kelp/kelp-associated items"</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">high_dependency =</span> <span class="fu">list</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="dv">15</span>, <span class="at">beta =</span> <span class="dv">5</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="st">"High proportion of kelp/kelp associated items"</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">moderate_dependency =</span> <span class="fu">list</span>(</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="dv">5</span>, <span class="at">beta =</span> <span class="dv">5</span>,    <span class="co"># Mean 0.5, moderate variance</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="st">"Mixed diet with substantial kelp component"</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">low_dependency =</span> <span class="fu">list</span>(</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="dv">4</span>, <span class="at">beta =</span> <span class="dv">10</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="st">"Low proportion of kelp items with mixed diet"</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">lowest_dependency =</span> <span class="fu">list</span>(</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="dv">2</span>, <span class="at">beta =</span> <span class="dv">8</span>,    <span class="co"># Mean ~0.2, indicates occasional kelp consumption</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="st">"Lowest proportion of kelp items"</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate mean and variance</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>get_distribution_stats <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, beta) {</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  mean <span class="ot">=</span> alpha <span class="sc">/</span> (alpha <span class="sc">+</span> beta)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  variance <span class="ot">=</span> (alpha <span class="sc">*</span> beta) <span class="sc">/</span> ((alpha <span class="sc">+</span> beta)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (alpha <span class="sc">+</span> beta <span class="sc">+</span> <span class="dv">1</span>))</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">variance =</span> variance))</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate metrics for each prior</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(dep_level <span class="cf">in</span> <span class="fu">names</span>(prior_params)) {</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  stats <span class="ot">&lt;-</span> <span class="fu">get_distribution_stats</span>(</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    prior_params[[dep_level]]<span class="sc">$</span>alpha, </span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    prior_params[[dep_level]]<span class="sc">$</span>beta</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"%s:</span><span class="sc">\n</span><span class="st">  Mean: %.2f</span><span class="sc">\n</span><span class="st">  Variance: %.3f</span><span class="sc">\n\n</span><span class="st">"</span>,</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    dep_level, stats<span class="sc">$</span>mean, stats<span class="sc">$</span>variance</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>} </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>greatest_dependency:
+  Mean: 0.95
+  Variance: 0.002
+
+high_dependency:
+  Mean: 0.75
+  Variance: 0.009
+
+moderate_dependency:
+  Mean: 0.50
+  Variance: 0.023
+
+low_dependency:
+  Mean: 0.29
+  Variance: 0.014
+
+lowest_dependency:
+  Mean: 0.20
+  Variance: 0.015</code></pre>
+</div>
+</div>
+<p>Now lets visualize the Beta distributions for diet proportion</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the scaling factor </span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># scale_factor &lt;- 4.55  # Adjust this value as needed</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the parameters for each option</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>options <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Greatest_proportion"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">19</span>, <span class="at">beta =</span> <span class="dv">1</span>),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"High_proportion"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">15</span>, <span class="at">beta =</span> <span class="dv">5</span>),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Moderate_proportion"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">5</span>, <span class="at">beta =</span> <span class="dv">5</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Low_proportion"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">4</span>, <span class="at">beta =</span> <span class="dv">10</span>),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"None"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">beta =</span> <span class="dv">19</span>) </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sequence of TDR values from 0 to 1</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>tdr_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a data frame to hold the densities</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>density_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">TDR =</span> tdr_values)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the densities for each option</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (option <span class="cf">in</span> <span class="fu">names</span>(options)) {</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  alpha <span class="ot">&lt;-</span> options[[option]]<span class="sc">$</span>alpha</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  beta <span class="ot">&lt;-</span> options[[option]]<span class="sc">$</span>beta</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  density_data[[option]] <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(tdr_values, alpha, beta)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert data to long format for ggplot2</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>density_long <span class="ot">&lt;-</span> <span class="fu">gather</span>(density_data, <span class="at">key =</span> <span class="st">"Option"</span>, <span class="at">value =</span> <span class="st">"Density"</span>, <span class="sc">-</span>TDR)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>density_long <span class="ot">&lt;-</span> density_long <span class="sc">%&gt;%</span> </span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Option =</span> <span class="fu">factor</span>(Option, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Greatest_proportion"</span>, </span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"High_proportion"</span>, </span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"Moderate_proportion"</span>, </span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"Low_proportion"</span>,</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"None"</span>)))</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the densities</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(density_long, <span class="fu">aes</span>(<span class="at">x =</span> TDR, <span class="at">y =</span> Density, <span class="at">color =</span> Option)) <span class="sc">+</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_line(size = 1.3) +</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Option)) <span class="sc">+</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Prior Distributions for TDR"</span>,</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Proportion of Consumption Effect"</span>,</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"TDR"</span>,</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">22</span>) <span class="sc">+</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"inside"</span>,</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.8</span>),</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">'cm'</span>),</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Proirs_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure 4: Plot distributions for the proportion of consumption effect on TDR</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
