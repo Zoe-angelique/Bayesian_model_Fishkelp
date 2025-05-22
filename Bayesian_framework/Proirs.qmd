@@ -36,9 +36,9 @@ The Bayesian analysis framework aims to determine the TDR of line-fish on kelp f
 
 ## Priors
 
-The priors are categories that will be used to determine the possible interaction between line-fish of kelp forests. These priors will encompass factors that will touch on the boundaries and extent of fish occurence along the coast, along with the degree of consumption of kelp or kelp associated organisms. These priors were selected based on the knowledge sourced from literature sources.
+The priors are categories that will be used to determine the possible interaction between line-fish of kelp forests. These priors will encompass factors that will touch on the boundaries and extent of fish occurrence along the coast, along with the degree of consumption of kelp or kelp associated organisms. These priors were selected based on the knowledge sourced from literature sources.
 
-The prior represents our initial *beliefs* about a parameter's effect on the TDR estimate before observing the current data. In this context, the priors will encode our expert knowledge and assumptions about the TDR based on the answers to Questions 1-x (@sec-TDR). These priors will then be updated with the data (likelihood) to produce the posterior distribution, which reflects our updated beliefs about the TDR.
+The prior represents our initial *beliefs* about a parameter's effect on the TDR estimate before observing the current data. In this context, the priors will encode our expert knowledge and assumptions about the TDR based on the answers to Questions 1-x in the Survey Questionnaire. These priors will then be updated with the data (likelihood) to produce the posterior distribution, which reflects our updated beliefs about the TDR.
 
 Each question provides qualitative information that can be quantitatively translated into prior distributions for the TDR.
 
@@ -454,7 +454,6 @@ The Beta distributions at these depths are plotted in the figure below
 #| fig.asp: 0.65
 
 
-
 # Load packages
 library(tidyverse)
 
@@ -506,7 +505,9 @@ ggplot(density_long, aes(x = TDR, y = Density, color = Option)) +
 
 The priors for the distance from the shore effect on TDR will have to reflect the fact that species that occur closer to the shore are more likely to have a higher TDR on kelp, and as we move further offshore, the TDR on kelp is expected to decrease. The priors for this question are as follows:
 
-***Choices: \[0 km \|1.5 km \|3 km \|6 km \]*** Set up a continuous series of Beta distributions as priors for the effect of distance from the shore on the TDR on kelp. This reflects our reasoning that species closer to the shore could have a higher TDR on kelp, with a decreasing trend as we move further offshore. (As with the other questions, this is a belief implying we have no actual evidence at this stage. Later, specific evidence will be used to update these (weakly-informative) priors.)\
+***Choices: \[0 km \|1.5 km \|3 km \|6 km \]*** 
+
+Set up a continuous series of Beta distributions as priors for the effect of distance from the shore on the TDR on kelp. This reflects our reasoning that species closer to the shore could have a higher TDR on kelp, with a decreasing trend as we move further offshore. (As with the other questions, this is a belief implying we have no actual evidence at this stage. Later, specific evidence will be used to update these (weakly-informative) priors.)\
 
 ***Step 1: Define the Prior Mean TDR as a Function of Distance***\
 
@@ -1086,7 +1087,9 @@ ggplot(density_long, aes(x = TDR, y = Density, colour = Option)) +
 ```
 
 
-**Question 6: Proportion of kelp/kelp associated organisms consumed** The proportion of stomachs that kelp or kelp associated organisms were found in can indicate the degree at which species rely on those particular food types. Species with a greater proportion of food items that are kelp/associated to kelp are more likely to have a higher TDR on kelp, while as the proportion of food items consumed decreases, the TDR on kelp is expected to decrease. The priors for this section are as follows:
+**Question 6: Proportion of kelp/kelp associated organisms consumed** 
+
+The proportion of stomachs that kelp or kelp associated organisms were found in can indicate the degree at which species rely on those particular food types. Species with a greater proportion of food items that are kelp/associated to kelp are more likely to have a higher TDR on kelp, while as the proportion of food items consumed decreases, the TDR on kelp is expected to decrease. The priors for this section are as follows:
 
 ***Choices: \[0 \| 0.25\| 0.5 \| 0.75 \| 1\]***
 
