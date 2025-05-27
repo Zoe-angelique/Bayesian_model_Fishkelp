@@ -118,17 +118,16 @@ safrica_countries <- ne_countries(returnclass = "sf",
 
 ***Create map***
 ```{r Map of South Africa}
-# Used for later code
 
-# ggplot()+
-#   geom_sf(data = safrica_countries,
-#           colour = "black", fill = "white") + 
-#   coord_sf(xlim = xlim, 
-#            ylim = ylim) +
-#   theme_classic() +
-#   xlab("Longitude") +
-#   ylab("Latitude") +
-#   theme(panel.background = element_rect(fill= "lightblue")) 
+ggplot()+
+  geom_sf(data = safrica_countries,
+          colour = "black", fill = "white") +
+  coord_sf(xlim = xlim,
+           ylim = ylim) +
+  theme_classic() +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  theme(panel.background = element_rect(fill= "lightblue"))
 ```
 
 2. Step 2: Buffer for line-fish distribution
@@ -159,16 +158,16 @@ buffer <- safrica_countries_new %>%
 
 Lets plot to make sure its correct
 ```{r Line Fish Buffer}
-# ggplot()+
-#   geom_sf(data = buffer, colour = "blue", fill = "blue") +
-#   geom_sf(data = safrica_countries,
-#           colour = "black", fill = "white") + 
-#   coord_sf(xlim = xlim, 
-#            ylim = ylim) +
-#   theme_classic() +
-#   xlab("Longitude") +
-#   ylab("Latitude") +
-#   theme(panel.background = element_rect(fill= "lightblue"))
+ggplot()+
+  geom_sf(data = buffer, colour = "blue", fill = "blue") +
+  geom_sf(data = safrica_countries,
+          colour = "black", fill = "white") +
+  coord_sf(xlim = xlim,
+           ylim = ylim) +
+  theme_classic() +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  theme(panel.background = element_rect(fill= "lightblue"))
 ```
 
 3. Step 3: Add in buffer 
@@ -199,16 +198,16 @@ buffer_kf <- safrica_countries_kf |>
 
 Check buffer
 ```{r Kelp Forest Buffer}
-# ggplot()+
-#   geom_sf(data = buffer_kf, colour = "blue", fill = "blue") +
-#   geom_sf(data = safrica_countries_kf,
-#           colour = "black", fill = "white") + 
-#   coord_sf(xlim = xlim, 
-#            ylim = ylim) +
-#   theme_classic() +
-#   xlab("Longitude") +
-#   ylab("Latitude") +
-#   theme(panel.background = element_rect(fill= "lightblue"))
+ggplot()+
+  geom_sf(data = buffer_kf, colour = "blue", fill = "blue") +
+  geom_sf(data = safrica_countries_kf,
+          colour = "black", fill = "white") +
+  coord_sf(xlim = xlim,
+           ylim = ylim) +
+  theme_classic() +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  theme(panel.background = element_rect(fill= "lightblue"))
 ```
 
 4. Step 4: Combine buffers and map
