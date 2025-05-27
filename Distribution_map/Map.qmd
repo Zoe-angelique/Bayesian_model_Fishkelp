@@ -1,0 +1,228 @@
+---
+title: "Coastline of South Africa"
+author: "Zoë-Angelique Petersen"
+pdf-engine: lualatex 
+format:
+  html: 
+    df_print: paged
+    toc: true 
+    toc_depth: 3
+    theme: journal 
+    highlight: zenburn 
+    number_sections: true
+    code_folding: hide 
+    fig_width: 7 
+    fig_height: 5
+---
+
+# Reason
+
+The map that will be created in this qmd/html file will be used to indicate my sampling sites. Since I am assessing the dependency of line-fish along the coast, my site will span from the west the east coast of South Africa. The distribution of kelp forests will be indicated in the map, to display revelance to the research topic. 
+
+## Creating the map
+
+1. Step 1: Create parameters
+
+First load in libraries 
+```{r}
+#| warning: false
+
+#install packages
+# install.packages("rnaturalearth")
+# install.packages("sf")
+# install.packages("dplyr")
+# install.packages("rnaturalearthdata")
+
+# load in libs
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(tidyverse)
+library(sf)
+library(dplyr)
+library(ggplot2)
+
+# for the buffer to work as I expect, swith off
+# the functions for spherical geometry:
+sf_use_s2(FALSE)
+```
+***Will be used for buffer of line-fish***
+For longitude
+```{r}
+# the full map extent:
+xmin <- 15
+xmax <- 33.5
+xlim <- c(xmin, xmax)
+```
+
+For latitude 
+```{r}
+ymin <- -36.5
+ymax <- -22
+ylim <- c(ymin, ymax)
+```
+
+Create a bounding box
+```{r}
+bbox1 <- st_bbox(c(xmin = xmin, ymin = ymin,
+  xmax = xmax, ymax = ymax))
+```
+
+
+***Will be used for buffer of kelp forests***
+For longitude
+```{r}
+# make a bounding box for cropping:
+xmi <- 15
+xma <- 20.5
+xli <- c(xmi, xma)
+```
+
+For latitude
+```{r}
+ymi <- -37.5
+yma <- -32
+yli <- c(ymi, yma)
+```
+
+
+For bounding box 
+```{r}
+bbox2 <- st_bbox(c(xmin = xmi, ymin = ymi,
+  xmax = xma, ymax = yma))
+```
+
+
+Something else
+```{r}
+# might be useful for zooming into a smaller region (False Bay and 
+# the Cape Peninsula):
+xlim_zoom <- c(17.8, 19); ylim_zoom <- c(-34.5, -33.2)
+```
+
+
+1. Step 1: Making the map of South Africa
+
+***Load in the countries***
+
+Load in South africa along with the countries surrounding it to get a proper map view. Add in 2 countries within Africa. 
+
+```{r}
+safrica_countries <- ne_countries(returnclass = "sf",
+                                  continent = "Africa",
+                                  country = c("South Africa", "Mozambique",
+                                              "Namibia", "Zimbabwe", "Botswana",
+                                              "Lesotho", "Eswatini"),
+                                  scale = "medium")
+```
+
+
+***Create map***
+```{r}
+# Used for later code
+
+# ggplot()+
+#   geom_sf(data = safrica_countries,
+#           colour = "black", fill = "white") + 
+#   coord_sf(xlim = xlim, 
+#            ylim = ylim) +
+#   theme_classic() +
+#   xlab("Longitude") +
+#   ylab("Latitude") +
+#   theme(panel.background = element_rect(fill= "lightblue")) 
+```
+
+2. Step 2: Buffer for line-fish distribution
+
+First lets make a map of South Africa
+```{r}
+safrica <- ne_countries(returnclass = 'sf',
+  continent = "Africa",
+  country = c("South Africa"),
+  scale = "medium")
+```
+
+
+Add in bounding box
+```{r}
+safrica_countries_new <- safrica |> 
+  group_by(continent) |> 
+  summarise() |> 
+  st_crop(bbox1) |>
+  st_combine()
+```
+
+Add in buffer
+```{r}
+buffer <- safrica_countries_new %>%
+  st_buffer(0.3)
+```
+
+Lets plot to make sure its correct
+```{r}
+# ggplot()+
+#   geom_sf(data = buffer, colour = "blue", fill = "blue") +
+#   geom_sf(data = safrica_countries,
+#           colour = "black", fill = "white") + 
+#   coord_sf(xlim = xlim, 
+#            ylim = ylim) +
+#   theme_classic() +
+#   xlab("Longitude") +
+#   ylab("Latitude") +
+#   theme(panel.background = element_rect(fill= "lightblue"))
+```
+
+3. Step 3: Add in buffer 
+
+First lets make a map of South Africa
+```{r}
+safrica <- ne_countries(returnclass = 'sf',
+  continent = "Africa",
+  country = c("South Africa"),
+  scale = "medium")
+```
+
+
+Add in bounding box
+```{r}
+safrica_countries_kf <- safrica |> 
+  group_by(continent) |> 
+  summarise() |> 
+  st_crop(bbox2) |>
+  st_combine()
+```
+
+
+```{r}
+buffer_kf <- safrica_countries_kf |> 
+  st_buffer(0.6) 
+```
+
+Check buffer
+```{r}
+# ggplot()+
+#   geom_sf(data = buffer_kf, colour = "blue", fill = "blue") +
+#   geom_sf(data = safrica_countries_kf,
+#           colour = "black", fill = "white") + 
+#   coord_sf(xlim = xlim, 
+#            ylim = ylim) +
+#   theme_classic() +
+#   xlab("Longitude") +
+#   ylab("Latitude") +
+#   theme(panel.background = element_rect(fill= "lightblue"))
+```
+
+4. Step 4: Combine buffers and map
+
+```{r}
+ggplot()+
+  geom_sf(data = buffer_kf, fill = "blue", col = "transparent") +
+  geom_sf(data = buffer, fill = "azure4", col = "transparent") +
+  geom_sf(data = safrica_countries,
+          colour = "black", fill = "beige") + 
+  coord_sf(xlim = xlim, 
+           ylim = ylim) +
+  theme_classic() +
+  xlab("Longitude") +
+  ylab("Latitude") +
+  theme(panel.background = element_rect(fill= "cornflowerblue"))
+```
