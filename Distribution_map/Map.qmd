@@ -80,7 +80,7 @@ xli <- c(xmi, xma)
 For latitude
 ```{r}
 ymi <- -37.5
-yma <- -32
+yma <- -22
 yli <- c(ymi, yma)
 ```
 
@@ -170,7 +170,7 @@ ggplot()+
   theme(panel.background = element_rect(fill= "lightblue"))
 ```
 
-3. Step 3: Add in buffer 
+3. Step 3: Add in buffer for kelp forest distribution
 
 First lets make a map of South Africa
 ```{r}
@@ -200,7 +200,7 @@ Check buffer
 ```{r Kelp Forest Buffer}
 ggplot()+
   geom_sf(data = buffer_kf, colour = "blue", fill = "blue") +
-  geom_sf(data = safrica_countries_kf,
+  geom_sf(data = safrica_countries,
           colour = "black", fill = "white") +
   coord_sf(xlim = xlim,
            ylim = ylim) +
