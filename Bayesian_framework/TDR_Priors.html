@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="AJ Smit, Zoë-Angelique Petersen &amp; David Dyer">
+
+<title>Kelp Forest Dependence of South African Fish Species</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="TDR_Priors_files/libs/clipboard/clipboard.min.js"></script>
+<script src="TDR_Priors_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="TDR_Priors_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="TDR_Priors_files/libs/quarto-html/popper.min.js"></script>
+<script src="TDR_Priors_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="TDR_Priors_files/libs/quarto-html/anchor.min.js"></script>
+<link href="TDR_Priors_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="TDR_Priors_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="TDR_Priors_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="TDR_Priors_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="TDR_Priors_files/libs/bootstrap/bootstrap-84b3b4cc5777f6fdbd4d01919023a4cd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#bayesian-analysis-framework" id="toc-bayesian-analysis-framework" class="nav-link active" data-scroll-target="#bayesian-analysis-framework">Bayesian Analysis Framework</a></li>
+  <li><a href="#trophic-dependency-ranking" id="toc-trophic-dependency-ranking" class="nav-link" data-scroll-target="#trophic-dependency-ranking">Trophic Dependency Ranking:</a>
+  <ul class="collapse">
+  <li><a href="#priors" id="toc-priors" class="nav-link" data-scroll-target="#priors">Priors</a>
+  <ul class="collapse">
+  <li><a href="#step-1-assigning-priors-selection" id="toc-step-1-assigning-priors-selection" class="nav-link" data-scroll-target="#step-1-assigning-priors-selection">Step 1: Assigning priors selection</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Kelp Forest Dependence of South African Fish Species</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>AJ Smit, Zoë-Angelique Petersen &amp; David Dyer </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="bayesian-analysis-framework" class="level1">
+<h1>Bayesian Analysis Framework</h1>
+<p>The Bayesian analysis framework underpins the assessment of clarifying the dependency of line-fish into categories of dependency or association based on their relationship with kelp forests. Previous literature studies have been nuanced in their descriptions and understanding with the terms dependency and association, often using these terms synonymously. The background of this models aims to establish a difference between the terms dependency and association with each being specified in accordance with the following belong:<br>
+</p>
+<ul>
+<li><em>Ecological benefit</em>: Increased fitness</li>
+<li><em>Association</em>: The geographical overlap of line-fish and kelp forests along the coast, with no ecological benefit derived from kelp forests by line-fish</li>
+<li><em>Dependency</em>: Line-fish obtain an ecological benefit from kelp forests, either in the form of habitat or trophic provisioning</li>
+</ul>
+<p>Dependency can be specifically subdivided to provide clarity on the degree of the ecological benefit line-fish obtain from kelp forests, including:</p>
+<ul>
+<li><em>Facultative</em>: Line-fish benefit ecologically from kelp forests, but can obtain a benefit from other ecosystems</li>
+<li><em>Obligatory</em>: Line-fish strictly and only benefit ecologically from kelp forests</li>
+</ul>
+<p>The Bayesian analysis framework intends on providing clarity to the interactions that occur between line-fish and kelp forests and will make use of the above the terminology. A methodology will be setup to determine the dependency ranking of line-fish, focusing specifically on trophic and habitat provisioning. The priors will be set up separately for these two ranking systems, with each focusing on factors that will determine whether fish benefit on kelp and the degree to which the benefit is received.</p>
+</section>
+<section id="trophic-dependency-ranking" class="level1">
+<h1>Trophic Dependency Ranking:</h1>
+<p>The Bayesian analysis framework aims to determine the TDR of line-fish on kelp forests. This will follow a methodological structure, of which priors will be first be set-up. The priors selected in this section will infer knowledge on the possible interactions line-fish have with kelp forests. Due to the lack of information there are with certain fish species, uncertainties will also be taken into consideration to provide a probabilistic estimate of the interaction occurring. Priors will be set up to account for this uncertainty and will later be integrated to include the different categories to display an overall TDR of line-fish on kelp forests.</p>
+<section id="priors" class="level2">
+<h2 class="anchored" data-anchor-id="priors">Priors</h2>
+<p>The priors are categories that will be used to determine the possible interaction between line-fish of kelp forests. These priors will encompass factors that will touch on the boundaries and extent of fish occurrence along the coast, along with the degree of consumption of kelp or kelp associated organisms. These priors were selected based on the knowledge sourced from literature sources.</p>
+<p>The prior represents our initial <em>beliefs</em> about a parameter’s effect on the TDR estimate before observing the current data. In this context, the priors will encode our expert knowledge and assumptions about the TDR based on the answers to Questions 1-x in the Survey Questionnaire. These priors will then be updated with the data (likelihood) to produce the posterior distribution, which reflects our updated beliefs about the TDR.</p>
+<p>Each question provides qualitative information that can be quantitatively translated into prior distributions for the TDR.</p>
+<section id="step-1-assigning-priors-selection" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-assigning-priors-selection">Step 1: Assigning priors selection</h3>
+<p>The priors play a big role in shaping the posterior distributions. The type of prior—whether <strong>Diffuse</strong>, <strong>Weakly Informative</strong>, or <strong>Informative</strong>—reflects different levels of prior knowledge or assumptions about the parameter before seeing the data. Pay careful attention to assigning priors. A diffuse or non-informative prior is chosen to exert minimal influence on the posterior distribution and allows the data to drive the posterior in the absence of strong prior beliefs. Weakly informative priors provide some guidance without strongly biasing the posterior. They reflect a minimal level of knowledge or reasonable assumptions about the parameter’s likely range without assuming high confidence in specific values. Informative priors are used when there is strong prior knowledge or beliefs about the parameter.</p>
+<section id="question-1-trophic-hierarchy" class="level4">
+<h4 class="anchored" data-anchor-id="question-1-trophic-hierarchy"><strong>Question 1: Trophic hierarchy</strong><br>
+</h4>
+<ol type="1">
+<li>Define Primary Categories for Trophic Level Start with three main trophic level categories:<br>
+</li>
+</ol>
+<ul>
+<li>𝜃<sub>Herbivore</sub>: Probability of a species being strictly herbivorous.</li>
+<li>𝜃<sub>Carnivore</sub>: Probability of a species being strictly carnivorous.</li>
+<li>𝜃<sub>Omnivore</sub>: Probability of a species being omnivorous.</li>
+</ul>
+<p>Define these in a Dirichlet distribution:</p>
+<p><span class="math display">\[
+(𝜃_{Herbivore} , 𝜃_{Carnivore} , 𝜃_{Omnivore}) ∼ Dirichlet (𝛼_{Herbivore} ,
+𝛼_{Carnivore} , 𝛼_{Omnivore})
+\]</span><br>
+</p>
+<ol start="2" type="1">
+<li>Establish Proportions within the Omnivore Category<br>
+</li>
+</ol>
+<p>Since an omnivore may have a mixed diet of animal and plant-based items, let’s introduce two sub-parameters within the omnivore category to capture the dietary proportions:</p>
+<ul>
+<li>𝜙<sub>Plant</sub>: Proportion of the omnivore diet that is plant-based.</li>
+<li>𝜙<sub>Animal</sub>: Proportion of the omnivore diet that is animal-based.</li>
+</ul>
+<p>These should satisfy:<br>
+</p>
+<p><span class="math display">\[
+𝜙_{Plant} + 𝜙_{Animal} = 1
+\]</span><br>
+</p>
+<p>To account for different dietary proportions, model 𝜙<sub>Plant</sub> and 𝜙<sub>Animal</sub> with a Dirichlet prior as well:<br>
+</p>
+<p><span class="math display">\[
+(𝜙_{Plant} , 𝜙_{Animal}) ∼ Dirichlet (𝛽_{Plant} , 𝛽_{Animal})
+\]</span><br>
+</p>
+<p>where 𝛽<sub>Plant</sub> and 𝛽<sub>Animal</sub> are the concentration parameters that reflect prior beliefs about the typical proportion of plant and animal components in an omnivorous diet.<br>
+</p>
+<ol start="3" type="1">
+<li>Integrate the Omnivore Proportions into the Overall Model<br>
+</li>
+</ol>
+<p>Now,if the overall probability of an omnivorous diet is 𝜃<sub>Omnivore</sub>, then the expected contribution of plant and animal items to the omnivorous diet is given by:<br>
+</p>
+<p><span class="math display">\[
+𝜃_{Omnivore, Plant} = 𝜃_{Omnivore} × 𝜙_{Plant}
+\]</span><br>
+<span class="math display">\[
+𝜃_{Omnivore, Animal} = 𝜃_{Omnivore} × 𝜙_{Animal}
+\]</span><br>
+</p>
+<ol start="4" type="1">
+<li>Define the Joint Model<br>
+</li>
+</ol>
+<p>The joint model now includes both the trophic level and dietary proportions: • First, assign a Dirichlet distribution to the main trophic levels (𝜃<sub>Herbivore</sub> ,𝜃<sub>Carnivore</sub> , 𝜃<sub>Omnivore</sub> ). • Next, conditionally on the species being omnivorous, assign a Dirichlet distribution to the proportions of plant and animal components within the omnivore category.</p>
+<p>The final model reflects both the probability of a species being omnivorous and the specific proportions within that dietary choice:<br>
+</p>
+<p><span class="math display">\[
+𝜃 =(𝜃_{Herbivore} , 𝜃_{Carnivore} , 𝜃_{Omnivore, Plant} , 𝜃_{Omnivore,Animal} ) ∼ Dirichlet(𝛼_{Herbivore}, 𝛼_{Carnivore} , 𝛼_{Omnivore} ⋅𝜙_{Plant} , 𝛼_{Omnivore} ⋅𝜙_{Animal})
+\]</span></p>
+<ol start="5" type="1">
+<li>Choosing Concentration Parameters<br>
+</li>
+</ol>
+<p>The concentration parameters 𝛼 and 𝛽 determine the strength of prior belief in each category. If 𝜙<sub>Plant</sub> = 0.8 and 𝜙<sub>Animal</sub> = 0.2, then the parameters 𝛽<sub>Plant</sub> = 8 and 𝛽<sub>Animal</sub> = 2 reflect moderate certainty in this distribution.Adjust 𝛼Omnivore accordingly based on the observed data or expert input.</p>
+<p><strong><em>Process for selecting Alpha and Beta Paramaters</em></strong><br>
+</p>
+<p><em>Step 1: Understanding the Ecological Relationship</em><br>
+The expected TDR of line fish will be high for individuals that are herbivores, and smaller for line fish that are carnivores. Omnivores display a mixed diet, and will thus have an intermediate TDR.<br>
+</p>
+<p>The TDR of omnivores will differ based on the proportion of plant and animal consumed by line fish. Omnivores with a greater proportion of plants to animals in their diet will display a greater TDR, than those with a greater proportion of animals to plants in their diet.<br>
+</p>
+<p><em>Step 2: Translating to Statistical Properties</em><br>
+For the beta distributions we will set alpha (α) and beta (β) values based on the following:</p>
+<ul>
+<li>Mean = α/(α+β)</li>
+<li>Mode = (α-1)/(α+β-2) [when α,β &gt; 1]</li>
+<li>Variance = αβ/[(α+β)²(α+β+1)]</li>
+</ul>
+<p><em>Step 3: Setting Target Mean Values</em><br>
+I will select target mean values that would reflect the ecological relationships mentioned:</p>
+<ul>
+<li>Herbivore ~ 0.8 (high dependency)</li>
+<li>Omnivore ~ 0.55 (moderate dependency)</li>
+<li>Carnivores ~ 0.25 (low dependency)</li>
+</ul>
+<p>These values create clear separation while remaining in the [0,1] interval appropriate for dependency measure.<br>
+</p>
+<p><em>Step 4: Determining Alpha and Beta Values</em><br>
+For each target mean, I solved for paramter combinations:</p>
+<ol type="1">
+<li>Herbivores (target mean = 0.8) Using mean = α/(α+β) = 0.8</li>
+</ol>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.8
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.8 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.8α + 0.8β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.2α = 0.8β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 4β
+\]</span><br>
+</p>
+<p>I selected β = 2 for moderate variance, giving α = 8<br>
+</p>
+<ol start="2" type="1">
+<li>Omnivores (target mean = 0.556):</li>
+</ol>
+<ul>
+<li>Using similar equations: α/(α+β) = 0.556</li>
+</ul>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.5
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.5 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.5α + 0.5β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.5α = 0.5β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 1β
+\]</span><br>
+</p>
+<p>I selected β = 5, giving α = 5</p>
+<ol start="3" type="1">
+<li>Carnivores (target mean = 0.25):</li>
+</ol>
+<ul>
+<li>Using mean = α/(α+β) = 0.25</li>
+</ul>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.25
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.25 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.25α + 0.25β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.75α = 0.25β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = \frac{1}{3}β
+\]</span><br>
+</p>
+<p>I selected β = 6, giving α = 2</p>
+<p><em>Step 5: Verifying Distribution Shapes</em><br>
+For each parameter set, I verified:</p>
+<ul>
+<li>The shape matched ecological expectations</li>
+<li>There was appropriate separation between distributions</li>
+<li>Variance was reasonable (not too narrow or wide)</li>
+</ul>
+<p><em>Step 6: Checking Practical Interpretation</em><br>
+Finally, I confirmed that:</p>
+<ul>
+<li>The distributions aligned with ecological understanding</li>
+<li>The overlaps between categories reflected natural variation</li>
+<li>The mode and concentration were appropriate for biological variability in trophic dependencies</li>
+</ul>
+<p><strong><em>Visual representation of priors</em></strong><br>
+</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><strong>Distance (km)</strong></th>
+<th><strong>Mean TDR</strong></th>
+<th><strong>α</strong></th>
+<th><strong>β</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Herbivore</strong></td>
+<td>0.8</td>
+<td>8</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td><strong>Omnivore</strong></td>
+<td>0.557</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td><strong>Carnivore</strong></td>
+<td>0.25</td>
+<td>2</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p>Plot the Beta prior distributions</p>
+<div class="cell" data-layout-align="center" data-messages="false">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "factor"</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="TDR_Priors_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure #: Plot of A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="question-2-proportion-of-kelpkelp-associated-organisms-consumed" class="level4">
+<h4 class="anchored" data-anchor-id="question-2-proportion-of-kelpkelp-associated-organisms-consumed"><strong>Question 2: Proportion of kelp/kelp associated organisms consumed</strong></h4>
+<p>The proportion of stomachs that kelp or kelp associated organisms were found in can indicate the degree at which species rely on those particular food types. Species with a greater proportion of food items that are kelp/associated to kelp are more likely to have a higher TDR on kelp, while as the proportion of food items consumed decreases, the TDR on kelp is expected to decrease. The priors for this section are as follows:</p>
+<p><strong><em>Choices: [0 | 0.25| 0.5 | 0.75 | 1]</em></strong></p>
+<p>Since 1 has the greatest proportion of kelp/kelp associated organisms in the diet of line-fish, the mean will be 0.95 with a small variance. As fish with greater amounts of kelp related organisms in their diet will have a greater chance of depending on kelp, thus benefit and improve their fitness.</p>
+<ul>
+<li>0.00 = Beta(α = 1, β = 19) mean = 0.05, va = 0.015</li>
+<li>0.25 = Beta(α = 2, β = 15) me = 0.29, va = 0.026</li>
+<li>0.50 = Beta(α = 10, β = 10) me = 0.5, va = 0.012</li>
+<li>0.75 = Beta(α = 15, β = 5) me = 0.75, va = 0.009</li>
+<li>1.00 = Beta(α = 19, β = 1) me = 0.95, va = 0.002</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for the mean</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span>)<span class="sc">/</span>(<span class="dv">2</span><span class="sc">+</span><span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for the variance</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span><span class="sc">*</span><span class="dv">8</span>) <span class="sc">/</span> ((<span class="dv">2</span><span class="sc">+</span><span class="dv">8</span>)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (<span class="dv">2</span><span class="sc">+</span><span class="dv">8</span><span class="sc">+</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01454545</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from claude</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define prior parameters for different dependency levels</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>prior_params <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">greatest_dependency =</span> <span class="fu">list</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="dv">19</span>, <span class="at">beta =</span> <span class="dv">1</span>,    <span class="co"># Mean ~0.8, concentrated distribution</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="st">"Greatest proportion of kelp/kelp-associated items"</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">high_dependency =</span> <span class="fu">list</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="dv">15</span>, <span class="at">beta =</span> <span class="dv">5</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="st">"High proportion of kelp/kelp associated items"</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">moderate_dependency =</span> <span class="fu">list</span>(</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="dv">5</span>, <span class="at">beta =</span> <span class="dv">5</span>,    <span class="co"># Mean 0.5, moderate variance</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="st">"Mixed diet with substantial kelp component"</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">low_dependency =</span> <span class="fu">list</span>(</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="dv">4</span>, <span class="at">beta =</span> <span class="dv">10</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="st">"Low proportion of kelp items with mixed diet"</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">lowest_dependency =</span> <span class="fu">list</span>(</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="dv">2</span>, <span class="at">beta =</span> <span class="dv">8</span>,    <span class="co"># Mean ~0.2, indicates occasional kelp consumption</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="st">"Lowest proportion of kelp items"</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate mean and variance</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>get_distribution_stats <span class="ot">&lt;-</span> <span class="cf">function</span>(alpha, beta) {</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  mean <span class="ot">=</span> alpha <span class="sc">/</span> (alpha <span class="sc">+</span> beta)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  variance <span class="ot">=</span> (alpha <span class="sc">*</span> beta) <span class="sc">/</span> ((alpha <span class="sc">+</span> beta)<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> (alpha <span class="sc">+</span> beta <span class="sc">+</span> <span class="dv">1</span>))</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">variance =</span> variance))</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate metrics for each prior</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(dep_level <span class="cf">in</span> <span class="fu">names</span>(prior_params)) {</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  stats <span class="ot">&lt;-</span> <span class="fu">get_distribution_stats</span>(</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    prior_params[[dep_level]]<span class="sc">$</span>alpha, </span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    prior_params[[dep_level]]<span class="sc">$</span>beta</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">sprintf</span>(</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"%s:</span><span class="sc">\n</span><span class="st">  Mean: %.2f</span><span class="sc">\n</span><span class="st">  Variance: %.3f</span><span class="sc">\n\n</span><span class="st">"</span>,</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    dep_level, stats<span class="sc">$</span>mean, stats<span class="sc">$</span>variance</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>} </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>greatest_dependency:
+  Mean: 0.95
+  Variance: 0.002
+
+high_dependency:
+  Mean: 0.75
+  Variance: 0.009
+
+moderate_dependency:
+  Mean: 0.50
+  Variance: 0.023
+
+low_dependency:
+  Mean: 0.29
+  Variance: 0.014
+
+lowest_dependency:
+  Mean: 0.20
+  Variance: 0.015</code></pre>
+</div>
+</div>
+<p>Now lets visualize the Beta distributions for diet proportion</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the scaling factor </span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># scale_factor &lt;- 4.55  # Adjust this value as needed</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the parameters for each option</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>options <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Greatest_proportion"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">19</span>, <span class="at">beta =</span> <span class="dv">1</span>),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"High_proportion"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">15</span>, <span class="at">beta =</span> <span class="dv">5</span>),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Moderate_proportion"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">5</span>, <span class="at">beta =</span> <span class="dv">5</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Low_proportion"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">4</span>, <span class="at">beta =</span> <span class="dv">10</span>),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"None"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">beta =</span> <span class="dv">19</span>) </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sequence of TDR values from 0 to 1</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>tdr_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a data frame to hold the densities</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>density_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">TDR =</span> tdr_values)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the densities for each option</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (option <span class="cf">in</span> <span class="fu">names</span>(options)) {</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  alpha <span class="ot">&lt;-</span> options[[option]]<span class="sc">$</span>alpha</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  beta <span class="ot">&lt;-</span> options[[option]]<span class="sc">$</span>beta</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  density_data[[option]] <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(tdr_values, alpha, beta)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert data to long format for ggplot2</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>density_long <span class="ot">&lt;-</span> <span class="fu">gather</span>(density_data, <span class="at">key =</span> <span class="st">"Option"</span>, <span class="at">value =</span> <span class="st">"Density"</span>, <span class="sc">-</span>TDR)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>density_long <span class="ot">&lt;-</span> density_long <span class="sc">%&gt;%</span> </span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Option =</span> <span class="fu">factor</span>(Option, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Greatest_proportion"</span>, </span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"High_proportion"</span>, </span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"Moderate_proportion"</span>, </span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"Low_proportion"</span>,</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"None"</span>)))</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the densities</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(density_long, <span class="fu">aes</span>(<span class="at">x =</span> TDR, <span class="at">y =</span> Density, <span class="at">color =</span> Option)) <span class="sc">+</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_line(size = 1.3) +</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Option)) <span class="sc">+</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Prior Distributions for TDR"</span>,</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Proportion of Consumption Effect"</span>,</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"TDR"</span>,</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">22</span>) <span class="sc">+</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"inside"</span>,</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.8</span>),</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.5</span>, <span class="st">'cm'</span>),</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="TDR_Priors_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 4: Plot distributions for the proportion of consumption effect on TDR</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
