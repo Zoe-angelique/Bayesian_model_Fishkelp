@@ -48,21 +48,21 @@ The priors play a big role in shaping the posterior distributions. The type of p
 
 #### **Question 1: Geographic Distribution**
 
-Because the distribution of kelp forests and the availability of kelp as a food source vary between the west and east coasts (*Ecklonia maxima* at De Hoop) regions, fish species that are distributed in different regions along the South African coast may have different TDRs.
+Because the distribution of kelp forests and the availability of kelp as a food source vary between the west and east coasts (*Ecklonia maxima* at De Hoop) regions, fish species that are distributed in different regions along the South African coast may have different HDRs.
 
-Select the option that best describes the geographical distribution of the fish species along the South African coast in relation to the distribution of kelp forests (*Ecklonia maxima* and/or *Laminaria pallida*). This information will help assess the species' potential Trophic Dependency Rank (TDR) on kelp.
+Select the option that best describes the geographical distribution of the fish species along the South African coast in relation to the distribution of kelp forests (*Ecklonia maxima* and/or *Laminaria pallida*). This information will help assess the species' potential HDR on kelp.
 
 ***Choices: \[West \| East \| Both\]***
 
--   **\[West\]**: The species is *exclusively* found in the western region of the South African (and/or Namibian) coast, which is dominated by kelp forests (*Ecklonia maxima* and/or *Laminaria pallida*). Therefore, it is *likely* that the species has a *higher Trophic Dependency Rank (TDR)* on kelp, potentially even indicating an *obligate dependency* on kelp-derived carbon.
--   **\[East\]**: The species is *exclusively* found along the coastline *east of the eastern limit* of kelp forests (east of De Hoop), where *Ecklonia maxima* does not occur, and kelp forests are absent (but there's still *Ecklonia radiata*). Consequently, the species is expected to have a TDR *close to zero* (not zero due to chance of accessing *E. radiata*), indicating *no to minimal dependency* on kelp-derived carbon.
--   **\[Both\]**: The species is found in *both* the western region (with kelp forests) and the eastern region (without kelp forests). As a result, the species may have an *intermediate TDR*, suggesting a *facultative dependency* on kelp-derived carbon, where the species utilises kelp when available but can also thrive without it.
+-   **\[West\]**: The species is *exclusively* found in the western region of the South African (and/or Namibian) coast, which is dominated by kelp forests (*Ecklonia maxima* and/or *Laminaria pallida*). Therefore, it is *likely* that the species has a *higher HDR* on kelp, potentially even indicating an *obligate dependency* on kelp-derived carbon.
+-   **\[East\]**: The species is *exclusively* found along the coastline *east of the eastern limit* of kelp forests (east of De Hoop), where *Ecklonia maxima* does not occur, and kelp forests are absent (but there's still *Ecklonia radiata*). Consequently, the species is expected to have a HDR *close to zero* (not zero due to chance of accessing *E. radiata*), indicating *no to minimal dependency* on kelp-derived carbon.
+-   **\[Both\]**: The species is found in *both* the western region (with kelp forests) and the eastern region (without kelp forests). As a result, the species may have an *intermediate HDR*, suggesting a *facultative dependency* on kelp-derived carbon, where the species utilises kelp when available but can also thrive without it.
 
 Three dependency types are accommodated by these options. **Obligate Dependency** indicates that the species relies heavily on kelp-derived carbon and may not thrive without it. **Facultative Dependency** is when species can utilise kelp-derived carbon when available but can also survive without it. Lastly, **No Dependency** when a species does not rely on kelp-derived carbon and can thrive without it.
 
 Translation into Priors:
 
-To model a parameter like TDR, which is a proportion bounded between 0 and 1 (or 0% to 100%), use a Beta distribution. It has a flexible shape and so will allow for various levels of certainty and mean values. The Beta distribution has two shape parameters, $\alpha$ and $\beta$, which determine the mean (@eq-equation1) and variance (@eq-equation2) of the distribution:
+To model a parameter like HDR, which is a proportion bounded between 0 and 1 (or 0% to 100%), use a Beta distribution. It has a flexible shape and so will allow for various levels of certainty and mean values. The Beta distribution has two shape parameters, $\alpha$ and $\beta$, which determine the mean (@eq-equation1) and variance (@eq-equation2) of the distribution:
 
 $$ \mu = \frac{\alpha}{\alpha + \beta} $$ {#eq-equation1}
 
@@ -89,24 +89,24 @@ library(ggdist)
 # Define a function to calculate and plot the Beta distribution for given alpha and beta values
 plot_beta_distribution <- function(alpha, beta) {
   # Create a sequence of values for the TDR (0 to 1)
-  tdr_values <- seq(0, 1, length.out = 1000)
+  hdr_values <- seq(0, 1, length.out = 1000)
   
   # Calculate the Beta distribution density
-  density_values <- dbeta(tdr_values, alpha, beta)
+  density_values <- dbeta(hdr_values, alpha, beta)
   
   # Calculate mean and variance
   mean_value <- alpha / (alpha + beta)
   variance_value <- (alpha * beta) / ((alpha + beta)^2 * (alpha + beta + 1))
   
   # Create a data frame for plotting
-  plot_data <- data.frame(TDR = tdr_values, Density = density_values)
+  plot_data <- data.frame(HDR = hdr_values, Density = density_values)
   
   # Create the plot
-  plot <- ggplot(plot_data, aes(x = TDR, y = Density)) +
+  plot <- ggplot(plot_data, aes(x = HDR, y = Density)) +
     geom_line(color = "blue", size = 1) +
     labs(title = paste("Beta Distribution (α =", alpha, ", β =", beta, ")"),
          subtitle = paste("Mean =", round(mean_value, 4), "| Variance =", round(variance_value, 4)),
-         x = "Trophic Dependency Rank (TDR)",
+         x = "Habitat Dependency Rank (HDR)",
          y = "Density") +
     theme_minimal()
   
@@ -135,7 +135,7 @@ do.call(grid.arrange, c(plots, ncol = 2))
 
 We can solve for α and β given the desired mean and variance.
 
-For example, for the 'West' region, our desired mean is $\mu = 0.8$, which reflects a higher TDR. We choose a variance that indicates more uncertainty (because a species simply being confined to this region offers little certainty that it has a TDR reflective of kelp usage). Since we want a wider distribution (higher uncertainty), we can choose $\alpha$ and $\beta$ to be smaller. A Beta(4,1) distribution can be chosen to reflect a high TDR (mean = 0.8 from @eq-equation3) with moderate uncertainty (variance \~0.0267 from @eq-equation4). The calculations are as follows:
+For example, for the 'West' region, our desired mean is $\mu = 0.8$, which reflects a higher HDR. We choose a variance that indicates more uncertainty (because a species simply being confined to this region offers little certainty that it has a HDR reflective of kelp usage). Since we want a wider distribution (higher uncertainty), we can choose $\alpha$ and $\beta$ to be smaller. A Beta(4,1) distribution can be chosen to reflect a high HDR (mean = 0.8 from @eq-equation3) with moderate uncertainty (variance \~0.0267 from @eq-equation4). The calculations are as follows:
 
 $$\mu = \frac{4}{4 + 1} = 0.8$$ {#eq-equation3}
 
@@ -149,13 +149,13 @@ The priors for the 'West,' 'East,' and 'Both' geographic regions are therefore:
 | **East**   | α = 1, β = 19              | μ = 0.05     | σ² ≈ 0.00226      |
 | **Both**   | α = 2, β = 2               | μ = 0.5      | σ² = 0.05         |
 
-Visualising these priors helps us understand how they reflect our prior beliefs about the TDR. The priors are shown in @fig-fig1:
+Visualising these priors helps us understand how they reflect our prior beliefs about the HDR. The priors are shown in @fig-fig1:
 
 ```{r question1-priors}
 #| echo: false
 #| messages: false
 #| warning: false
-#| fig.cap: "Plot of prior distributions for the geographic distribution effect of fish regional distribution on TDR."
+#| fig.cap: "Plot of prior distributions for the geographic distribution effect of fish regional distribution on HDR."
 #| label: fig-fig1
 #| fig.align: center
 #| fig-pos: "t"
@@ -175,14 +175,56 @@ ggplot(priors, aes(x = x)) +
   geom_line(aes(y = east, color = "East"), size = 1) +
   geom_line(aes(y = both, color = "Both"), size = 1) +
   scale_color_manual(values = c("West" = "blue", "East" = "red", "Both" = "green")) +
-  labs(title = "Prior Distributions for TDR",
+  labs(title = "Prior Distributions for HDR",
        subtitle = "Geographic Distribution Effect",
-       x = "TDR",
+       x = "HDR",
        y = "Density") +
   theme_minimal(base_size = 22) +
   theme(legend.title = element_blank(),
         legend.position = "inside",
         legend.position.inside = c(0.2, 0.8))
+
+```
+
+```{r question1-priorsdis}
+# Define the parameters for each option
+options <- list(
+  West = list(alpha = 4, beta = 1),
+  East = list(alpha = 1, beta = 19),
+  Both = list(alpha = 2, beta = 2)
+)
+
+# Create a sequence of HDR values from 0 to 1
+hdr_values <- seq(0, 1, length.out = 1000)
+
+# Initialize a data frame to hold the densities
+density_data <- data.frame(HDR = hdr_values)
+
+# Calculate the densities for each option
+for (option in names(options)) {
+  alpha <- options[[option]]$alpha
+  beta <- options[[option]]$beta
+  density_data[[option]] <- dbeta(hdr_values, alpha, beta)
+}
+
+# Convert data to long format for ggplot2
+density_long <- gather(density_data, key = "Option", value = "Density", -HDR)
+
+density_long <- density_long %>% 
+  mutate(Option = factor(Option, levels = c("West", "East", "Both")))
+
+# Plot the densities
+ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
+#  geom_line(size = 1.3) +
+  geom_area(alpha = 0.4, position = "identity", aes(fill = Option)) +
+  labs(title = "Prior Distributions for HDR",
+       subtitle = "Depth Effect",
+       x = "HDR",
+       y = "Density") +
+  theme_minimal(base_size = 22) +
+  theme(legend.title = element_blank(),
+        legend.position = "inside",
+        legend.position.inside = c(0.25, 0.8))
 ```
 
 #### **Question 2: Habitat**
@@ -191,10 +233,10 @@ In this question you are asked to select the answer that best describes the habi
 
 ***Choices: \[In \| Adjacent \| Both \| Away\]***
 
--   **\[In\]**: The species is *found within* kelp forests, where it is likely to have a *higher Trophic Dependency Rank (TDR)* on kelp, positioning the species more towards an *obligate dependency* on kelp-derived carbon.
--   **\[Adjacent\]**: The species is *found adjacent to* kelp forests, where it may have a *moderate TDR* on kelp, indicating a *facultative dependency* on kelp-derived carbon (via allochthonous kelp-derived carbon).
--   **\[Both\]**: The species is found in *both* kelp forests and adjacent areas, suggesting an *intermediate TDR* on kelp-derived carbon, possibly positioning it towards a *facultative dependency*.
--   **\[Away\]**: The species is *found away from* kelp forests, where it is expected to have a *low TDR* on kelp, indicating *no dependency* on kelp-derived carbon.
+-   **\[In\]**: The species is *found within* kelp forests, where it is likely to have a *higher Trophic Dependency Rank (HDR)* on kelp, positioning the species more towards an *obligate dependency* on kelp-derived carbon.
+-   **\[Adjacent\]**: The species is *found adjacent to* kelp forests, where it may have a *moderate HDR* on kelp, indicating a *facultative dependency* on kelp-derived carbon (via allochthonous kelp-derived carbon).
+-   **\[Both\]**: The species is found in *both* kelp forests and adjacent areas, suggesting an *intermediate HDR* on kelp-derived carbon, possibly positioning it towards a *facultative dependency*.
+-   **\[Away\]**: The species is *found away from* kelp forests, where it is expected to have a *low HDR* on kelp, indicating *no dependency* on kelp-derived carbon.
 
 Translation into Priors:
 
@@ -211,7 +253,7 @@ A visualisation of these priors is given in @fig-fig2:
 #| echo: false
 #| messages: false
 #| warning: false
-#| fig.cap: "Plot of prior distributions for the habitat effect on TDR."
+#| fig.cap: "Plot of prior distributions for the habitat effect on HDR."
 #| label: fig-fig2
 #| fig.align: center
 #| fig-pos: "t"
@@ -225,29 +267,29 @@ options <- list(
   Away = list(alpha = 1, beta = 19)
 )
 
-# Create a sequence of TDR values from 0 to 1
-tdr_values <- seq(0, 1, length.out = 1000)
+# Create a sequence of HDR values from 0 to 1
+hdr_values <- seq(0, 1, length.out = 1000)
 
 # Initialize a data frame to hold the densities
-density_data <- data.frame(TDR = tdr_values)
+density_data <- data.frame(HDR = hdr_values)
 
 # Calculate the densities for each option
 for (option in names(options)) {
   alpha <- options[[option]]$alpha
   beta <- options[[option]]$beta
-  density_data[[option]] <- dbeta(tdr_values, alpha, beta)
+  density_data[[option]] <- dbeta(hdr_values, alpha, beta)
 }
 
 # Convert data to long format for ggplot2
-density_long <- gather(density_data, key = "Option", value = "Density", -TDR)
+density_long <- gather(density_data, key = "Option", value = "Density", -HDR)
 
 # Plot the densities
-ggplot(density_long, aes(x = TDR, y = Density, color = Option)) +
+ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
 #  geom_line(size = 1) +
   geom_area(alpha = 0.4, position = "identity", aes(fill = Option)) +
-  labs(title = "Prior Distributions for TDR",
+  labs(title = "Prior Distributions for HDR",
        subtitle = "Habitat Effect",
-       x = "TDR",
+       x = "HDR",
        y = "Density") +
   theme_minimal(base_size = 22) +
   theme(legend.title = element_blank(),
@@ -255,34 +297,34 @@ ggplot(density_long, aes(x = TDR, y = Density, color = Option)) +
         legend.position.inside = c(0.25, 0.8))
 ```
 
-*\[Note: We would have to run a sensitivity analysis to determine the effect of the priors. For example, in a situation where a species in Question 1 is scored as 'West' and in Question 2 as 'In', the priors for the geographic distribution effect and the habitat effect would be combined to determine the overall effect on TDR. Since the species is found in the west and within kelp forests, the priors for the geographic distribution effect and the habitat effect would be multiplied to determine the overall effect on TDR, which could be close to 1 making it obligative (the fish only* occurs directly within kelp forests, but at this point we still have no insight about whether it is a trophic or habitat dependence, or both). This process would be repeated for all possible combinations of answers to Questions 1 and 2.\]
+*\[Note: We would have to run a sensitivity analysis to determine the effect of the priors. For example, in a situation where a species in Question 1 is scored as 'West' and in Question 2 as 'In', the priors for the geographic distribution effect and the habitat effect would be combined to determine the overall effect on HDR. Since the species is found in the west and within kelp forests, the priors for the geographic distribution effect and the habitat effect would be multiplied to determine the overall effect on HDR, which could be close to 1 making it obligative (the fish only occurs directly within kelp forests, but at this point we still have no insight about whether it is a trophic or habitat dependence, or both). This process would be repeated for all possible combinations of answers to Questions 1 and 2.\]*
 
-**Question 3: Depth**
+#### **Question 3: Depth**
 
-The priors for the depth effect on TDR will have to reflect the fact that species that occur at the same depth as kelp forests are more likely to have a higher TDR on kelp, and as we go into deeper water, the TDR on kelp is expected to decrease. The priors for this question are as follows:
+The priors for the depth effect on HDR will have to reflect the fact that species that occur at the same depth as kelp forests are more likely to have a higher HDR on kelp, and as we go into deeper water, the HDR on kelp is expected to decrease. The priors for this question are as follows:
 
 ***Choices: \[0 \| 5 \| 15 \| 30 \| 60\]***
 
-Set up a continuous series of Beta distributions as priors for the effect of depth from shallow to deep water on the TDR on kelp. This reflects the reasoning that species occurring within shallow water *could* have a higher TDR on kelp, with a decreasing response as depth increases.\
+Set up a continuous series of Beta distributions as priors for the effect of depth from shallow to deep water on the HDR on kelp. This reflects the reasoning that species occurring within shallow water *could* have a higher HDR on kelp, with a decreasing response as depth increases.\
 
 following AJs distance formula
 
-***Step 1: Define the Prior Mean TDR as a function of Depth***\
+***Step 1: Define the Prior Mean HDR as a function of Depth***\
 
-We will start by modelling the expected mean TDR as a function of depth from the shore (*D*). Since kelp dominance and TDR decrease with increasing depth, an exponential decay function is appropriate.
+We will start by modelling the expected mean HDR as a function of depth from the shore (*D*). Since kelp dominance and HDR decrease with increasing depth, an exponential decay function is appropriate.
 
-$$ mean\_TDR(D) = M \cdot e^{(-k \cdot D)} $$
+$$ mean\_HDR(D) = M \cdot e^{(-k \cdot D)} $$
 
 Where:
 
--   *M* is the maximum expected TDR at the surface (*D* = 5m)
--   *k* is the decay constant determining how quickly TDR decreases with depth
+-   *M* is the maximum expected HDR at the surface (*D* = 5m)
+-   *k* is the decay constant determining how quickly HDR decreases with depth
 -   *D* is depth (in m)
 
 Choosing *M* and *k* :
 
--   Set M = 0.9 to represent a high TDR at the shore
--   Determine k so that *D* = 15m (intermediate water), the mean TDR reflects the diminishing importance of kelp. Suppose we expect mean TDR to be 0.75 at this point (kelp is still present here and forests are prevalent)
+-   Set M = 0.9 to represent a high HDR at the shore
+-   Determine k so that *D* = 15m (intermediate water), the mean HDR reflects the diminishing importance of kelp. Suppose we expect mean HDR to be 0.75 at this point (kelp is still present here and forests are prevalent)
 
 Calculate *k*:
 
@@ -310,7 +352,7 @@ $$
 
 Resulting Function:\
 
-$$ mean\_TDR(D) =  0.9 \cdot e^{-0.0122 \cdot D} $$
+$$ mean\_HDR(D) =  0.9 \cdot e^{-0.0122 \cdot D} $$
 
 Note to consider: The distance-decay model assumes exponential decay of kelp influence, but we need to empirically validate this assumption.\
 
@@ -324,7 +366,10 @@ Assuming a constant total information (α + β) reflects consist confidence in o
 -   Set α + β = 20 for moderate confidence
 -   calculate α and β at each distance
 
-$$ α(D) = mean\_TDR(D) \cdot (α+β) $$ $$ β(D) = (1 - mean\_TDR(D)) \cdot (α+β) $$
+$$ α(D) = mean\_HDR(D) \cdot (α+β) $$ 
+
+
+$$ β(D) = (1 - mean\_HDR(D)) \cdot (α+β) $$
 
 Note: The total information parameter (α + β = 20) seems arbitrarily chosen.\
 
@@ -353,23 +398,43 @@ $$ h = \frac{In(2)}{D_{1/2}} = \frac{In(2)}{15} \approx 0.0462 $$
 
 ***Step 3: Compute α and β at Specific Depth***\
 Let's calculate α and β at various distances using Option 1.\
-At *D* = 0m $$ mean\_TDR(0) = 0.1 $$ $$ α(0) = 0.1 \cdot 20 = 2 $$ $$ β(0) = (1-0.1) \cdot 20 = 18 $$
+At *D* = 0m 
 
-At *D* = 5m
+$$ mean\_HDR(0) = 0.1 $$ 
 
-$$ mean\_TDR(5) = 0.9 $$ $$ α(5) = 0.9 \cdot 20 = 18 $$ $$ β(5) = (1-0.9) \cdot 20 = 2 $$
+$$ α(0) = 0.1 \cdot 20 = 2 $$ 
+
+$$ β(0) = (1-0.1) \cdot 20 = 18 $$ 
+
+At *D* = 5m\
+
+$$ mean\_HDR(5) = 0.9 $$ 
+
+$$ α(5) = 0.9 \cdot 20 = 18 $$ 
+
+$$ β(5) = (1-0.9) \cdot 20 = 2 $$
 
 At *D* = 15m
 
-$$ mean\_TDR(15) = 0.75 $$ $$ α(15) = 0.75 \cdot 20 = 15 $$ $$ β(15) = (1-0.75) \cdot 20 = 5 $$
+$$ mean\_HDR(15) = 0.75 $$
 
-At *D* = 30m $$ mean\_TDR(30) \approx 0.624 $$
+$$ α(15) = 0.75 \cdot 20 = 15 $$
+
+$$ β(15) = (1-0.75) \cdot 20 = 5 $$
+
+At *D* = 30m 
+
+$$ mean\_HDR(30) \approx 0.624 $$
 
 $$ α(30) = 0.624 \cdot 20 = 12.48 $$
 
 $$ β(30) = (1-0.624) \cdot 20 = 7.52 $$
 
-At *D* = 60m $$ mean\_TDR(60) = 0.433 $$ $$ α(60) = 0.433 \cdot 20 = 8.66 $$
+At *D* = 60m 
+
+$$ mean\_HDR(60) = 0.433 $$
+
+$$ α(60) = 0.433 \cdot 20 = 8.66 $$
 
 $$ β(60) = (1-0.433) \cdot 20 = 11.34 $$
 
@@ -397,45 +462,45 @@ Now we need to defined the Beta distributions at each depth\
 -   *D* = 15m: Beta(α = 10.42, β = 9.58)
 -   *D* = 30m: Beta(α = 6.02, β = 13.98)
 
-These distributions reflect a high TDR at shallow water that decreases with increasing depth.\
+These distributions reflect a high HDR at shallow water that decreases with increasing depth.\
 Similarly, we need to set up the Beta distribution for Option 2.\
-Using the mean TDR function:
+Using the mean HDR function:
 
-$$ mean\_TDR(D) = M \cdot e ^{-k \cdot D} $$
+$$ mean\_HDR(D) = M \cdot e ^{-k \cdot D} $$
 
 Where:
 
--   *M* = 0.9 (maximum expected TDR at shore)
+-   *M* = 0.9 (maximum expected HDR at shore)
 -   *k* = 0.0365 (decay constant for mean TDR)
 
 Calculate α and β at different distances:\
 At *D* = 0m
 
--   mean_TDR(0) = 0.1 · e<sup>-0</sup> = 0.1
+-   mean_HDR(0) = 0.1 · e<sup>-0</sup> = 0.1
 -   Total Information: (α + β) = 20
 -   α(0) = 0.1 · 20 = 18 and β(0) = (1 - 0.1) · 20 = 2
 
 At *D* = 5m
 
--   mean_TDR(5) = 0.9 · e<sup>-0.0365 · 5</sup> $\approx$ 0.75
+-   mean_HDR(5) = 0.9 · e<sup>-0.0365 · 5</sup> $\approx$ 0.75
 -   Total Information: (α + β) = 10
 -   α(5) = 0.75 · 10 = 7.5 and β(5) = (1 - 0.75) · 10 = 2.5
 
 At *D* = 15m
 
--   mean_TDR(15) = 0.9 · e<sup>-0.0365 · 15</sup> $\approx$ 0.521
+-   mean_HDR(15) = 0.9 · e<sup>-0.0365 · 15</sup> $\approx$ 0.521
 -   Total Information: (α + β) = 2.5
 -   α(15) = 0.52 · 2.5 $\approx$ 1.3 and β(15) = (1 - 0.52) · 2.5 $\approx$ 1.2
 
 At *D* = 30m
 
--   mean_TDR(30) = 0.9 · e<sup>-0.0365 · 30</sup> $\approx$ 0.301
+-   mean_HDR(30) = 0.9 · e<sup>-0.0365 · 30</sup> $\approx$ 0.301
 -   Total Information: (α + β) $\approx$ 0.31
 -   α(30) = 0.301 · 0.31 $\approx$ 0.09 and β(30) = (1 - 0.301) · 0.31 $\approx$ 0.22
 
 The table below summaries the calculated values for *Option 2*
 
-| **Depth (m)** | **Mean TDR** | **Total Information (α+β)** | **α** | **β** |
+| **Depth (m)** | **Mean HDR** | **Total Information (α+β)** | **α** | **β** |
 |---------------|--------------|-----------------------------|-------|-------|
 | 0             | 0.9          | 20                          | 18    | 2     |
 | 5             | 0.75         | 10                          | 7.5   | 2.5   |
@@ -469,31 +534,31 @@ options <- list(
 )
 
 # Create a sequence of TDR values from 0 to 1
-tdr_values <- seq(0, 1, length.out = 1000)
+hdr_values <- seq(0, 1, length.out = 1000)
 
 # Initialize a data frame to hold the densities
-density_data <- data.frame(TDR = tdr_values)
+density_data <- data.frame(HDR = hdr_values)
 
 # Calculate the densities for each option
 for (option in names(options)) {
   alpha <- options[[option]]$alpha
   beta <- options[[option]]$beta
-  density_data[[option]] <- dbeta(tdr_values, alpha, beta)
+  density_data[[option]] <- dbeta(hdr_values, alpha, beta)
 }
 
 # Convert data to long format for ggplot2
-density_long <- gather(density_data, key = "Option", value = "Density", -TDR)
+density_long <- gather(density_data, key = "Option", value = "Density", -HDR)
 
 density_long <- density_long %>% 
   mutate(Option = factor(Option, levels = c("0 m", "5 m", "15 m", "30 m")))
 
 # Plot the densities
-ggplot(density_long, aes(x = TDR, y = Density, color = Option)) +
+ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
 #  geom_line(size = 1.3) +
   geom_area(alpha = 0.4, position = "identity", aes(fill = Option)) +
-  labs(title = "Prior Distributions for TDR",
+  labs(title = "Prior Distributions for HDR",
        subtitle = "Depth Effect",
-       x = "TDR",
+       x = "HDR",
        y = "Density") +
   theme_minimal(base_size = 22) +
   theme(legend.title = element_blank(),
@@ -503,28 +568,28 @@ ggplot(density_long, aes(x = TDR, y = Density, color = Option)) +
 
 #### **Question 4: Distance from the shore**
 
-The priors for the distance from the shore effect on TDR will have to reflect the fact that species that occur closer to the shore are more likely to have a higher TDR on kelp, and as we move further offshore, the TDR on kelp is expected to decrease. The priors for this question are as follows:
+The priors for the distance from the shore effect on HDR will have to reflect the fact that species that occur closer to the shore are more likely to have a higher TDR on kelp, and as we move further offshore, the TDR on kelp is expected to decrease. The priors for this question are as follows:
 
 ***Choices: \[0 km \|1.5 km \|3 km \|6 km \]*** 
 
-Set up a continuous series of Beta distributions as priors for the effect of distance from the shore on the TDR on kelp. This reflects our reasoning that species closer to the shore could have a higher TDR on kelp, with a decreasing trend as we move further offshore. (As with the other questions, this is a belief implying we have no actual evidence at this stage. Later, specific evidence will be used to update these (weakly-informative) priors.)\
+Set up a continuous series of Beta distributions as priors for the effect of distance from the shore on the HDR on kelp. This reflects our reasoning that species closer to the shore could have a higher HDR on kelp, with a decreasing trend as we move further offshore. (As with the other questions, this is a belief implying we have no actual evidence at this stage. Later, specific evidence will be used to update these (weakly-informative) priors.)\
 
-***Step 1: Define the Prior Mean TDR as a Function of Distance***\
+***Step 1: Define the Prior Mean HDR as a Function of Distance***\
 
-We'll start by modelling the expected mean TDR as a function of distance from the shore (*d*). Since kelp dominance and TDR decrease with distance, an exponential decay function is appropriate.
+We'll start by modelling the expected mean HDR as a function of distance from the shore (*d*). Since kelp dominance and TDR decrease with distance, an exponential decay function is appropriate.
 
-$$ mean\_TDR(d) = M \cdot e^{(-k \cdot d)} $$
+$$ mean\_HDR(d) = M \cdot e^{(-k \cdot d)} $$
 
 Where:
 
--   *M* is the maximum expected TDR at the shoreline (*d* = 0km)
--   *k* is the decay constant determining how quickly TDR decreases with distance
+-   *M* is the maximum expected HDR at the shoreline (*d* = 0km)
+-   *k* is the decay constant determining how quickly HDR decreases with distance
 -   *d* is distance (in km)
 
 Choosing *M* and *k* :
 
 -   Set M = 0.9 to represent a high TDR at the shore
--   Determine k so that *d* = 1.5km (edge of nearshore), the mean TDR reflects the diminishing importance of kelp.
+-   Determine k so that *d* = 1.5km (edge of nearshore), the mean HDR reflects the diminishing importance of kelp.
 
 Calculate *k*:
 
@@ -607,24 +672,24 @@ $$\
 Let's calculate 𝛼 and 𝛽 at various distances using Option 1.\
 At *d** = 0km:\
 
-$$ mean\_TDR(0) = 0.9 $$\
+$$ mean\_HDR(0) = 0.9 $$\
 $$ α(0) = 0.9 \cdot 20 = 18 $$\
 $$ 𝛽(0) = (1 - 0.9) \cdot 20 = 2 $$\
 
 At *d* = 1.5km:\
 
-$$ mean\_TDR(1.5) = 0.5 $$\
+$$ mean\_HDR(1.5) = 0.5 $$\
 $$ α(1.5) = 0.5 \cdot 20 = 10 $$\
 $$ 𝛽(1.5) = (1 - 0.5) \cdot 20 = 10 $$\
 
 At *d* = 3km:\
 
-$$ mean\_TDR(3) = 0.277 $$\
+$$ mean\_HDR(3) = 0.277 $$\
 $$ α(3) = 0.277 \cdot 20 \approx 5.54 $$\
 $$ 𝛽(3) = (1 - 0.277) \cdot 20 \approx 14.46 $$\
 
 At *d* = 6km:\
-$$ mean\_TDR(6) = 0.085 $$\
+$$ mean\_HDR(6) = 0.085 $$\
 $$ α(6) = 0.085 \cdot 20 \approx 1.70 $$\
 $$ 𝛽(6) = (1 - 0.085) \cdot 20 \approx 18.30 $$\
 
@@ -659,44 +724,44 @@ Now, we can define the Beta distributions at each distance (Option 1):\
 * 𝑑 = 3km: Beta(𝛼 = 5.54,𝛽 = 14.46) 
 * 𝑑 = 6km: Beta(𝛼 = 1.70,𝛽 = 18.30)
 
-These distributions reflect a high TDR nearshore that decreases with distance.\
+These distributions reflect a high HDR nearshore that decreases with distance.\
 
-Similarly, we need to set up the Beta distribution for Option 2. Using the mean TDR function:\
+Similarly, we need to set up the Beta distribution for Option 2. Using the mean HDR function:\
 
 $$
-mean\_TDR(d) = M \cdot e^{-k \cdot d}
+mean\_HDR(d) = M \cdot e^{-k \cdot d}
 $$\
 
 Where:\
 
-* *𝑀*= 0.9 (maximum expected TDR at the shore) 
-* *𝑘* = 0.3919 (decay constant for mean TDR)
+* *𝑀*= 0.9 (maximum expected HDR at the shore) 
+* *𝑘* = 0.3919 (decay constant for mean HDR)
 
 Calculate 𝛼 and 𝛽 at different distances:\
 At *𝑑* = 0km:
 
-* mean_TDR(0) = 0.9 ⋅𝑒−0 = 0.9
+* mean_HDR(0) = 0.9 ⋅𝑒−0 = 0.9
 * Total Information: (𝛼 + 𝛽)(0) = 20 
 * 𝛼(0) = 0.9 ⋅ 20 = 18 and 𝛽(0) = (1 − 0.9) ⋅ 20 = \
 
 \
 At *𝑑* = 1.5km:\
 
-* mean_TDR(1.5) = 0.9 ⋅ 𝑒−0.3919 ⋅ 1.5 ≈ 0.5
+* mean_HDR(1.5) = 0.9 ⋅ 𝑒−0.3919 ⋅ 1.5 ≈ 0.5
 * Total Information: (𝛼 + 𝛽)(1.5) = 10 
 * 𝛼(1.5) = 0.5 ⋅ 10 = 5 and 𝛽(1.5) = (1 − 0.5) ⋅ 10 = 
 
 \
 At *𝑑* = 3km:\
 
-* mean_TDR(3) = 0.9 ⋅ 𝑒−0.3919 ⋅ 3 ≈ 0.277
+* mean_HDR(3) = 0.9 ⋅ 𝑒−0.3919 ⋅ 3 ≈ 0.277
 * Total Information: (𝛼 + 𝛽)(3) = 5 
 * 𝛼(3) = 0.277 ⋅ 5 ≈ 1.385 and 𝛽(3) = (1 − 0.277) ⋅ 5 ≈ 3.61
 
 \
 5 At *𝑑* = 6km:\
 
-* mean_TDR(6) = 0.9 ⋅ 𝑒−0.3919 ⋅ 6 ≈ 0.085
+* mean_HDR(6) = 0.9 ⋅ 𝑒−0.3919 ⋅ 6 ≈ 0.085
 * Total Information: (𝛼 + 𝛽)(6) = 1.25 
 * 𝛼(6) = 0.085 ⋅ 1.25 ≈ 0.106 and 𝛽(6) = (1 − 0.085) ⋅ 1.25 ≈ 1.144
 
@@ -706,7 +771,7 @@ The table below summarises the calculated values:\
 For Option 1: \
 
 
-|**Distance (km)** | **Mean TDR** | **Total Information (α+β)** | **α** | **β** |
+|**Distance (km)** | **Mean HDR** | **Total Information (α+β)** | **α** | **β** |
 |------------------|--------------|-----------------------------|-------|-------|
 |0                 | 0.9          | 20                          | 18    | 2     | 
 |1.5               | 0.5          | 10                          | 10    | 10    |
@@ -715,7 +780,7 @@ For Option 1: \
 
 For Option 2: \
 
-| **Distance (km)** | **Mean TDR** | **Total Information (α+β)** | **α** | **β** |
+| **Distance (km)** | **Mean HDR** | **Total Information (α+β)** | **α** | **β** |
 |-------------------|--------------|-----------------------------|-------|-------|
 | 0                 | 0.9          | 20                          | 18    | 2     |
 | 1.5               | 0.5          | 10                          | 5     | 5     |
@@ -750,29 +815,29 @@ options <- list(
 )
 
 # Create a sequence of TDR values from 0 to 1
-tdr_values <- seq(0, 1, length.out = 1000)
+hdr_values <- seq(0, 1, length.out = 1000)
 
 # Initialize a data frame to hold the densities
-density_data <- data.frame(TDR = tdr_values)
+density_data <- data.frame(HDR = hdr_values)
 
 # Calculate the densities for each option
 for (option in names(options)) {
   alpha <- options[[option]]$alpha
   beta <- options[[option]]$beta
-  density_data[[option]] <- dbeta(tdr_values, alpha, beta)
+  density_data[[option]] <- dbeta(hdr_values, alpha, beta)
 }
 
 # Convert data to long format for ggplot2
-density_long <- gather(density_data, key = "Option", value = "Density", -TDR)
+density_long <- gather(density_data, key = "Option", value = "Density", -HDR)
 
 density_long <- density_long %>% 
   mutate(Option = factor(Option, levels = c("0 km", "1.5 km", "3 km", "6 km")))
 
 # Plot the densities
-opt1 <- ggplot(density_long, aes(x = TDR, y = Density, color = Option)) +
+opt1 <- ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
 #  geom_line(size = 1.3) +
   geom_area(alpha = 0.4, position = "identity", aes(fill = Option)) +
-  labs(x = "TDR",
+  labs(x = "HDR",
        y = "Density") +
   theme_minimal(base_size = 22) +
   theme(legend.title = element_blank(),
@@ -793,30 +858,30 @@ options <- list(
 )
 
 # Create a sequence of TDR values from 0 to 1
-tdr_values <- seq(0, 1, length.out = 1000)
+hdr_values <- seq(0, 1, length.out = 1000)
 
 # Initialize a data frame to hold the densities
-density_data <- data.frame(TDR = tdr_values)
+density_data <- data.frame(HDR = hdr_values)
 
 # Calculate the densities for each option
 for (option in names(options)) {
   alpha <- options[[option]]$alpha
   beta <- options[[option]]$beta
-  density_data[[option]] <- dbeta(tdr_values, alpha, beta)
+  density_data[[option]] <- dbeta(hdr_values, alpha, beta)
 }
 
 # Convert data to long format for ggplot2
-density_long <- gather(density_data, key = "Option", value = "Density", -TDR)
+density_long <- gather(density_data, key = "Option", value = "Density", -HDR)
 
 density_long <- density_long %>% 
   mutate(Option = factor(Option, levels = c("0 km", "1.5 km", "3 km", "6 km")))
 
 # Plot the densities
 opt2 <- 
-  ggplot(density_long, aes(x = TDR, y = Density, color = Option)) +
+  ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
 #  geom_line(size = 1.3)
   geom_area(alpha = 0.4, position = "identity", aes(fill = Option)) +
-  labs(x = "TDR",
+  labs(x = "HDR",
        y = "Density") +
   theme_minimal(base_size = 22) +
   theme(legend.title = element_blank(),
@@ -835,6 +900,3 @@ ggarrange(opt1, opt2, ncol = 1, nrow = 2,
           hjust = -1.8,
           vjust = 1.5)
 ```
-
-#### **Question 4: Depth in water column**
-
