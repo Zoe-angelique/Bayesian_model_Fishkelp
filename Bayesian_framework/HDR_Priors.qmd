@@ -46,6 +46,8 @@ Each question provides qualitative information that can be quantitatively transl
 
 The priors play a big role in shaping the posterior distributions. The type of prior---whether **Diffuse**, **Weakly Informative**, or **Informative**---reflects different levels of prior knowledge or assumptions about the parameter before seeing the data. Pay careful attention to assigning priors. A diffuse or non-informative prior is chosen to exert minimal influence on the posterior distribution and allows the data to drive the posterior in the absence of strong prior beliefs. Weakly informative priors provide some guidance without strongly biasing the posterior. They reflect a minimal level of knowledge or reasonable assumptions about the parameter's likely range without assuming high confidence in specific values. Informative priors are used when there is strong prior knowledge or beliefs about the parameter.
 
+The first part of the priors sets-up informative priors of species accessibility to kelp forests, i.e. if the environment species occur in is within kelp forest parameters (question 1 - 4). The second half of the priors sets-up informative priors on kelp forests for habitat use by line-fish species.
+
 #### **Question 1: Geographic Distribution**
 
 Because the distribution of kelp forests and the availability of kelp as a food source vary between the west and east coasts (*Ecklonia maxima* at De Hoop) regions, fish species that are distributed in different regions along the South African coast may have different HDRs.
@@ -66,16 +68,16 @@ To model a parameter like HDR, which is a proportion bounded between 0 and 1 (or
 
 $$ \mu = \frac{\alpha}{\alpha + \beta} $$ {#eq-equation1}
 
-$$ \sigma^2 = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)} $$ {#eq-equation2}
+$$ \sigma^2 = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)} $$ {#eq-equation2} 
 
-Example profiles of the Beta distribution for different values of $\alpha$ and $\beta$ are shown in @fig-fig0:
+Example profiles of the Beta distribution for different values of $\alpha$ and $\beta$ are shown in @fig-fig1:
 
 ```{r beta_distribution}
 #| echo: false
 #| messages: false
 #| warning: false
 #| fig.cap: "Parameters of the Beta distribution."
-#| label: fig-fig0
+#| label: fig-fig1
 #| fig.align: center
 #| fig-height: 9.5
 #| fig-width: 12
@@ -149,14 +151,14 @@ The priors for the 'West,' 'East,' and 'Both' geographic regions are therefore:
 | **East**   | α = 1, β = 19              | μ = 0.05     | σ² ≈ 0.00226      |
 | **Both**   | α = 2, β = 2               | μ = 0.5      | σ² = 0.05         |
 
-Visualising these priors helps us understand how they reflect our prior beliefs about the HDR. The priors are shown in @fig-fig1:
+Visualising these priors helps us understand how they reflect our prior beliefs about the HDR. The priors are shown in @fig-fig2 and @fig-fig3:
 
 ```{r question1-priors}
 #| echo: false
 #| messages: false
 #| warning: false
 #| fig.cap: "Plot of prior distributions for the geographic distribution effect of fish regional distribution on HDR."
-#| label: fig-fig1
+#| label: fig-fig2
 #| fig.align: center
 #| fig-pos: "t"
 #| fig.asp: 0.65
@@ -186,7 +188,17 @@ ggplot(priors, aes(x = x)) +
 
 ```
 
+
 ```{r question1-priorsdis}
+#| echo: false
+#| messages: false
+#| warning: false
+#| fig.cap: "Plot of prior distributions for the geographic distribution effect of fish regional distribution on HDR."
+#| label: fig-fig3
+#| fig.align: center
+#| fig-pos: "t"
+#| fig.asp: 0.65
+
 # Define the parameters for each option
 options <- list(
   West = list(alpha = 4, beta = 1),
@@ -227,79 +239,7 @@ ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
         legend.position.inside = c(0.25, 0.8))
 ```
 
-#### **Question 2: Habitat**
-
-In this question you are asked to select the answer that best describes the habitat of the fish species in relation to kelp forests. Answering 'In', 'Adjacent', or 'Both' pertains to instances when you answered 'West' in Question 1. Answering 'Away' applies only to when you answered 'East' in Question 1.
-
-***Choices: \[In \| Adjacent \| Both \| Away\]***
-
--   **\[In\]**: The species is *found within* kelp forests, where it is likely to have a *higher Trophic Dependency Rank (HDR)* on kelp, positioning the species more towards an *obligate dependency* on kelp-derived carbon.
--   **\[Adjacent\]**: The species is *found adjacent to* kelp forests, where it may have a *moderate HDR* on kelp, indicating a *facultative dependency* on kelp-derived carbon (via allochthonous kelp-derived carbon).
--   **\[Both\]**: The species is found in *both* kelp forests and adjacent areas, suggesting an *intermediate HDR* on kelp-derived carbon, possibly positioning it towards a *facultative dependency*.
--   **\[Away\]**: The species is *found away from* kelp forests, where it is expected to have a *low HDR* on kelp, indicating *no dependency* on kelp-derived carbon.
-
-Translation into Priors:
-
-| **Habitat**  | **Beta Parameters (α, β)** | **Mean (μ)** | **Variance (σ²)** |
-|--------------|----------------------------|--------------|-------------------|
-| **In**       | α = 8, β = 1               | μ ≈ 0.8889   | σ² ≈ 0.00988      |
-| **Adjacent** | α = 4, β = 1               | μ = 0.8      | σ² ≈ 0.02667      |
-| **Both**     | α = 6, β = 1               | μ ≈ 0.8571   | σ² ≈ 0.01531      |
-| **Away**     | α = 5, β = 85              | μ ≈ 0.0556   | σ² ≈ 0.0005765    |
-
-A visualisation of these priors is given in @fig-fig2:
-
-```{r question2-priors}
-#| echo: false
-#| messages: false
-#| warning: false
-#| fig.cap: "Plot of prior distributions for the habitat effect on HDR."
-#| label: fig-fig2
-#| fig.align: center
-#| fig-pos: "t"
-#| fig.asp: 0.65
-
-# Define the parameters for each option
-options <- list(
-  In = list(alpha = 8, beta = 1),
-  Adjacent = list(alpha = 2, beta = 2),
-  Both = list(alpha = 7.7, beta = 3.3),
-  Away = list(alpha = 1, beta = 19)
-)
-
-# Create a sequence of HDR values from 0 to 1
-hdr_values <- seq(0, 1, length.out = 1000)
-
-# Initialize a data frame to hold the densities
-density_data <- data.frame(HDR = hdr_values)
-
-# Calculate the densities for each option
-for (option in names(options)) {
-  alpha <- options[[option]]$alpha
-  beta <- options[[option]]$beta
-  density_data[[option]] <- dbeta(hdr_values, alpha, beta)
-}
-
-# Convert data to long format for ggplot2
-density_long <- gather(density_data, key = "Option", value = "Density", -HDR)
-
-# Plot the densities
-ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
-#  geom_line(size = 1) +
-  geom_area(alpha = 0.4, position = "identity", aes(fill = Option)) +
-  labs(title = "Prior Distributions for HDR",
-       subtitle = "Habitat Effect",
-       x = "HDR",
-       y = "Density") +
-  theme_minimal(base_size = 22) +
-  theme(legend.title = element_blank(),
-        legend.position = "inside",
-        legend.position.inside = c(0.25, 0.8))
-```
-
-*\[Note: We would have to run a sensitivity analysis to determine the effect of the priors. For example, in a situation where a species in Question 1 is scored as 'West' and in Question 2 as 'In', the priors for the geographic distribution effect and the habitat effect would be combined to determine the overall effect on HDR. Since the species is found in the west and within kelp forests, the priors for the geographic distribution effect and the habitat effect would be multiplied to determine the overall effect on HDR, which could be close to 1 making it obligative (the fish only occurs directly within kelp forests, but at this point we still have no insight about whether it is a trophic or habitat dependence, or both). This process would be repeated for all possible combinations of answers to Questions 1 and 2.\]*
-
-#### **Question 3: Depth**
+#### **Question 2: Depth**
 
 The priors for the depth effect on HDR will have to reflect the fact that species that occur at the same depth as kelp forests are more likely to have a higher HDR on kelp, and as we go into deeper water, the HDR on kelp is expected to decrease. The priors for this question are as follows:
 
@@ -513,7 +453,7 @@ The Beta distributions at these depths are plotted in the figure below
 #| echo: false
 #| messages: false
 #| warning: false
-#| fig.cap: "Figure #: Plot of A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore"
+#| fig.cap: "Figure 3: Plot of A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore"
 #| fig.align: center
 #| fig-pos: "t"
 #| fig.asp: 0.65
@@ -566,7 +506,7 @@ ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
         legend.position.inside = c(0.25, 0.8))
 ```
 
-#### **Question 4: Distance from the shore**
+#### **Question 3: Distance from the shore**
 
 The priors for the distance from the shore effect on HDR will have to reflect the fact that species that occur closer to the shore are more likely to have a higher TDR on kelp, and as we move further offshore, the TDR on kelp is expected to decrease. The priors for this question are as follows:
 
@@ -787,17 +727,17 @@ For Option 2: \
 | 3                 | 0.277        | 5                           | 1.385 | 3.615 |
 | 6                 | 0.085        | 1.25                        | 0.106 | 1.144 |
 
-The Beta distributions at these distances are then plotted in the figure below:
+The Beta distributions at these distances are then plotted in the figure below @fig-fig4:
 
 ```{r}
 #| echo: false
 #| messages: false
 #| warning: false
 #| fig.cap: "Figure #: Plot of option 1 and B showing, A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore"
-#| fig.align: center
+#| label: fig-fig4
+#| #| fig.align: center
 #| fig-pos: "t"
 #| fig.asp: 0.65
-
 
 # Option 1
 # Load packages
@@ -900,3 +840,308 @@ ggarrange(opt1, opt2, ncol = 1, nrow = 2,
           hjust = -1.8,
           vjust = 1.5)
 ```
+
+
+#### **Question 4: Habitat occurrence**
+
+In this question you are asked to select the answer that best describes the habitat of the fish species in relation to kelp forests. Answering 'In', 'Adjacent', 'Near', or 'Both' pertains to instances when you answered 'West' in Question 1. Answering 'Away' applies only to when you answered 'East' in Question 1.
+
+***Choices: \[In \| Adjacent \| Both \| Away\]***
+
+-   **\[In\]**: The species is *found within* kelp forests, where it is likely to have a *higher Trophic Dependency Rank (HDR)* on kelp.
+-   **\[Adjacent\]**: The species is *found in habitats adjacent to* kelp forests, where it may have a *moderate HDR* on kelp.
+- **\[Near\]**: The species is *found in regions near to* kelp forests, where it may have a *moderate HDR* on kelp.  
+-   **\[Both\]**: The species is found in *both* kelp forests and adjacent areas, suggesting an *intermediate HDR* on kelp-derived carbon.
+-   **\[Away\]**: The species is *found away from* kelp forests, where it is expected to have a *low HDR* on kelp, indicating *no dependency* on kelp-derived carbon.
+
+Translation into Priors:
+
+| **Habitat**  | **Beta Parameters (α, β)** | **Mean (μ)** | **Variance (σ²)** |
+|--------------|----------------------------|--------------|-------------------|
+| **In**       | α = 8, β = 1               | μ ≈ 0.8889   | σ² ≈ 0.00988      |
+| **Adjacent** | α = 4, β = 1               | μ = 0.8      | σ² ≈ 0.02667      |
+| **Both**     | α = 6, β = 1               | μ ≈ 0.8571   | σ² ≈ 0.01531      |
+| **Away**     | α = 5, β = 85              | μ ≈ 0.0556   | σ² ≈ 0.0005765    |
+
+A visualisation of these priors is given in @fig-fig5:
+
+```{r question2-priors}
+#| echo: false
+#| messages: false
+#| warning: false
+#| fig.cap: "Plot of prior distributions for the habitat effect on HDR."
+#| label: fig-fig5
+#| fig.align: center
+#| fig-pos: "t"
+#| fig.asp: 0.65
+
+# Define the parameters for each option
+options <- list(
+  In = list(alpha = 8, beta = 1),
+  Adjacent = list(alpha = 2, beta = 2),
+  Both = list(alpha = 7.7, beta = 3.3),
+  Away = list(alpha = 1, beta = 19)
+)
+
+# Create a sequence of HDR values from 0 to 1
+hdr_values <- seq(0, 1, length.out = 1000)
+
+# Initialize a data frame to hold the densities
+density_data <- data.frame(HDR = hdr_values)
+
+# Calculate the densities for each option
+for (option in names(options)) {
+  alpha <- options[[option]]$alpha
+  beta <- options[[option]]$beta
+  density_data[[option]] <- dbeta(hdr_values, alpha, beta)
+}
+
+# Convert data to long format for ggplot2
+density_long <- gather(density_data, key = "Option", value = "Density", -HDR)
+
+# Plot the densities
+ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
+#  geom_line(size = 1) +
+  geom_area(alpha = 0.4, position = "identity", aes(fill = Option)) +
+  labs(title = "Prior Distributions for HDR",
+       subtitle = "Habitat Effect",
+       x = "HDR",
+       y = "Density") +
+  theme_minimal(base_size = 22) +
+  theme(legend.title = element_blank(),
+        legend.position = "inside",
+        legend.position.inside = c(0.25, 0.8))
+```
+
+*\[Note: We would have to run a sensitivity analysis to determine the effect of the priors. For example, in a situation where a species in Question 1 is scored as 'West' and in Question 2 as 'In', the priors for the geographic distribution effect and the habitat effect would be combined to determine the overall effect on HDR. Since the species is found in the west and within kelp forests, the priors for the geographic distribution effect and the habitat effect would be multiplied to determine the overall effect on HDR, which could be close to 1 making it obligative (the fish only occurs directly within kelp forests, but at this point we still have no insight about whether it is a trophic or habitat dependence, or both). This process would be repeated for all possible combinations of answers to Questions 1 and 2.\]*
+
+#### **Question 5: Frequency of occurrences**
+
+In this question you are asked to select the answer that best describes the use of kelp forests by species. Answering either 'No use', 'Incidental use', 'Regular use', 'Strong use' or 'Near-exclusive use' pertains to instances when you answered 'West' in Question 1 and 'In' in Question 4. Answering 'No use' applies to all categories. 
+
+***Choices: \[No occurrence \| Incidental occurrence \| Regular occurrence \| Significant occurrence \| Near-exclusive occurrence \]***
+
+- **\[No occurrence\]**: The species has *no documented or reported occurrence* of a species in kelp forests . There is an expected *low HDR*, whereby there is *no kelp-link* for habitat provisioning.
+- **\[Incidental occurrence\]**: The species has *rare or isolated reports* of kelp occurrence. There is an expected *low HDR*, whereby there is a limited occurrence of species in kelp forests.
+- **\[Regular occurrence\]**: The species has *repeated reports of occurrence* of a species in kelp forests across many sites, seasons or individuals. There is an expected *moderate HDR* indicating a possible substantial use of kelp for habitat provisioning.
+- **\[Significant occurrence\]**: The species has a *disproportionate occurrence* of species in kelp forests relative to alternative ecosystems for habitat use. There is an expected *relatively high HDR*, indicating a possible stronger use of kelp for improved species fitness.
+- **\[Near-exclusive occurrence\]**: The species has *occurrence reports mainly in kelp forests* across several sample sites and years, with alternative ecosystems rarely used. There is an expected *high HDR*, whereby there is an almost exclusive use of kelp for a possible improved species fitness through habitat provisioning. 
+
+Translated into Priors:
+
+| **Frequency of occurrence**   | **Beta Parameters (α, β)** | **Mean (μ)** | **Variance (σ²)** |
+|-------------------------------|----------------------------|--------------|-------------------|
+| **No occurrence**             | α = 1, β = 6               | μ ≈ 0.143    | σ² ≈ 0.0153       |
+| **Incidental occurrence**     | α = 3, β = 7               | μ = 0.3      | σ² ≈ 0.0191       |
+| **Regular occurrence**        | α = 6, β = 5               | μ ≈ 0.55     | σ² ≈ 0.0207       |
+| **Strong occurrence**         | α = 7, β = 2               | μ ≈ 0.857    | σ² ≈ 0.0173       |
+| **Near-exclusive occurrence** | α = 9, β = 1               | μ ≈ 0.9      | σ² ≈ 0.0082       |
+
+A visualisation of these priors is given in @fig-fig6:
+
+```{r}
+#| echo: false
+#| messages: false
+#| warning: false
+#| fig.cap: "Figure 6: Prior beta distribution of species occurrence frequency in kelp forests"
+#| label: fig-fig6
+#| #| fig.align: center
+#| fig-pos: "t"
+#| fig.asp: 0.65
+
+# Define the parameters for each option
+options <- list(
+  No_occurrence = list(alpha = 1, beta = 6),
+  Incidental_occurrence = list(alpha = 3, beta = 7),
+  Regular_occurrence = list(alpha = 6, beta = 5),
+  Significant_occurence = list(alpha = 7, beta = 2),
+  Near_exclusive_occurrence = list(alpha = 9, beta = 1)
+)
+
+# Create a sequence of HDR values from 0 to 1
+hdr_values <- seq(0, 1, length.out = 1000)
+
+# Initialize a data frame to hold the densities
+density_data <- data.frame(HDR = hdr_values)
+
+# Calculate the densities for each option
+for (option in names(options)) {
+  alpha <- options[[option]]$alpha
+  beta <- options[[option]]$beta
+  density_data[[option]] <- dbeta(hdr_values, alpha, beta)
+}
+
+# Convert data to long format for ggplot2
+density_long <- gather(density_data, key = "Option", value = "Density", -HDR)
+
+# Plot the densities
+ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
+#  geom_line(size = 1) +
+  geom_area(alpha = 0.4, position = "identity", aes(fill = Option)) +
+  labs(title = "Prior Distributions for HDR",
+       subtitle = "Kelp-use",
+       x = "HDR",
+       y = "Density") +
+  theme_minimal(base_size = 22) +
+  theme(legend.title = element_blank(),
+        legend.position = "inside",
+        legend.position.inside = c(0.25, 0.8))
+
+```
+
+#### **Question 6: Habitat-function**
+
+In this question you are asked to select the answer that best described the habitat function of kelp forests for species. Answering 'Plausible mechanism', 'Habitat evidence', 'Comparative evidence', and 'Fitness evidence' pertains to instances when you answered 'West' in Question 1 and 'In' or 'Both' in Question 4. Answering 'None documented' applies to all categories. 
+
+***Choices: \[None \| Plausible mechanism \| Reported evidence \| Comparative evidence \| Fitness evidence \]***
+
+- **\[None\]**: The species is *no documented*  habitat use of kelp forests for habitat provisioning. There is an expected *low HDR*, whereby there is *no kelp-link* for habitat provisioning.
+- **\[Plausible mechanism\]**: The species is *no documented habitat use* of kelp forests but researchers suggest a *possible suitability* of habitats for species due to their occurrence in kelp and the forests meeting their requirements. Authors describe kelp forests as likely refuge or foraging areas. There is an expected *low HDR*, whereby there is a speculated use of kelp forests for habitat provisioning.
+- **\[Reported evidence\]**: The species has *repeated reports of habitat use* of kelp forests for shelter, breeding, nursery and/or foraging grounds across many sites, seasons or individuals. There is a documented habitat use of kelp forests by species. There is an expected *moderately high HDR* indicating a habitat use of kelp for habitat provisioning.
+- **\[Comparative evidence\]**: The species has a *disproportionate habitat use of kelp* for shelter, breeding, nursery and/ foraging grounds relative to alternative ecosystems for habitat use. There is an expected *relatively high HDR*, indicating a stronger use of kelp for improved species fitness.
+- **\[Fitness evidence\]**: The species has a *documented ecological fitness linked to kelp forests* across several sample sites and years. Kelp is linked to a species survival, growth, recruitment, condition and reproduction with a demonstrated demographic response in kelp loss. There is an expected *high HDR*, whereby there is an almost exclusive use of kelp for improved species fitness through habitat provisioning. 
+
+Translated into Priors:
+
+| **Habitat function**           | **Beta Parameters (α, β)** | **Mean (μ)** | **Variance (σ²)** |
+|--------------------------------|----------------------------|--------------|-------------------|
+| **None**                       | α = 1, β = 6               | μ ≈ 0.143    | σ² ≈ 0.0153       |
+| **Plausible mechanism**        | α = 3, β = 7               | μ = 0.3      | σ² ≈ 0.0191       |
+| **Reported evidence**          | α = 6, β = 3               | μ ≈ 0.67     | σ² ≈ 0.0222       |
+| **Comparative evidence**       | α = 7, β = 4               | μ ≈ 0.78     | σ² ≈ 0.0193       |
+| **Fitness evidence**           | α = 9, β = 1               | μ ≈ 0.9      | σ² ≈ 0.0082       |
+
+A visualisation of these priors is given in @fig-fig7:
+
+```{r question6-prior}
+#| echo: false
+#| messages: false
+#| warning: false
+#| fig.cap: "Figure 7: Prior beta distribution of reported habitat function by
+#| species in kelp forests"
+#| #| fig.align: center
+#| fig-pos: "t"
+#| fig.asp: 0.65
+
+# Define the parameters for each option
+options <- list(
+  None = list(alpha = 1, beta = 9),
+  Plausible_mechanism = list(alpha = 2, beta = 9),
+  Reported_evidence = list(alpha = 5, beta = 4),
+  Significant_evidence = list(alpha = 8, beta = 3),
+  Fitness_evidence = list(alpha = 9, beta = 1)
+)
+
+# Create a sequence of HDR values from 0 to 1
+hdr_values <- seq(0, 1, length.out = 1000)
+
+# Initialize a data frame to hold the densities
+density_data <- data.frame(HDR = hdr_values)
+
+# Calculate the densities for each option
+for (option in names(options)) {
+  alpha <- options[[option]]$alpha
+  beta <- options[[option]]$beta
+  density_data[[option]] <- dbeta(hdr_values, alpha, beta)
+}
+
+# Convert data to long format for ggplot2
+density_long <- gather(density_data, key = "Option", value = "Density", -HDR)
+
+# Plot the densities
+ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
+#  geom_line(size = 1) +
+  geom_area(alpha = 0.4, position = "identity", aes(fill = Option)) +
+  labs(title = "Prior Distributions for HDR",
+       subtitle = "Kelp-use",
+       x = "HDR",
+       y = "Density") +
+  theme_minimal(base_size = 22) +
+  theme(legend.title = element_blank(),
+        legend.position = "inside",
+        legend.position.inside = c(0.4, 0.8))
+```
+
+ 
+#### **Question 7: Life-stage use**
+
+In this question you are asked to select the answer that best describe the species life-stage documented in kelp forests. Answering 'Juveniles', 'Adults', 'Both', 'KR juvenile', 'KR adult' or 'KR both'  applies to instances when you answered 'West' Question 1 and 'In' or 'Both' in Question 4. 'KR' indicates a kelp-restricted occurrence or use in species, whereas the other options where 'KR' is not applied occurs in several habitats including kelp forests. 'None' documented applies to all categories. 'Unsure' applies to instances where species were sampled within kelp boundaries, but you unsure of whether the individuals were adults or juveniles.
+
+***Choices: \[None \| Unsure \| Juvenile \| Adult \| Both \| KR juvenile\| KR adult\| KR both \]***
+
+- **\[None\]**: The species has no life-stage that occurs or uses kelp forests for habitat provisioning. There is an expected *low HDR* as species there is no evidence or reports of kelp use.
+- **\[Unsure\]**: The species has a documented occurrence or use in kelp forests, but *no life-stage was reported*. The species has an expected *moderate HDR* in kelp forest as there is substantial evidence or reports of kelp forest use, but not detailed reports.
+- **\[Juvenile\]**: The species occurs or uses kelp *only during their juvenile life-stage*. There is an expected *moderately high HDR* as there is evidence to support kelp use, but *not enough evidence of a restriction to kelp*. 
+- **\[Adult\]**: The species occurs or uses kelp *only during their adult life-stage*. There is an expected *moderately high HDR* as there is evidence to support kelp use, but *not enough evidence of a restriction to kelp*.
+- **\[Both\]**: The species occurs or uses kelp *across all life-stages*. There is an expected *moderately high HDR* as there is evidence to support kelp use, but *not enough evidence of a restriction to kelp*.
+- **\[KR juvenile\]**: The species only occurs or uses kelp *during their juvenile life-stage*. There is an expected *high HDR* as there is evidence to support kelp use.
+- **\[KR adult\]**: The species only occurs or uses kelp *during their adult life-stage*. There is an expected *high HDR* as there is evidence to support kelp use.
+- **\[KR both\]**: The species only occurs or uses kelp *across all life-stages*. There is an expected *high HDR* as there is evidence to support kelp use.
+
+Translated into Priors:
+
+| **Habitat function**           | **Beta Parameters (α, β)** | **Mean (μ)** | **Variance (σ²)** |
+|--------------------------------|----------------------------|--------------|-------------------|
+| **None**                       | α = 1, β = 6               | μ ≈ 0.143    | σ² ≈ 0.0153       |
+| **Unsure**                     | α = 6, β = 3               | μ ≈ 0.67     | σ² ≈ 0.0222       |
+| **Juvenile**                   | α = 6, β = 3               | μ ≈ 0.67     | σ² ≈ 0.0222       |
+| **Adult**                      | α = 6, β = 3               | μ ≈ 0.67     | σ² ≈ 0.0222       |
+| **Both**                       | α = 6, β = 3               | μ ≈ 0.67     | σ² ≈ 0.0222       |
+| **KR juvenile**                | α = 9, β = 1               | μ ≈ 0.9      | σ² ≈ 0.0082       |
+| **KR adult**                   | α = 9, β = 1               | μ ≈ 0.9      | σ² ≈ 0.0082       |
+| **KR both**                    | α = 9, β = 1               | μ ≈ 0.9      | σ² ≈ 0.0082       |
+
+A visualisation of these priors is given in @fig-fig8:
+
+```{r question7-prior}
+#| echo: false
+#| messages: false
+#| warning: false
+#| fig.cap: "Figure 8: Prior beta distribution of reported habitat function by
+#| species in kelp forests"
+#| #| fig.align: center
+#| fig-pos: "t"
+#| fig.asp: 0.65
+
+# Define the parameters for each option
+options <- list(
+  None = list(alpha = 1, beta = 9),
+  Unsure = list(alpha = 5, beta = 5),
+  Juvenile = list(alpha = 5, beta = 4),
+  Adult = list(alpha = 5, beta = 4),
+  Both = list(alpha = 5, beta = 4),
+  KR_juvenile = list(alpha = 10, beta = 1),
+  KR_adult = list(alpha = 10, beta = 1),
+  KR_both = list(alpha = 10, beta = 1)
+)
+
+# Create a sequence of HDR values from 0 to 1
+hdr_values <- seq(0, 1, length.out = 1000)
+
+# Initialize a data frame to hold the densities
+density_data <- data.frame(HDR = hdr_values)
+
+# Calculate the densities for each option
+for (option in names(options)) {
+  alpha <- options[[option]]$alpha
+  beta <- options[[option]]$beta
+  density_data[[option]] <- dbeta(hdr_values, alpha, beta)
+}
+
+# Convert data to long format for ggplot2
+density_long <- gather(density_data, key = "Option", value = "Density", -HDR)
+
+# Plot the densities
+ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
+#  geom_line(size = 1) +
+  geom_area(alpha = 0.4, position = "identity", aes(fill = Option)) +
+  labs(title = "Prior Distributions for HDR",
+       subtitle = "Kelp-use",
+       x = "HDR",
+       y = "Density") +
+  theme_minimal(base_size = 22) +
+  theme(legend.title = element_blank(),
+        legend.position = "inside",
+        legend.position.inside = c(0.4, 0.8))
+```
+

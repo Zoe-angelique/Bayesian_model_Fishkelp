@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -176,6 +141,7 @@ window.Quarto = {
 <section id="step-1-assigning-priors-selection" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-assigning-priors-selection">Step 1: Assigning priors selection</h3>
 <p>The priors play a big role in shaping the posterior distributions. The type of prior—whether <strong>Diffuse</strong>, <strong>Weakly Informative</strong>, or <strong>Informative</strong>—reflects different levels of prior knowledge or assumptions about the parameter before seeing the data. Pay careful attention to assigning priors. A diffuse or non-informative prior is chosen to exert minimal influence on the posterior distribution and allows the data to drive the posterior in the absence of strong prior beliefs. Weakly informative priors provide some guidance without strongly biasing the posterior. They reflect a minimal level of knowledge or reasonable assumptions about the parameter’s likely range without assuming high confidence in specific values. Informative priors are used when there is strong prior knowledge or beliefs about the parameter.</p>
+<p>The first part of the priors sets-up informative priors of species accessibility to kelp forests, i.e.&nbsp;if the environment species occur in is within kelp forest parameters (question 1 - 4). The second half of the priors sets-up informative priors on kelp forests for habitat use by line-fish species.</p>
 <section id="question-1-geographic-distribution" class="level4">
 <h4 class="anchored" data-anchor-id="question-1-geographic-distribution"><strong>Question 1: Geographic Distribution</strong></h4>
 <p>Because the distribution of kelp forests and the availability of kelp as a food source vary between the west and east coasts (<em>Ecklonia maxima</em> at De Hoop) regions, fish species that are distributed in different regions along the South African coast may have different HDRs.</p>
@@ -191,15 +157,15 @@ window.Quarto = {
 <p>To model a parameter like HDR, which is a proportion bounded between 0 and 1 (or 0% to 100%), use a Beta distribution. It has a flexible shape and so will allow for various levels of certainty and mean values. The Beta distribution has two shape parameters, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span>, which determine the mean (<a href="#eq-equation1" class="quarto-xref">Equation&nbsp;1</a>) and variance (<a href="#eq-equation2" class="quarto-xref">Equation&nbsp;2</a>) of the distribution:</p>
 <p><span id="eq-equation1"><span class="math display">\[ \mu = \frac{\alpha}{\alpha + \beta}  \tag{1}\]</span></span></p>
 <p><span id="eq-equation2"><span class="math display">\[ \sigma^2 = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}  \tag{2}\]</span></span></p>
-<p>Example profiles of the Beta distribution for different values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are shown in <a href="#fig-fig0" class="quarto-xref">Figure&nbsp;1</a>:</p>
+<p>Example profiles of the Beta distribution for different values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are shown in <a href="#fig-fig1" class="quarto-xref">Figure&nbsp;1</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig0" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
+<div id="fig-fig1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-fig0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="HDR_Priors_files/figure-html/fig-fig0-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="1152">
+<div aria-describedby="fig-fig1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="HDR_Priors_files/figure-html/fig-fig1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="1152">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig0-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Parameters of the Beta distribution.
 </figcaption>
 </figure>
@@ -247,141 +213,38 @@ Figure&nbsp;1: Parameters of the Beta distribution.
 </tr>
 </tbody>
 </table>
-<p>Visualising these priors helps us understand how they reflect our prior beliefs about the HDR. The priors are shown in <a href="#fig-fig1" class="quarto-xref">Figure&nbsp;2</a>:</p>
+<p>Visualising these priors helps us understand how they reflect our prior beliefs about the HDR. The priors are shown in <a href="#fig-fig2" class="quarto-xref">Figure&nbsp;2</a> and <a href="#fig-fig3" class="quarto-xref">Figure&nbsp;3</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
+<div id="fig-fig2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-fig1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="HDR_Priors_files/figure-html/fig-fig1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
+<div aria-describedby="fig-fig2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="HDR_Priors_files/figure-html/fig-fig2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Plot of prior distributions for the geographic distribution effect of fish regional distribution on HDR.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the parameters for each option</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>options <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">West =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">4</span>, <span class="at">beta =</span> <span class="dv">1</span>),</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">East =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">beta =</span> <span class="dv">19</span>),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Both =</span> <span class="fu">list</span>(<span class="at">alpha =</span> <span class="dv">2</span>, <span class="at">beta =</span> <span class="dv">2</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sequence of HDR values from 0 to 1</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>hdr_values <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">1000</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a data frame to hold the densities</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>density_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">HDR =</span> hdr_values)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the densities for each option</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (option <span class="cf">in</span> <span class="fu">names</span>(options)) {</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  alpha <span class="ot">&lt;-</span> options[[option]]<span class="sc">$</span>alpha</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  beta <span class="ot">&lt;-</span> options[[option]]<span class="sc">$</span>beta</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  density_data[[option]] <span class="ot">&lt;-</span> <span class="fu">dbeta</span>(hdr_values, alpha, beta)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert data to long format for ggplot2</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>density_long <span class="ot">&lt;-</span> <span class="fu">gather</span>(density_data, <span class="at">key =</span> <span class="st">"Option"</span>, <span class="at">value =</span> <span class="st">"Density"</span>, <span class="sc">-</span>HDR)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>density_long <span class="ot">&lt;-</span> density_long <span class="sc">%&gt;%</span> </span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Option =</span> <span class="fu">factor</span>(Option, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"West"</span>, <span class="st">"East"</span>, <span class="st">"Both"</span>)))</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the densities</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(density_long, <span class="fu">aes</span>(<span class="at">x =</span> HDR, <span class="at">y =</span> Density, <span class="at">color =</span> Option)) <span class="sc">+</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">#  geom_line(size = 1.3) +</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">position =</span> <span class="st">"identity"</span>, <span class="fu">aes</span>(<span class="at">fill =</span> Option)) <span class="sc">+</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Prior Distributions for HDR"</span>,</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Depth Effect"</span>,</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"HDR"</span>,</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">22</span>) <span class="sc">+</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"inside"</span>,</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="HDR_Priors_files/figure-html/question1-priorsdis-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="question-2-habitat" class="level4">
-<h4 class="anchored" data-anchor-id="question-2-habitat"><strong>Question 2: Habitat</strong></h4>
-<p>In this question you are asked to select the answer that best describes the habitat of the fish species in relation to kelp forests. Answering ‘In’, ‘Adjacent’, or ‘Both’ pertains to instances when you answered ‘West’ in Question 1. Answering ‘Away’ applies only to when you answered ‘East’ in Question 1.</p>
-<p><strong><em>Choices: [In | Adjacent | Both | Away]</em></strong></p>
-<ul>
-<li><strong>[In]</strong>: The species is <em>found within</em> kelp forests, where it is likely to have a <em>higher Trophic Dependency Rank (HDR)</em> on kelp, positioning the species more towards an <em>obligate dependency</em> on kelp-derived carbon.</li>
-<li><strong>[Adjacent]</strong>: The species is <em>found adjacent to</em> kelp forests, where it may have a <em>moderate HDR</em> on kelp, indicating a <em>facultative dependency</em> on kelp-derived carbon (via allochthonous kelp-derived carbon).</li>
-<li><strong>[Both]</strong>: The species is found in <em>both</em> kelp forests and adjacent areas, suggesting an <em>intermediate HDR</em> on kelp-derived carbon, possibly positioning it towards a <em>facultative dependency</em>.</li>
-<li><strong>[Away]</strong>: The species is <em>found away from</em> kelp forests, where it is expected to have a <em>low HDR</em> on kelp, indicating <em>no dependency</em> on kelp-derived carbon.</li>
-</ul>
-<p>Translation into Priors:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 18%">
-<col style="width: 37%">
-<col style="width: 18%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>Habitat</strong></th>
-<th><strong>Beta Parameters (α, β)</strong></th>
-<th><strong>Mean (μ)</strong></th>
-<th><strong>Variance (σ²)</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>In</strong></td>
-<td>α = 8, β = 1</td>
-<td>μ ≈ 0.8889</td>
-<td>σ² ≈ 0.00988</td>
-</tr>
-<tr class="even">
-<td><strong>Adjacent</strong></td>
-<td>α = 4, β = 1</td>
-<td>μ = 0.8</td>
-<td>σ² ≈ 0.02667</td>
-</tr>
-<tr class="odd">
-<td><strong>Both</strong></td>
-<td>α = 6, β = 1</td>
-<td>μ ≈ 0.8571</td>
-<td>σ² ≈ 0.01531</td>
-</tr>
-<tr class="even">
-<td><strong>Away</strong></td>
-<td>α = 5, β = 85</td>
-<td>μ ≈ 0.0556</td>
-<td>σ² ≈ 0.0005765</td>
-</tr>
-</tbody>
-</table>
-<p>A visualisation of these priors is given in <a href="#fig-fig2" class="quarto-xref">Figure&nbsp;3</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
+<div id="fig-fig3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-fig2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="HDR_Priors_files/figure-html/fig-fig2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
+<div aria-describedby="fig-fig3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="HDR_Priors_files/figure-html/fig-fig3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Plot of prior distributions for the habitat effect on HDR.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Plot of prior distributions for the geographic distribution effect of fish regional distribution on HDR.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p><em>[Note: We would have to run a sensitivity analysis to determine the effect of the priors. For example, in a situation where a species in Question 1 is scored as ‘West’ and in Question 2 as ‘In’, the priors for the geographic distribution effect and the habitat effect would be combined to determine the overall effect on HDR. Since the species is found in the west and within kelp forests, the priors for the geographic distribution effect and the habitat effect would be multiplied to determine the overall effect on HDR, which could be close to 1 making it obligative (the fish only occurs directly within kelp forests, but at this point we still have no insight about whether it is a trophic or habitat dependence, or both). This process would be repeated for all possible combinations of answers to Questions 1 and 2.]</em></p>
 </section>
-<section id="question-3-depth" class="level4">
-<h4 class="anchored" data-anchor-id="question-3-depth"><strong>Question 3: Depth</strong></h4>
+<section id="question-2-depth" class="level4">
+<h4 class="anchored" data-anchor-id="question-2-depth"><strong>Question 2: Depth</strong></h4>
 <p>The priors for the depth effect on HDR will have to reflect the fact that species that occur at the same depth as kelp forests are more likely to have a higher HDR on kelp, and as we go into deeper water, the HDR on kelp is expected to decrease. The priors for this question are as follows:</p>
 <p><strong><em>Choices: [0 | 5 | 15 | 30 | 60]</em></strong></p>
 <p>Set up a continuous series of Beta distributions as priors for the effect of depth from shallow to deep water on the HDR on kelp. This reflects the reasoning that species occurring within shallow water <em>could</em> have a higher HDR on kelp, with a decreasing response as depth increases.<br>
@@ -589,14 +452,14 @@ At <em>D</em> = 0m</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="HDR_Priors_files/figure-html/question4-depth-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Figure #: Plot of A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore</figcaption>
+<figcaption>Figure 3: Plot of A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="question-4-distance-from-the-shore" class="level4">
-<h4 class="anchored" data-anchor-id="question-4-distance-from-the-shore"><strong>Question 4: Distance from the shore</strong></h4>
+<section id="question-3-distance-from-the-shore" class="level4">
+<h4 class="anchored" data-anchor-id="question-3-distance-from-the-shore"><strong>Question 3: Distance from the shore</strong></h4>
 <p>The priors for the distance from the shore effect on HDR will have to reflect the fact that species that occur closer to the shore are more likely to have a higher TDR on kelp, and as we move further offshore, the TDR on kelp is expected to decrease. The priors for this question are as follows:</p>
 <p><strong><em>Choices: [0 km |1.5 km |3 km |6 km ]</em></strong></p>
 <p>Set up a continuous series of Beta distributions as priors for the effect of distance from the shore on the HDR on kelp. This reflects our reasoning that species closer to the shore could have a higher HDR on kelp, with a decreasing trend as we move further offshore. (As with the other questions, this is a belief implying we have no actual evidence at this stage. Later, specific evidence will be used to update these (weakly-informative) priors.)<br>
@@ -893,13 +756,330 @@ For Option 1:<br>
 </tr>
 </tbody>
 </table>
-<p>The Beta distributions at these distances are then plotted in the figure below:</p>
+<p>The Beta distributions at these distances are then plotted in the figure below <a href="#fig-fig4" class="quarto-xref">Figure&nbsp;4</a>:</p>
+<div class="cell" data-messages="false">
+<div class="cell-output-display">
+<div id="fig-fig4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fig4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="HDR_Priors_files/figure-html/fig-fig4-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Figure #: Plot of option 1 and B showing, A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="question-4-habitat-occurrence" class="level4">
+<h4 class="anchored" data-anchor-id="question-4-habitat-occurrence"><strong>Question 4: Habitat occurrence</strong></h4>
+<p>In this question you are asked to select the answer that best describes the habitat of the fish species in relation to kelp forests. Answering ‘In’, ‘Adjacent’, ‘Near’, or ‘Both’ pertains to instances when you answered ‘West’ in Question 1. Answering ‘Away’ applies only to when you answered ‘East’ in Question 1.</p>
+<p><strong><em>Choices: [In | Adjacent | Both | Away]</em></strong></p>
+<ul>
+<li><strong>[In]</strong>: The species is <em>found within</em> kelp forests, where it is likely to have a <em>higher Trophic Dependency Rank (HDR)</em> on kelp.</li>
+<li><strong>[Adjacent]</strong>: The species is <em>found in habitats adjacent to</em> kelp forests, where it may have a <em>moderate HDR</em> on kelp.</li>
+<li><strong>[Near]</strong>: The species is <em>found in regions near to</em> kelp forests, where it may have a <em>moderate HDR</em> on kelp.<br>
+</li>
+<li><strong>[Both]</strong>: The species is found in <em>both</em> kelp forests and adjacent areas, suggesting an <em>intermediate HDR</em> on kelp-derived carbon.</li>
+<li><strong>[Away]</strong>: The species is <em>found away from</em> kelp forests, where it is expected to have a <em>low HDR</em> on kelp, indicating <em>no dependency</em> on kelp-derived carbon.</li>
+</ul>
+<p>Translation into Priors:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 37%">
+<col style="width: 18%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Habitat</strong></th>
+<th><strong>Beta Parameters (α, β)</strong></th>
+<th><strong>Mean (μ)</strong></th>
+<th><strong>Variance (σ²)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>In</strong></td>
+<td>α = 8, β = 1</td>
+<td>μ ≈ 0.8889</td>
+<td>σ² ≈ 0.00988</td>
+</tr>
+<tr class="even">
+<td><strong>Adjacent</strong></td>
+<td>α = 4, β = 1</td>
+<td>μ = 0.8</td>
+<td>σ² ≈ 0.02667</td>
+</tr>
+<tr class="odd">
+<td><strong>Both</strong></td>
+<td>α = 6, β = 1</td>
+<td>μ ≈ 0.8571</td>
+<td>σ² ≈ 0.01531</td>
+</tr>
+<tr class="even">
+<td><strong>Away</strong></td>
+<td>α = 5, β = 85</td>
+<td>μ ≈ 0.0556</td>
+<td>σ² ≈ 0.0005765</td>
+</tr>
+</tbody>
+</table>
+<p>A visualisation of these priors is given in <a href="#fig-fig5" class="quarto-xref">Figure&nbsp;5</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
+<div class="cell-output-display">
+<div id="fig-fig5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fig5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="HDR_Priors_files/figure-html/fig-fig5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Plot of prior distributions for the habitat effect on HDR.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><em>[Note: We would have to run a sensitivity analysis to determine the effect of the priors. For example, in a situation where a species in Question 1 is scored as ‘West’ and in Question 2 as ‘In’, the priors for the geographic distribution effect and the habitat effect would be combined to determine the overall effect on HDR. Since the species is found in the west and within kelp forests, the priors for the geographic distribution effect and the habitat effect would be multiplied to determine the overall effect on HDR, which could be close to 1 making it obligative (the fish only occurs directly within kelp forests, but at this point we still have no insight about whether it is a trophic or habitat dependence, or both). This process would be repeated for all possible combinations of answers to Questions 1 and 2.]</em></p>
+</section>
+<section id="question-5-frequency-of-occurrences" class="level4">
+<h4 class="anchored" data-anchor-id="question-5-frequency-of-occurrences"><strong>Question 5: Frequency of occurrences</strong></h4>
+<p>In this question you are asked to select the answer that best describes the use of kelp forests by species. Answering either ‘No use’, ‘Incidental use’, ‘Regular use’, ‘Strong use’ or ‘Near-exclusive use’ pertains to instances when you answered ‘West’ in Question 1 and ‘In’ in Question 4. Answering ‘No use’ applies to all categories.</p>
+<p><strong><em>Choices: [No occurrence | Incidental occurrence | Regular occurrence | Significant occurrence | Near-exclusive occurrence ]</em></strong></p>
+<ul>
+<li><strong>[No occurrence]</strong>: The species has <em>no documented or reported occurrence</em> of a species in kelp forests . There is an expected <em>low HDR</em>, whereby there is <em>no kelp-link</em> for habitat provisioning.</li>
+<li><strong>[Incidental occurrence]</strong>: The species has <em>rare or isolated reports</em> of kelp occurrence. There is an expected <em>low HDR</em>, whereby there is a limited occurrence of species in kelp forests.</li>
+<li><strong>[Regular occurrence]</strong>: The species has <em>repeated reports of occurrence</em> of a species in kelp forests across many sites, seasons or individuals. There is an expected <em>moderate HDR</em> indicating a possible substantial use of kelp for habitat provisioning.</li>
+<li><strong>[Significant occurrence]</strong>: The species has a <em>disproportionate occurrence</em> of species in kelp forests relative to alternative ecosystems for habitat use. There is an expected <em>relatively high HDR</em>, indicating a possible stronger use of kelp for improved species fitness.</li>
+<li><strong>[Near-exclusive occurrence]</strong>: The species has <em>occurrence reports mainly in kelp forests</em> across several sample sites and years, with alternative ecosystems rarely used. There is an expected <em>high HDR</em>, whereby there is an almost exclusive use of kelp for a possible improved species fitness through habitat provisioning.</li>
+</ul>
+<p>Translated into Priors:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 30%">
+<col style="width: 15%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Frequency of occurrence</strong></th>
+<th><strong>Beta Parameters (α, β)</strong></th>
+<th><strong>Mean (μ)</strong></th>
+<th><strong>Variance (σ²)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>No occurrence</strong></td>
+<td>α = 1, β = 6</td>
+<td>μ ≈ 0.143</td>
+<td>σ² ≈ 0.0153</td>
+</tr>
+<tr class="even">
+<td><strong>Incidental occurrence</strong></td>
+<td>α = 3, β = 7</td>
+<td>μ = 0.3</td>
+<td>σ² ≈ 0.0191</td>
+</tr>
+<tr class="odd">
+<td><strong>Regular occurrence</strong></td>
+<td>α = 6, β = 5</td>
+<td>μ ≈ 0.55</td>
+<td>σ² ≈ 0.0207</td>
+</tr>
+<tr class="even">
+<td><strong>Strong occurrence</strong></td>
+<td>α = 7, β = 2</td>
+<td>μ ≈ 0.857</td>
+<td>σ² ≈ 0.0173</td>
+</tr>
+<tr class="odd">
+<td><strong>Near-exclusive occurrence</strong></td>
+<td>α = 9, β = 1</td>
+<td>μ ≈ 0.9</td>
+<td>σ² ≈ 0.0082</td>
+</tr>
+</tbody>
+</table>
+<p>A visualisation of these priors is given in <a href="#fig-fig6" class="quarto-xref">Figure&nbsp;6</a>:</p>
+<div class="cell" data-messages="false">
+<div class="cell-output-display">
+<div id="fig-fig6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fig6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="HDR_Priors_files/figure-html/fig-fig6-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency in kelp forests
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="question-6-habitat-function" class="level4">
+<h4 class="anchored" data-anchor-id="question-6-habitat-function"><strong>Question 6: Habitat-function</strong></h4>
+<p>In this question you are asked to select the answer that best described the habitat function of kelp forests for species. Answering ‘Plausible mechanism’, ‘Habitat evidence’, ‘Comparative evidence’, and ‘Fitness evidence’ pertains to instances when you answered ‘West’ in Question 1 and ‘In’ or ‘Both’ in Question 4. Answering ‘None documented’ applies to all categories.</p>
+<p><strong><em>Choices: [None | Plausible mechanism | Reported evidence | Comparative evidence | Fitness evidence ]</em></strong></p>
+<ul>
+<li><strong>[None]</strong>: The species is <em>no documented</em> habitat use of kelp forests for habitat provisioning. There is an expected <em>low HDR</em>, whereby there is <em>no kelp-link</em> for habitat provisioning.</li>
+<li><strong>[Plausible mechanism]</strong>: The species is <em>no documented habitat use</em> of kelp forests but researchers suggest a <em>possible suitability</em> of habitats for species due to their occurrence in kelp and the forests meeting their requirements. Authors describe kelp forests as likely refuge or foraging areas. There is an expected <em>low HDR</em>, whereby there is a speculated use of kelp forests for habitat provisioning.</li>
+<li><strong>[Reported evidence]</strong>: The species has <em>repeated reports of habitat use</em> of kelp forests for shelter, breeding, nursery and/or foraging grounds across many sites, seasons or individuals. There is a documented habitat use of kelp forests by species. There is an expected <em>moderately high HDR</em> indicating a habitat use of kelp for habitat provisioning.</li>
+<li><strong>[Comparative evidence]</strong>: The species has a <em>disproportionate habitat use of kelp</em> for shelter, breeding, nursery and/ foraging grounds relative to alternative ecosystems for habitat use. There is an expected <em>relatively high HDR</em>, indicating a stronger use of kelp for improved species fitness.</li>
+<li><strong>[Fitness evidence]</strong>: The species has a <em>documented ecological fitness linked to kelp forests</em> across several sample sites and years. Kelp is linked to a species survival, growth, recruitment, condition and reproduction with a demonstrated demographic response in kelp loss. There is an expected <em>high HDR</em>, whereby there is an almost exclusive use of kelp for improved species fitness through habitat provisioning.</li>
+</ul>
+<p>Translated into Priors:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 30%">
+<col style="width: 15%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Habitat function</strong></th>
+<th><strong>Beta Parameters (α, β)</strong></th>
+<th><strong>Mean (μ)</strong></th>
+<th><strong>Variance (σ²)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>None</strong></td>
+<td>α = 1, β = 6</td>
+<td>μ ≈ 0.143</td>
+<td>σ² ≈ 0.0153</td>
+</tr>
+<tr class="even">
+<td><strong>Plausible mechanism</strong></td>
+<td>α = 3, β = 7</td>
+<td>μ = 0.3</td>
+<td>σ² ≈ 0.0191</td>
+</tr>
+<tr class="odd">
+<td><strong>Reported evidence</strong></td>
+<td>α = 6, β = 3</td>
+<td>μ ≈ 0.67</td>
+<td>σ² ≈ 0.0222</td>
+</tr>
+<tr class="even">
+<td><strong>Comparative evidence</strong></td>
+<td>α = 7, β = 4</td>
+<td>μ ≈ 0.78</td>
+<td>σ² ≈ 0.0193</td>
+</tr>
+<tr class="odd">
+<td><strong>Fitness evidence</strong></td>
+<td>α = 9, β = 1</td>
+<td>μ ≈ 0.9</td>
+<td>σ² ≈ 0.0082</td>
+</tr>
+</tbody>
+</table>
+<p>A visualisation of these priors is given in <strong>?@fig-fig7</strong>:</p>
+<div class="cell" data-messages="false">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="HDR_Priors_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Figure #: Plot of option 1 and B showing, A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore</figcaption>
+<p><img src="HDR_Priors_files/figure-html/question6-prior-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 7: Prior beta distribution of reported habitat function by species in kelp forests</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="question-7-life-stage-use" class="level4">
+<h4 class="anchored" data-anchor-id="question-7-life-stage-use"><strong>Question 7: Life-stage use</strong></h4>
+<p>In this question you are asked to select the answer that best describe the species life-stage documented in kelp forests. Answering ‘Juveniles’, ‘Adults’, ‘Both’, ‘KR juvenile’, ‘KR adult’ or ‘KR both’ applies to instances when you answered ‘West’ Question 1 and ‘In’ or ‘Both’ in Question 4. ‘KR’ indicates a kelp-restricted occurrence or use in species, whereas the other options where ‘KR’ is not applied occurs in several habitats including kelp forests. ‘None’ documented applies to all categories. ‘Unsure’ applies to instances where species were sampled within kelp boundaries, but you unsure of whether the individuals were adults or juveniles.</p>
+<p><strong><em>Choices: [None | Unsure | Juvenile | Adult | Both | KR juvenile| KR adult| KR both ]</em></strong></p>
+<ul>
+<li><strong>[None]</strong>: The species has no life-stage that occurs or uses kelp forests for habitat provisioning. There is an expected <em>low HDR</em> as species there is no evidence or reports of kelp use.</li>
+<li><strong>[Unsure]</strong>: The species has a documented occurrence or use in kelp forests, but <em>no life-stage was reported</em>. The species has an expected <em>moderate HDR</em> in kelp forest as there is substantial evidence or reports of kelp forest use, but not detailed reports.</li>
+<li><strong>[Juvenile]</strong>: The species occurs or uses kelp <em>only during their juvenile life-stage</em>. There is an expected <em>moderately high HDR</em> as there is evidence to support kelp use, but <em>not enough evidence of a restriction to kelp</em>.</li>
+<li><strong>[Adult]</strong>: The species occurs or uses kelp <em>only during their adult life-stage</em>. There is an expected <em>moderately high HDR</em> as there is evidence to support kelp use, but <em>not enough evidence of a restriction to kelp</em>.</li>
+<li><strong>[Both]</strong>: The species occurs or uses kelp <em>across all life-stages</em>. There is an expected <em>moderately high HDR</em> as there is evidence to support kelp use, but <em>not enough evidence of a restriction to kelp</em>.</li>
+<li><strong>[KR juvenile]</strong>: The species only occurs or uses kelp <em>during their juvenile life-stage</em>. There is an expected <em>high HDR</em> as there is evidence to support kelp use.</li>
+<li><strong>[KR adult]</strong>: The species only occurs or uses kelp <em>during their adult life-stage</em>. There is an expected <em>high HDR</em> as there is evidence to support kelp use.</li>
+<li><strong>[KR both]</strong>: The species only occurs or uses kelp <em>across all life-stages</em>. There is an expected <em>high HDR</em> as there is evidence to support kelp use.</li>
+</ul>
+<p>Translated into Priors:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 30%">
+<col style="width: 15%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Habitat function</strong></th>
+<th><strong>Beta Parameters (α, β)</strong></th>
+<th><strong>Mean (μ)</strong></th>
+<th><strong>Variance (σ²)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>None</strong></td>
+<td>α = 1, β = 6</td>
+<td>μ ≈ 0.143</td>
+<td>σ² ≈ 0.0153</td>
+</tr>
+<tr class="even">
+<td><strong>Unsure</strong></td>
+<td>α = 6, β = 3</td>
+<td>μ ≈ 0.67</td>
+<td>σ² ≈ 0.0222</td>
+</tr>
+<tr class="odd">
+<td><strong>Juvenile</strong></td>
+<td>α = 6, β = 3</td>
+<td>μ ≈ 0.67</td>
+<td>σ² ≈ 0.0222</td>
+</tr>
+<tr class="even">
+<td><strong>Adult</strong></td>
+<td>α = 6, β = 3</td>
+<td>μ ≈ 0.67</td>
+<td>σ² ≈ 0.0222</td>
+</tr>
+<tr class="odd">
+<td><strong>Both</strong></td>
+<td>α = 6, β = 3</td>
+<td>μ ≈ 0.67</td>
+<td>σ² ≈ 0.0222</td>
+</tr>
+<tr class="even">
+<td><strong>KR juvenile</strong></td>
+<td>α = 9, β = 1</td>
+<td>μ ≈ 0.9</td>
+<td>σ² ≈ 0.0082</td>
+</tr>
+<tr class="odd">
+<td><strong>KR adult</strong></td>
+<td>α = 9, β = 1</td>
+<td>μ ≈ 0.9</td>
+<td>σ² ≈ 0.0082</td>
+</tr>
+<tr class="even">
+<td><strong>KR both</strong></td>
+<td>α = 9, β = 1</td>
+<td>μ ≈ 0.9</td>
+<td>σ² ≈ 0.0082</td>
+</tr>
+</tbody>
+</table>
+<p>A visualisation of these priors is given in <strong>?@fig-fig8</strong>:</p>
+<div class="cell" data-messages="false">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="HDR_Priors_files/figure-html/question7-prior-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 8: Prior beta distribution of reported habitat function by species in kelp forests</figcaption>
 </figure>
 </div>
 </div>
