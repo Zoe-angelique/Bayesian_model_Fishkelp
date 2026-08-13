@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -82,6 +117,7 @@ window.Quarto = {
   <li><a href="#priors" id="toc-priors" class="nav-link" data-scroll-target="#priors">Priors</a>
   <ul class="collapse">
   <li><a href="#step-1-assigning-priors-selection" id="toc-step-1-assigning-priors-selection" class="nav-link" data-scroll-target="#step-1-assigning-priors-selection">Step 1: Assigning priors selection</a></li>
+  <li><a href="#step-2-integrating-the-prior-parameters" id="toc-step-2-integrating-the-prior-parameters" class="nav-link" data-scroll-target="#step-2-integrating-the-prior-parameters">Step 2: Integrating the prior parameters</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -160,7 +196,7 @@ window.Quarto = {
 <p>Example profiles of the Beta distribution for different values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are shown in <a href="#fig-fig1" class="quarto-xref">Figure&nbsp;1</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
+<div id="fig-fig1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fig1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="HDR_Priors_files/figure-html/fig-fig1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="1152">
@@ -216,7 +252,7 @@ Figure&nbsp;1: Parameters of the Beta distribution.
 <p>Visualising these priors helps us understand how they reflect our prior beliefs about the HDR. The priors are shown in <a href="#fig-fig2" class="quarto-xref">Figure&nbsp;2</a> and <a href="#fig-fig3" class="quarto-xref">Figure&nbsp;3</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
+<div id="fig-fig2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fig2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="HDR_Priors_files/figure-html/fig-fig2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
@@ -230,7 +266,7 @@ Figure&nbsp;2: Plot of prior distributions for the geographic distribution effec
 </div>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
+<div id="fig-fig3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fig3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="HDR_Priors_files/figure-html/fig-fig3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
@@ -830,7 +866,7 @@ Figure&nbsp;4: Figure #: Plot of option 1 and B showing, A) decay of the importa
 <p>A visualisation of these priors is given in <a href="#fig-fig5" class="quarto-xref">Figure&nbsp;5</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
+<div id="fig-fig5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fig5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="HDR_Priors_files/figure-html/fig-fig5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
@@ -920,80 +956,8 @@ Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency
 </div>
 </div>
 </section>
-<section id="question-6-habitat-function" class="level4">
-<h4 class="anchored" data-anchor-id="question-6-habitat-function"><strong>Question 6: Habitat-function</strong></h4>
-<p>In this question you are asked to select the answer that best described the habitat function of kelp forests for species. Answering ‘Plausible mechanism’, ‘Habitat evidence’, ‘Comparative evidence’, and ‘Fitness evidence’ pertains to instances when you answered ‘West’ in Question 1 and ‘In’ or ‘Both’ in Question 4. Answering ‘None documented’ applies to all categories.</p>
-<p><strong><em>Choices: [None | Plausible mechanism | Reported evidence | Comparative evidence | Fitness evidence ]</em></strong></p>
-<ul>
-<li><strong>[None]</strong>: The species is <em>no documented</em> habitat use of kelp forests for habitat provisioning. There is an expected <em>low HDR</em>, whereby there is <em>no kelp-link</em> for habitat provisioning.</li>
-<li><strong>[Plausible mechanism]</strong>: The species is <em>no documented habitat use</em> of kelp forests but researchers suggest a <em>possible suitability</em> of habitats for species due to their occurrence in kelp and the forests meeting their requirements. Authors describe kelp forests as likely refuge or foraging areas. There is an expected <em>low HDR</em>, whereby there is a speculated use of kelp forests for habitat provisioning.</li>
-<li><strong>[Reported evidence]</strong>: The species has <em>repeated reports of habitat use</em> of kelp forests for shelter, breeding, nursery and/or foraging grounds across many sites, seasons or individuals. There is a documented habitat use of kelp forests by species. There is an expected <em>moderately high HDR</em> indicating a habitat use of kelp for habitat provisioning.</li>
-<li><strong>[Comparative evidence]</strong>: The species has a <em>disproportionate habitat use of kelp</em> for shelter, breeding, nursery and/ foraging grounds relative to alternative ecosystems for habitat use. There is an expected <em>relatively high HDR</em>, indicating a stronger use of kelp for improved species fitness.</li>
-<li><strong>[Fitness evidence]</strong>: The species has a <em>documented ecological fitness linked to kelp forests</em> across several sample sites and years. Kelp is linked to a species survival, growth, recruitment, condition and reproduction with a demonstrated demographic response in kelp loss. There is an expected <em>high HDR</em>, whereby there is an almost exclusive use of kelp for improved species fitness through habitat provisioning.</li>
-</ul>
-<p>Translated into Priors:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 34%">
-<col style="width: 30%">
-<col style="width: 15%">
-<col style="width: 20%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>Habitat function</strong></th>
-<th><strong>Beta Parameters (α, β)</strong></th>
-<th><strong>Mean (μ)</strong></th>
-<th><strong>Variance (σ²)</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>None</strong></td>
-<td>α = 1, β = 6</td>
-<td>μ ≈ 0.143</td>
-<td>σ² ≈ 0.0153</td>
-</tr>
-<tr class="even">
-<td><strong>Plausible mechanism</strong></td>
-<td>α = 3, β = 7</td>
-<td>μ = 0.3</td>
-<td>σ² ≈ 0.0191</td>
-</tr>
-<tr class="odd">
-<td><strong>Reported evidence</strong></td>
-<td>α = 6, β = 3</td>
-<td>μ ≈ 0.67</td>
-<td>σ² ≈ 0.0222</td>
-</tr>
-<tr class="even">
-<td><strong>Comparative evidence</strong></td>
-<td>α = 7, β = 4</td>
-<td>μ ≈ 0.78</td>
-<td>σ² ≈ 0.0193</td>
-</tr>
-<tr class="odd">
-<td><strong>Fitness evidence</strong></td>
-<td>α = 9, β = 1</td>
-<td>μ ≈ 0.9</td>
-<td>σ² ≈ 0.0082</td>
-</tr>
-</tbody>
-</table>
-<p>A visualisation of these priors is given in <strong>?@fig-fig7</strong>:</p>
-<div class="cell" data-messages="false">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="HDR_Priors_files/figure-html/question6-prior-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Figure 7: Prior beta distribution of reported habitat function by species in kelp forests</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="question-7-life-stage-use" class="level4">
-<h4 class="anchored" data-anchor-id="question-7-life-stage-use"><strong>Question 7: Life-stage use</strong></h4>
+<section id="question-6-life-stage-use" class="level4">
+<h4 class="anchored" data-anchor-id="question-6-life-stage-use"><strong>Question 6: Life-stage use</strong></h4>
 <p>In this question you are asked to select the answer that best describe the species life-stage documented in kelp forests. Answering ‘Juveniles’, ‘Adults’, ‘Both’, ‘KR juvenile’, ‘KR adult’ or ‘KR both’ applies to instances when you answered ‘West’ Question 1 and ‘In’ or ‘Both’ in Question 4. ‘KR’ indicates a kelp-restricted occurrence or use in species, whereas the other options where ‘KR’ is not applied occurs in several habitats including kelp forests. ‘None’ documented applies to all categories. ‘Unsure’ applies to instances where species were sampled within kelp boundaries, but you unsure of whether the individuals were adults or juveniles.</p>
 <p><strong><em>Choices: [None | Unsure | Juvenile | Adult | Both | KR juvenile| KR adult| KR both ]</em></strong></p>
 <ul>
@@ -1073,6 +1037,78 @@ Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency
 </tr>
 </tbody>
 </table>
+<p>A visualisation of these priors is given in <strong>?@fig-fig7</strong>:</p>
+<div class="cell" data-messages="false">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="HDR_Priors_files/figure-html/question6-prior-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 7: Prior beta distribution of reported habitat function by species in kelp forests</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="question-7-habitat-function" class="level4">
+<h4 class="anchored" data-anchor-id="question-7-habitat-function"><strong>Question 7: Habitat-function</strong></h4>
+<p>In this question you are asked to select the answer that best described the habitat function of kelp forests for species. Answering ‘Plausible mechanism’, ‘Habitat evidence’, ‘Comparative evidence’, and ‘Fitness evidence’ pertains to instances when you answered ‘West’ in Question 1 and ‘In’ or ‘Both’ in Question 4. Answering ‘None documented’ applies to all categories.</p>
+<p><strong><em>Choices: [None | Plausible mechanism | Reported evidence | Comparative evidence | Fitness evidence ]</em></strong></p>
+<ul>
+<li><strong>[None]</strong>: The species is <em>no documented</em> habitat use of kelp forests for habitat provisioning. There is an expected <em>low HDR</em>, whereby there is <em>no kelp-link</em> for habitat provisioning.</li>
+<li><strong>[Plausible mechanism]</strong>: The species is <em>no documented habitat use</em> of kelp forests but researchers suggest a <em>possible suitability</em> of habitats for species due to their occurrence in kelp and the forests meeting their requirements. Authors describe kelp forests as likely refuge or foraging areas. There is an expected <em>low HDR</em>, whereby there is a speculated use of kelp forests for habitat provisioning.</li>
+<li><strong>[Reported evidence]</strong>: The species has <em>repeated reports of habitat use</em> of kelp forests for shelter, breeding, nursery and/or foraging grounds across many sites, seasons or individuals. There is a documented habitat use of kelp forests by species. There is an expected <em>moderately high HDR</em> indicating a habitat use of kelp for habitat provisioning.</li>
+<li><strong>[Comparative evidence]</strong>: The species has a <em>disproportionate habitat use of kelp</em> for shelter, breeding, nursery and/ foraging grounds relative to alternative ecosystems for habitat use. There is an expected <em>relatively high HDR</em>, indicating a stronger use of kelp for improved species fitness.</li>
+<li><strong>[Fitness evidence]</strong>: The species has a <em>documented ecological fitness linked to kelp forests</em> across several sample sites and years. Kelp is linked to a species survival, growth, recruitment, condition and reproduction with a demonstrated demographic response in kelp loss. There is an expected <em>high HDR</em>, whereby there is an almost exclusive use of kelp for improved species fitness through habitat provisioning.</li>
+</ul>
+<p>Translated into Priors:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 30%">
+<col style="width: 15%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Habitat function</strong></th>
+<th><strong>Beta Parameters (α, β)</strong></th>
+<th><strong>Mean (μ)</strong></th>
+<th><strong>Variance (σ²)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>None</strong></td>
+<td>α = 1, β = 6</td>
+<td>μ ≈ 0.143</td>
+<td>σ² ≈ 0.0153</td>
+</tr>
+<tr class="even">
+<td><strong>Plausible mechanism</strong></td>
+<td>α = 3, β = 7</td>
+<td>μ = 0.3</td>
+<td>σ² ≈ 0.0191</td>
+</tr>
+<tr class="odd">
+<td><strong>Reported evidence</strong></td>
+<td>α = 6, β = 3</td>
+<td>μ ≈ 0.67</td>
+<td>σ² ≈ 0.0222</td>
+</tr>
+<tr class="even">
+<td><strong>Comparative evidence</strong></td>
+<td>α = 7, β = 4</td>
+<td>μ ≈ 0.78</td>
+<td>σ² ≈ 0.0193</td>
+</tr>
+<tr class="odd">
+<td><strong>Fitness evidence</strong></td>
+<td>α = 9, β = 1</td>
+<td>μ ≈ 0.9</td>
+<td>σ² ≈ 0.0082</td>
+</tr>
+</tbody>
+</table>
 <p>A visualisation of these priors is given in <strong>?@fig-fig8</strong>:</p>
 <div class="cell" data-messages="false">
 <div class="cell-output-display">
@@ -1085,6 +1121,254 @@ Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency
 </div>
 </div>
 </section>
+</section>
+<section id="step-2-integrating-the-prior-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-integrating-the-prior-parameters">Step 2: Integrating the prior parameters</h3>
+<p>Since priors play an important role in shaping posteriors, I wanted to ensure prior beta distributions for each parameter was carefully constructed. These parameters are not single entities, but rather form collective insights of how line-fish use kelp forests. The first three questions (Q1-3) form part of the baseline assessment that places a species in kelp forest boundaries. Questions 4-6 provides insight into the use of kelp forests by line-fish, whether the occurrence is a mere overlap in geographical boundaries or if a use was reported across different life-stages. Question 7 provides greater clarity on kelp forest use: whether there would be a species population decline in response to kelp loss. Thus, each of these parameters hold different weights in the final outcome:<br>
+</p>
+<ul>
+<li>values of 1 indicating dependency on kelp forests by line-fish<br>
+</li>
+<li>values above 0.5 indicating a strong use of kelp<br>
+</li>
+<li>values below 0.5 indicating a weak kelp use<br>
+</li>
+<li>and 0 indicating no relationship to kelp forests.</li>
+</ul>
+<p>Thus, values closer to 1 on the beta distribution indicates a stronger relationship between line-fish and kelp.</p>
+<p>In order to assess this, a weighted logarithmic pool of seven beta distributions will be used:</p>
+<p>Weight log pool: <span class="math display">\[ \pi_{HDR,i} (\theta) \propto \prod_{q=1}^{7} \left[ \pi_q(\theta \mid \alpha_{qi}, \beta_{qi}) \right] w_q \]</span></p>
+<p>where w<sub>q</sub> <span class="math inline">\(\ge\)</span> 0 and:</p>
+<p><span class="math display">\[ \sum_{q=1}^{7} w_q = 1 \]</span></p>
+<p>For Beta distributions, this remains a beta distribution:</p>
+<p><span class="math display">\[ \theta_{H,i}^{prior} \sim Beta(\alpha_i, \beta_i) \]</span></p>
+<p>with:</p>
+<p><span class="math display">\[ \alpha_i = 1 +\sum_{q=1}^{7} w_q(\alpha_{qi} - 1) \]</span></p>
+<p><span class="math display">\[ \beta_i = 1 +\sum_{q=1}^{7} w_q(\beta_{qi} - 1) \]</span></p>
+<p>because the weights sum to 1, this is equivalently:</p>
+<p><span class="math display">\[ \alpha_i = \sum_{q=1}^{7} w_q \alpha_{qi} \]</span></p>
+<p><span class="math display">\[ \beta_i = \sum_{q=1}^{7} w_q \beta_{qi} \]</span></p>
+<p>Altogether, this generates a single integrated prior, whereby weighted pooling combines distributions using weighted mean and retains a Beta form.</p>
+<p>Possible weights for each question:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 24%">
+<col style="width: 14%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><em>Question</em></th>
+<th><em>Parameter</em></th>
+<th><em>Weight</em></th>
+<th><em>Role</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>distribution range</td>
+<td>0.5</td>
+<td>species accessibility to kelp forests</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>depth profile</td>
+<td>0.5</td>
+<td>species accessibility to kelp forests</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>distance from shore</td>
+<td>0.5</td>
+<td>species accessibility to kelp forests</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>habitat occurrence</td>
+<td>1.5</td>
+<td>species spatial overlap with kelp forests</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>frequency of occurrence</td>
+<td>2</td>
+<td>repeated kelp occurrence</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>life-stage</td>
+<td>2</td>
+<td>ecological relevance</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>habitat function</td>
+<td>3</td>
+<td>direct habitat use evidence</td>
+</tr>
+</tbody>
+</table>
+<p><strong><em>Example species</em></strong></p>
+<p>The species met the following options for the parameters:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 23%">
+<col style="width: 19%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><em>Question</em></th>
+<th><em>Parameter</em></th>
+<th><em>Option</em></th>
+<th><em>Weight</em></th>
+<th><em>alpha</em></th>
+<th><em>beta</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>distribution range</td>
+<td>west</td>
+<td>0.05</td>
+<td>4</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>depth profile</td>
+<td>15</td>
+<td>0.05</td>
+<td>1.3</td>
+<td>1.2</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>distance from shore</td>
+<td>3</td>
+<td>0.05</td>
+<td>1.385</td>
+<td>3.615</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>habitat occurrence</td>
+<td>both</td>
+<td>0.15</td>
+<td>6</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>frequency of occurrence</td>
+<td>repeated occurrence</td>
+<td>0.2</td>
+<td>6</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>life-stage</td>
+<td>adult</td>
+<td>0.2</td>
+<td>6</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>habitat function</td>
+<td>reported evidence</td>
+<td>0.3</td>
+<td>6</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>The integrated parameters are:</p>
+<p><span class="math display">\[ \alpha = (0.05 \times 4) + (0.05 \times 1.3 ) + (0.05 \times 1.385) + (0.15 \times 6) + (0.2 \times 6) + (0.2 \times 6) + (0.3 \times 6)  \]</span></p>
+<p><span class="math display">\[ \beta = (0.05 \times 1) + (0.05 \times 1.2 ) + (0.05 \times 3.615) + (0.15 \times 1) + (0.2 \times 5) + (0.2 \times 3) + (0.3 \times 3) \]</span></p>
+<p>Therefore:</p>
+<p><span class="math display">\[ \theta_{H,i}^{prior} \sim Beta(5.43425, 2.94075)\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># integrated prior</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>integrate_hdr_prior <span class="ot">&lt;-</span> <span class="cf">function</span>(question, alpha, beta, weight) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">length</span>(question) <span class="sc">==</span> <span class="dv">7</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">length</span>(alpha) <span class="sc">==</span> <span class="dv">7</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">length</span>(beta) <span class="sc">==</span> <span class="dv">7</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">length</span>(weight) <span class="sc">==</span> <span class="dv">7</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">abs</span>(<span class="fu">sum</span>(weight) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">&lt;</span> <span class="fl">0.00001</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  alpha_integrated <span class="ot">&lt;-</span> <span class="fu">sum</span>(weight <span class="sc">*</span> alpha)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  beta_integrated  <span class="ot">&lt;-</span> <span class="fu">sum</span>(weight <span class="sc">*</span> beta)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> alpha_integrated,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">beta =</span> beta_integrated,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> alpha_integrated <span class="sc">/</span> (alpha_integrated <span class="sc">+</span> beta_integrated),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower_95 =</span> <span class="fu">qbeta</span>(<span class="fl">0.025</span>, alpha_integrated, beta_integrated),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">upper_95 =</span> <span class="fu">qbeta</span>(<span class="fl">0.975</span>, alpha_integrated, beta_integrated)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>question <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Q1 Geographic distribution"</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Q2 Depth"</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Q3 Distance"</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Q4 Occurrence relative to kelp"</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Q5 Frequency of occurrence"</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Q6 Life-stage"</span>,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Q7 Habitat function"</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="fl">1.3</span>, <span class="fl">1.385</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>beta  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">1.2</span>, <span class="fl">3.615</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">3</span>)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.05</span>,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.05</span>,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.05</span>,</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.15</span>,</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.20</span>,</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.20</span>,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.30</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>integrated_prior <span class="ot">&lt;-</span> <span class="fu">integrate_hdr_prior</span>(</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">question =</span> question,</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> alpha,</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">beta =</span> beta,</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">weight =</span> weight</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>integrated_prior</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  alpha  beta  mean lower_95 upper_95
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+1  5.43  2.94 0.649    0.320    0.911</code></pre>
+</div>
+</div>
+<p>Create a singular plot</p>
+<div class="cell" data-messages="false">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="HDR_Priors_files/figure-html/step2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Figure 9: Prior beta distribution of example species habitat dependency ranking on kelp forests</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 </section>
 </section>

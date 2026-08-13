@@ -989,81 +989,7 @@ ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
 
 ```
 
-#### **Question 6: Habitat-function**
-
-In this question you are asked to select the answer that best described the habitat function of kelp forests for species. Answering 'Plausible mechanism', 'Habitat evidence', 'Comparative evidence', and 'Fitness evidence' pertains to instances when you answered 'West' in Question 1 and 'In' or 'Both' in Question 4. Answering 'None documented' applies to all categories. 
-
-***Choices: \[None \| Plausible mechanism \| Reported evidence \| Comparative evidence \| Fitness evidence \]***
-
-- **\[None\]**: The species is *no documented*  habitat use of kelp forests for habitat provisioning. There is an expected *low HDR*, whereby there is *no kelp-link* for habitat provisioning.
-- **\[Plausible mechanism\]**: The species is *no documented habitat use* of kelp forests but researchers suggest a *possible suitability* of habitats for species due to their occurrence in kelp and the forests meeting their requirements. Authors describe kelp forests as likely refuge or foraging areas. There is an expected *low HDR*, whereby there is a speculated use of kelp forests for habitat provisioning.
-- **\[Reported evidence\]**: The species has *repeated reports of habitat use* of kelp forests for shelter, breeding, nursery and/or foraging grounds across many sites, seasons or individuals. There is a documented habitat use of kelp forests by species. There is an expected *moderately high HDR* indicating a habitat use of kelp for habitat provisioning.
-- **\[Comparative evidence\]**: The species has a *disproportionate habitat use of kelp* for shelter, breeding, nursery and/ foraging grounds relative to alternative ecosystems for habitat use. There is an expected *relatively high HDR*, indicating a stronger use of kelp for improved species fitness.
-- **\[Fitness evidence\]**: The species has a *documented ecological fitness linked to kelp forests* across several sample sites and years. Kelp is linked to a species survival, growth, recruitment, condition and reproduction with a demonstrated demographic response in kelp loss. There is an expected *high HDR*, whereby there is an almost exclusive use of kelp for improved species fitness through habitat provisioning. 
-
-Translated into Priors:
-
-| **Habitat function**           | **Beta Parameters (α, β)** | **Mean (μ)** | **Variance (σ²)** |
-|--------------------------------|----------------------------|--------------|-------------------|
-| **None**                       | α = 1, β = 6               | μ ≈ 0.143    | σ² ≈ 0.0153       |
-| **Plausible mechanism**        | α = 3, β = 7               | μ = 0.3      | σ² ≈ 0.0191       |
-| **Reported evidence**          | α = 6, β = 3               | μ ≈ 0.67     | σ² ≈ 0.0222       |
-| **Comparative evidence**       | α = 7, β = 4               | μ ≈ 0.78     | σ² ≈ 0.0193       |
-| **Fitness evidence**           | α = 9, β = 1               | μ ≈ 0.9      | σ² ≈ 0.0082       |
-
-A visualisation of these priors is given in @fig-fig7:
-
-```{r question6-prior}
-#| echo: false
-#| messages: false
-#| warning: false
-#| fig.cap: "Figure 7: Prior beta distribution of reported habitat function by
-#| species in kelp forests"
-#| #| fig.align: center
-#| fig-pos: "t"
-#| fig.asp: 0.65
-
-# Define the parameters for each option
-options <- list(
-  None = list(alpha = 1, beta = 9),
-  Plausible_mechanism = list(alpha = 2, beta = 9),
-  Reported_evidence = list(alpha = 5, beta = 4),
-  Significant_evidence = list(alpha = 8, beta = 3),
-  Fitness_evidence = list(alpha = 9, beta = 1)
-)
-
-# Create a sequence of HDR values from 0 to 1
-hdr_values <- seq(0, 1, length.out = 1000)
-
-# Initialize a data frame to hold the densities
-density_data <- data.frame(HDR = hdr_values)
-
-# Calculate the densities for each option
-for (option in names(options)) {
-  alpha <- options[[option]]$alpha
-  beta <- options[[option]]$beta
-  density_data[[option]] <- dbeta(hdr_values, alpha, beta)
-}
-
-# Convert data to long format for ggplot2
-density_long <- gather(density_data, key = "Option", value = "Density", -HDR)
-
-# Plot the densities
-ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
-#  geom_line(size = 1) +
-  geom_area(alpha = 0.4, position = "identity", aes(fill = Option)) +
-  labs(title = "Prior Distributions for HDR",
-       subtitle = "Kelp-use",
-       x = "HDR",
-       y = "Density") +
-  theme_minimal(base_size = 22) +
-  theme(legend.title = element_blank(),
-        legend.position = "inside",
-        legend.position.inside = c(0.4, 0.8))
-```
-
- 
-#### **Question 7: Life-stage use**
+#### **Question 6: Life-stage use**
 
 In this question you are asked to select the answer that best describe the species life-stage documented in kelp forests. Answering 'Juveniles', 'Adults', 'Both', 'KR juvenile', 'KR adult' or 'KR both'  applies to instances when you answered 'West' Question 1 and 'In' or 'Both' in Question 4. 'KR' indicates a kelp-restricted occurrence or use in species, whereas the other options where 'KR' is not applied occurs in several habitats including kelp forests. 'None' documented applies to all categories. 'Unsure' applies to instances where species were sampled within kelp boundaries, but you unsure of whether the individuals were adults or juveniles.
 
@@ -1091,13 +1017,13 @@ Translated into Priors:
 | **KR adult**                   | α = 9, β = 1               | μ ≈ 0.9      | σ² ≈ 0.0082       |
 | **KR both**                    | α = 9, β = 1               | μ ≈ 0.9      | σ² ≈ 0.0082       |
 
-A visualisation of these priors is given in @fig-fig8:
+A visualisation of these priors is given in @fig-fig7:
 
-```{r question7-prior}
+```{r question6-prior}
 #| echo: false
 #| messages: false
 #| warning: false
-#| fig.cap: "Figure 8: Prior beta distribution of reported habitat function by
+#| fig.cap: "Figure 7: Prior beta distribution of reported habitat function by
 #| species in kelp forests"
 #| #| fig.align: center
 #| fig-pos: "t"
@@ -1143,5 +1069,274 @@ ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
   theme(legend.title = element_blank(),
         legend.position = "inside",
         legend.position.inside = c(0.4, 0.8))
+```
+
+
+#### **Question 7: Habitat-function**
+
+In this question you are asked to select the answer that best described the habitat function of kelp forests for species. Answering 'Plausible mechanism', 'Habitat evidence', 'Comparative evidence', and 'Fitness evidence' pertains to instances when you answered 'West' in Question 1 and 'In' or 'Both' in Question 4. Answering 'None documented' applies to all categories. 
+
+***Choices: \[None \| Plausible mechanism \| Reported evidence \| Comparative evidence \| Fitness evidence \]***
+
+- **\[None\]**: The species is *no documented*  habitat use of kelp forests for habitat provisioning. There is an expected *low HDR*, whereby there is *no kelp-link* for habitat provisioning.
+- **\[Plausible mechanism\]**: The species is *no documented habitat use* of kelp forests but researchers suggest a *possible suitability* of habitats for species due to their occurrence in kelp and the forests meeting their requirements. Authors describe kelp forests as likely refuge or foraging areas. There is an expected *low HDR*, whereby there is a speculated use of kelp forests for habitat provisioning.
+- **\[Reported evidence\]**: The species has *repeated reports of habitat use* of kelp forests for shelter, breeding, nursery and/or foraging grounds across many sites, seasons or individuals. There is a documented habitat use of kelp forests by species. There is an expected *moderately high HDR* indicating a habitat use of kelp for habitat provisioning.
+- **\[Comparative evidence\]**: The species has a *disproportionate habitat use of kelp* for shelter, breeding, nursery and/ foraging grounds relative to alternative ecosystems for habitat use. There is an expected *relatively high HDR*, indicating a stronger use of kelp for improved species fitness.
+- **\[Fitness evidence\]**: The species has a *documented ecological fitness linked to kelp forests* across several sample sites and years. Kelp is linked to a species survival, growth, recruitment, condition and reproduction with a demonstrated demographic response in kelp loss. There is an expected *high HDR*, whereby there is an almost exclusive use of kelp for improved species fitness through habitat provisioning. 
+
+Translated into Priors:
+
+| **Habitat function**           | **Beta Parameters (α, β)** | **Mean (μ)** | **Variance (σ²)** |
+|--------------------------------|----------------------------|--------------|-------------------|
+| **None**                       | α = 1, β = 6               | μ ≈ 0.143    | σ² ≈ 0.0153       |
+| **Plausible mechanism**        | α = 3, β = 7               | μ = 0.3      | σ² ≈ 0.0191       |
+| **Reported evidence**          | α = 6, β = 3               | μ ≈ 0.67     | σ² ≈ 0.0222       |
+| **Comparative evidence**       | α = 7, β = 4               | μ ≈ 0.78     | σ² ≈ 0.0193       |
+| **Fitness evidence**           | α = 9, β = 1               | μ ≈ 0.9      | σ² ≈ 0.0082       |
+
+A visualisation of these priors is given in @fig-fig8:
+
+```{r question7-prior}
+#| echo: false
+#| messages: false
+#| warning: false
+#| fig.cap: "Figure 8: Prior beta distribution of reported habitat function by
+#| species in kelp forests"
+#| #| fig.align: center
+#| fig-pos: "t"
+#| fig.asp: 0.65
+
+# Define the parameters for each option
+options <- list(
+  None = list(alpha = 1, beta = 9),
+  Plausible_mechanism = list(alpha = 2, beta = 9),
+  Reported_evidence = list(alpha = 5, beta = 4),
+  Significant_evidence = list(alpha = 8, beta = 3),
+  Fitness_evidence = list(alpha = 9, beta = 1)
+)
+
+# Create a sequence of HDR values from 0 to 1
+hdr_values <- seq(0, 1, length.out = 1000)
+
+# Initialize a data frame to hold the densities
+density_data <- data.frame(HDR = hdr_values)
+
+# Calculate the densities for each option
+for (option in names(options)) {
+  alpha <- options[[option]]$alpha
+  beta <- options[[option]]$beta
+  density_data[[option]] <- dbeta(hdr_values, alpha, beta)
+}
+
+# Convert data to long format for ggplot2
+density_long <- gather(density_data, key = "Option", value = "Density", -HDR)
+
+# Plot the densities
+ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
+#  geom_line(size = 1) +
+  geom_area(alpha = 0.4, position = "identity", aes(fill = Option)) +
+  labs(title = "Prior Distributions for HDR",
+       subtitle = "Kelp-use",
+       x = "HDR",
+       y = "Density") +
+  theme_minimal(base_size = 22) +
+  theme(legend.title = element_blank(),
+        legend.position = "inside",
+        legend.position.inside = c(0.4, 0.8))
+```
+
+### Step 2: Integrating the prior parameters
+
+Since priors play an important role in shaping posteriors, I wanted to ensure prior beta distributions for each parameter was carefully constructed. These parameters are not single entities, but rather form collective insights of how line-fish use kelp forests. The first three questions (Q1-3) form part of the baseline assessment that places a species in kelp forest boundaries. Questions 4-6 provides insight into the use of kelp forests by line-fish, whether the occurrence is a mere overlap in geographical boundaries or if a use was reported across different life-stages. Question 7 provides greater clarity on kelp forest use: whether there would be a species population decline in response to kelp loss. Thus, each of these parameters hold different weights in the final outcome:\
+
+* values of 1 indicating dependency on kelp forests by line-fish\
+* values above 0.5 indicating a strong use of kelp\
+* values below 0.5 indicating a weak kelp use\
+* and 0 indicating no relationship to kelp forests. 
+
+Thus, values closer to 1 on the beta distribution indicates a stronger relationship between line-fish and kelp.
+
+In order to assess this, a weighted logarithmic pool of seven beta distributions will be used:
+
+Weight log pool:
+$$ \pi_{HDR,i} (\theta) \propto \prod_{q=1}^{7} \left[ \pi_q(\theta \mid \alpha_{qi}, \beta_{qi}) \right] w_q $$
+
+
+where w~q~ $\ge$ 0 and:
+
+$$ \sum_{q=1}^{7} w_q = 1 $$
+
+For Beta distributions, this remains a beta distribution:
+
+$$ \theta_{H,i}^{prior} \sim Beta(\alpha_i, \beta_i) $$
+
+with:
+
+$$ \alpha_i = 1 +\sum_{q=1}^{7} w_q(\alpha_{qi} - 1) $$
+
+$$ \beta_i = 1 +\sum_{q=1}^{7} w_q(\beta_{qi} - 1) $$
+
+because the weights sum to 1, this is equivalently:
+
+$$ \alpha_i = \sum_{q=1}^{7} w_q \alpha_{qi} $$
+
+$$ \beta_i = \sum_{q=1}^{7} w_q \beta_{qi} $$
+
+Altogether, this generates a single integrated prior, whereby weighted pooling combines distributions using weighted mean and retains a Beta form.
+
+Possible weights for each question:
+
+| *Question*       | *Parameter*              | *Weight*      | *Role*                                        |
+|------------------|--------------------------|---------------|-----------------------------------------------|
+| 1                | distribution range       | 0.5           | species accessibility to kelp forests         |
+| 2                | depth profile            | 0.5           | species accessibility to kelp forests         |
+| 3                | distance from shore      | 0.5           | species accessibility to kelp forests         |
+| 4                | habitat occurrence       | 1.5           | species spatial overlap with kelp forests     |
+| 5                | frequency of occurrence  | 2             | repeated kelp occurrence                      |
+| 6                | life-stage               | 2             | ecological relevance                          |
+| 7                | habitat function         | 3             | direct habitat use evidence                   |
+
+
+***Example species***
+
+The species met the following options for the parameters:
+
+| *Question*       | *Parameter*              | *Option*             |  *Weight*      | *alpha*        | *beta*      |
+|------------------|--------------------------|----------------------|----------------|----------------|-------------|
+| 1                | distribution range       | west                 | 0.05           |  4             |  1          |
+| 2                | depth profile            | 15                   | 0.05           | 1.3            |  1.2        |
+| 3                | distance from shore      | 3                    | 0.05           | 1.385          |  3.615      |
+| 4                | habitat occurrence       | both                 | 0.15           | 6              |  1          |
+| 5                | frequency of occurrence  | repeated occurrence  | 0.2            | 6              |  5          |
+| 6                | life-stage               | adult                | 0.2            | 6              |  3          |
+| 7                | habitat function         | reported evidence    | 0.3            | 6              |  3          |
+
+The integrated parameters are:
+
+$$ \alpha = (0.05 \times 4) + (0.05 \times 1.3 ) + (0.05 \times 1.385) + (0.15 \times 6) + (0.2 \times 6) + (0.2 \times 6) + (0.3 \times 6)  $$
+
+$$ \beta = (0.05 \times 1) + (0.05 \times 1.2 ) + (0.05 \times 3.615) + (0.15 \times 1) + (0.2 \times 5) + (0.2 \times 3) + (0.3 \times 3) $$
+
+Therefore:
+
+$$ \theta_{H,i}^{prior} \sim Beta(5.43425, 2.94075)$$
+
+```{r}
+# integrated prior
+
+library(tidyverse)
+
+integrate_hdr_prior <- function(question, alpha, beta, weight) {
+
+  stopifnot(length(question) == 7)
+  stopifnot(length(alpha) == 7)
+  stopifnot(length(beta) == 7)
+  stopifnot(length(weight) == 7)
+  stopifnot(abs(sum(weight) - 1) < 0.00001)
+
+  alpha_integrated <- sum(weight * alpha)
+  beta_integrated  <- sum(weight * beta)
+
+  tibble(
+    alpha = alpha_integrated,
+    beta = beta_integrated,
+    mean = alpha_integrated / (alpha_integrated + beta_integrated),
+    lower_95 = qbeta(0.025, alpha_integrated, beta_integrated),
+    upper_95 = qbeta(0.975, alpha_integrated, beta_integrated)
+  )
+}
+
+question <- c(
+  "Q1 Geographic distribution",
+  "Q2 Depth",
+  "Q3 Distance",
+  "Q4 Occurrence relative to kelp",
+  "Q5 Frequency of occurrence",
+  "Q6 Life-stage",
+  "Q7 Habitat function"
+)
+
+alpha <- c(4, 1.3, 1.385, 6, 6, 6, 6)
+beta  <- c(1, 1.2, 3.615, 1, 5, 3, 3)
+
+weight <- c(
+  0.05,
+  0.05,
+  0.05,
+  0.15,
+  0.20,
+  0.20,
+  0.30
+)
+
+integrated_prior <- integrate_hdr_prior(
+  question = question,
+  alpha = alpha,
+  beta = beta,
+  weight = weight
+)
+
+integrated_prior
+```
+
+Create a singular plot
+
+```{r step2}
+#| echo: false
+#| messages: false
+#| warning: false
+#| fig.cap: "Figure 9: Prior beta distribution of example
+#|  species habitat dependency ranking on kelp forests"
+#| #| fig.align: center
+#| fig-pos: "t"
+#| fig.asp: 0.65
+
+x <- seq(0.001, 0.999, length.out = 1000)
+
+prior_plot_data <- tibble(
+  HDR = x,
+  density = dbeta(
+    x,
+    shape1 = integrated_prior$alpha,
+    shape2 = integrated_prior$beta
+  )
+)
+
+ggplot(prior_plot_data, aes(x = HDR, y = density)) +
+  geom_area(fill = "#E69F00", alpha = 0.40) +
+  geom_line(colour = "#CC7A00", linewidth = 1.1) +
+  geom_vline(
+    xintercept = integrated_prior$mean,
+    linetype = "dashed",
+    linewidth = 0.7
+  ) +
+  annotate(
+    "text",
+    x = integrated_prior$mean,
+    y = max(prior_plot_data$density) * 0.92,
+    label = paste0(
+      "Prior mean = ",
+      round(integrated_prior$mean, 2)
+    ),
+    hjust = -0.05,
+    size = 4
+  ) +
+  scale_x_continuous(
+    limits = c(0, 1),
+    breaks = seq(0, 1, 0.25)
+  ) +
+  labs(
+    title = "Integrated prior distribution for Habitat Dependency Rank",
+    subtitle = paste0(
+      "Beta(",
+      round(integrated_prior$alpha, 2),
+      ", ",
+      round(integrated_prior$beta, 2),
+      ")"
+    ),
+    x = "Habitat Dependency Rank",
+    y = "Prior density"
+  ) +
+  theme_classic(base_size = 13)
 ```
 
