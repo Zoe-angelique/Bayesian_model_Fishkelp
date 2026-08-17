@@ -39,13 +39,17 @@ Dependency can be specifically subdivided to provide clarity on the degree of th
 
 The Bayesian analysis framework intends on providing clarity to the interactions that occur between line-fish and kelp forests and will make use of the above the terminology. A methodology will be setup to determine the dependency ranking of line-fish, focusing specifically on trophic and habitat provisioning. The priors will be set up separately for these two ranking systems, with each focusing on factors that will determine whether fish benefit on kelp and the degree to which the benefit is received.
 
-
 # Structure!
 
 There will be 5 qmds (rendered htmls) for explaining the framework:
 
 - *Priors*: Informative prior parameters will be set in two separate qmds, one for establishing a habitat route and the other a trophic route
-- *Likelihood*: As of yet, I will create one qmd (will possibly be two) whereby I will present the method on how a likelihood estimate will be generated from the literature. I will insert a weighting system, whereby each paper will be weighted to provide a final Beta distribution that will be used in conjunction will an integrated final Prior to form the posteriors
-- *Posteriors*: Posteriors will be rationalised in two separate qmds, one for habitat and one for trophic. Currently, the posteriors needs to be updated (i generated posteriors on random weightings from likelihood to test whether it gives the shape I want - the width and bell shape)
+- *Likelihood*: As of yet, I will create one qmd (will possibly be two) whereby I will present the method on how a likelihood estimate will be generated from the literature. I will insert a weighting system, whereby each paper will be weighted to provide a final Beta distribution that will be used in conjunction with an integrated final Prior to form the posteriors
+- *Posteriors*: Posteriors will be rationalised in two separate qmds, one for habitat and one for trophic. Currently, the posteriors needs to be updated (i generated posteriors on random weightings from set likelihood estimates to test whether it gives the shape I want - the width and bell shape)
+
+There will be 5 qmds (rendered htmls) that provide the function source code:
+  - *Priors*: Trophic and habitat route prior function codes will be written separately, and will use the parameters in the **Trophic_prior_set_up** and **Habitat_prior_set_up**.
+- *Likelihood*: Trophic and habitat route likelihood function code will be written in this qmds, since the coding will be the same in the likelihood one qmd should be presented (this may change but the code should be the same as it will weight papers the same). The information behind the code, will be presented in the *Likelihood_set_up*.
+- *Posteriors*: Trophic and habitat route posterior function codes will be written separately, and will use the parameters in the **Trophic_posterior_set_up** and **Habitat_posterior_set_up**.
 
 # Please send me message if you are stuck! I will respond!

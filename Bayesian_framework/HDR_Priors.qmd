@@ -16,15 +16,8 @@ format:
 ---
 
 # What is this?
-I want to generate a Bayesian framework mode, with Beta distributions for prior and posterior outputs. Using the evidence hierarchy in Smit et al. (in review), habitat and trophic routes will be treated separately. These routes will not overlap in the analysis, dietary analyses will be only be used in the trophic route and habitat assessments will be evaluated in the habitat route. The model will comprise of 5 different qmds that define the structure for each route. (Likelihood i am still stuck on and we need to talk on this more once once we get a chance please free up your schedule).
 
-The qmds will comprise the following:\
-
-* priors (trophic and habitat), 
-* likelihood function (i need help with this, how will I join multiple papers?, similar to the integration probably, i will add weights to papers based on the criteria used in my honours- I will upload this thought process on GitHub) 
-* posteriors (trophic and habitat).
-
-This qmd in particular will be assessed to assign prior parameters to assess habitat dependency of line-fish on kelp forests. Currently it consists of 7 questions in totality:
+This qmd in particular will be assessed to assign informative prior to assess habitat dependency of line-fish on kelp forests. Currently it consists of 7 questions (parameters) in totality:
 
 * q1-3 forms the basis of kelp accessibility (these questions will place species in regions near or outside of kelp forests, without inferences on kelp occurrence or habitat use by species)
 * q4-5 forms the basis of kelp occurrence - this places importance on species occurrence in kelp and the frequency their occurrence in kelp forests (leaning towards occurrence and selection of species in habitats)
@@ -35,18 +28,20 @@ The priors for this section will be set-up in two methods:
 
 * Step 2: combines the individual parameters into a single integrated weighted prior parameter. (the weighting for each is discussed in that section and the equations are provided)
 
+NB! This qmd will only comprise the prior set-up. The associated function code that will be used to assess species habitat priors will be in a separate qmd. This is for ease of later use and for code updates such that users can read the code and the framework alongside each other, instead of scrolling up and down to get the relevant information. 
+
 
 # Habitat Dependency Ranking (HDR)
 
-The Bayesian analysis framework aims to determine the HDR of line-fish on kelp forests. This will follow a methodological structure, of which priors will be first be set-up. The priors selected in this section will infer knowledge on the possible interactions line-fish have with kelp forests. Due to the lack of information there are with certain fish species, uncertainties will also be taken into consideration to provide a probabilistic estimate of the interaction occurring. Priors will be set up to account for this uncertainty and will later be integrated to include the different categories to display an overall TDR of line-fish on kelp forests.
+The Bayesian analysis framework aims to determine the HDR of line-fish on kelp forests. This will follow a methodological structure, of which priors will be first be set-up. The priors selected in this section will infer knowledge on the possible interactions line-fish have with kelp forests. Due to the lack of information there are with certain fish species, uncertainties will also be taken into consideration to provide a probabilistic estimate of the interaction occurring. Priors will be set up to account for this uncertainty and will later be integrated to include the different categories to display an overall HDR of line-fish on kelp forests.
 
 ## Priors
 
-The priors are categories that will be used to determine the possible interaction between line-fish of kelp forests. These priors will encompass factors that will touch on the boundaries and extent of fish occurrence along the coast, along with the degree of consumption of kelp or kelp associated organisms. These priors were selected based on the knowledge sourced from literature sources.
+The priors are categories that will be used to determine the possible interaction between line-fish of kelp forests. These priors will encompass factors that will touch on the boundaries and extent of fish occurrence along the coast, along with the degree of habitat use of kelp forests by line-fish. These priors were selected based on the knowledge sourced from literature sources.
 
-The prior represents our initial *beliefs* about a parameter's effect on the TDR estimate before observing the current data. In this context, the priors will encode our expert knowledge and assumptions about the TDR based on the answers to Questions 1-x in the Survey Questionnaire. These priors will then be updated with the data (likelihood) to produce the posterior distribution, which reflects our updated beliefs about the TDR.
+The prior represents our initial *beliefs* about a parameter's effect on the HDR estimate before observing the current data. In this context, the priors will encode our expert knowledge and assumptions about the TDR based on the answers to *Questions 1-7* in the Survey Questionnaire. These priors will then be updated with the data (likelihood) to produce the posterior distribution, which reflects our updated beliefs about the TDR.
 
-Each question provides qualitative information that can be quantitatively translated into prior distributions for the TDR.
+Each question provides qualitative information that can be quantitatively translated into prior distributions for the HDR.
 
 ### Step 1: Assigning priors selection
 
@@ -64,8 +59,6 @@ Select the option that best describes the geographical distribution of the fish 
 -   **\[West\]**: The species is *exclusively* found in the western region of the South African (and/or Namibian) coast, which is dominated by kelp forests (*Ecklonia maxima* and/or *Laminaria pallida*). Therefore, it is *likely* that the species has a *higher HDR* on kelp, potentially even indicating an *obligate dependency* on kelp-derived carbon.
 -   **\[East\]**: The species is *exclusively* found along the coastline *east of the eastern limit* of kelp forests (east of De Hoop), where *Ecklonia maxima* does not occur, and kelp forests are absent (but there's still *Ecklonia radiata*). Consequently, the species is expected to have a HDR *close to zero* (not zero due to chance of accessing *E. radiata*), indicating *no to minimal dependency* on kelp-derived carbon.
 -   **\[Both\]**: The species is found in *both* the western region (with kelp forests) and the eastern region (without kelp forests). As a result, the species may have an *intermediate HDR*, suggesting a *facultative dependency* on kelp-derived carbon, where the species utilises kelp when available but can also thrive without it.
-
-Three dependency types are accommodated by these options. **Obligate Dependency** indicates that the species relies heavily on kelp-derived carbon and may not thrive without it. **Facultative Dependency** is when species can utilise kelp-derived carbon when available but can also survive without it. Lastly, **No Dependency** when a species does not rely on kelp-derived carbon and can thrive without it.
 
 Translation into Priors:
 
@@ -1152,7 +1145,19 @@ ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
 
 ### Step 2: Integrating the prior parameters
 
-Since priors play an important role in shaping posteriors, I wanted to ensure prior beta distributions for each parameter was carefully constructed. These parameters are not single entities, but rather form collective insights of how line-fish use kelp forests. The first three questions (Q1-3) form part of the baseline assessment that places a species in kelp forest boundaries. Questions 4-6 provides insight into the use of kelp forests by line-fish, whether the occurrence is a mere overlap in geographical boundaries or if a use was reported across different life-stages. Question 7 provides greater clarity on kelp forest use: whether there would be a species population decline in response to kelp loss. Thus, each of these parameters hold different weights in the final outcome:\
+Since priors play an important role in shaping posteriors, I wanted to ensure prior Beta distributions for each parameter was carefully generated. These parameters are not single entities, but rather form collective insights of how line-fish use kelp forests. The first three questions (Q1-3) form part of the baseline assessment that places a species in kelp forest boundaries. Questions 4-6 provides insight into the use of kelp forests by line-fish, whether the occurrence is a mere overlap in geographical boundaries or if a use was reported across different life-stages. Question 7 provides greater clarity on kelp forest use: whether there would be a species population decline in response to kelp loss. Thus, each of these parameters hold different weights in the final outcome:\
+
+#### Weights
+
+As mentioned, each section will weigh differently in the final integration. The weights will add up to 1. 
+
+- Since q1-3 forms the baseline of the assessment, placing a species in kelp boundaries, the weights of these will be low as they do not inform strong relationship but rather a possibility. They will be weighted low.
+- Q4 places a species in kelp forests, it describes their occurrence in kelp forests, whether their occurrence was significant or near-exclusive relative to alternative habitats. This parameter will have a greater weight than q1-3 but not as high as it does not inform habitat use, rather species occurrence.
+- Q5 places infers frequencies of species occurrence in kelp forest, whether observations are incidental, common, significant or near exclusive relative to alternative habitats. As it goes a bit deeper into species occurrences in kelp forest it will weigh more than q1-4.
+- Q6 provides information on species life-stage use (i saw in the HDI they used species life-stage, i thought okay that's informative). Again this section refers to different life-stages that use or occur in kelp forests with options for all habitats and options for kelp restricted life stages. It will have a greater weight than q1-4, while maintaining the same weight at q5.
+- Q7 will provide insights into habitat functioning by species, indicating whether there is a possibility that species can use habitats, if they do use kelp forests, if their use of kelp is significant, or whether they are dependent on kelp forests to under a continuation their life-cycle. This will have the greatest weight as it places the greatest insight into habitat use by line-fish.
+
+#### How to read the Beta distributions?
 
 * values of 1 indicating dependency on kelp forests by line-fish\
 * values above 0.5 indicating a strong use of kelp\
@@ -1203,6 +1208,8 @@ Possible weights for each question:
 
 
 ***Example species***
+
+I used a species from the Blamey and Bolton (2018) line-fish list to test the parameters and the weightings. The species is classified as "kelp-associated", commonly occurring in kelp forests with observed habitat use.
 
 The species met the following options for the parameters:
 
