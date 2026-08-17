@@ -1,0 +1,51 @@
+---
+title: "Bayesian_model"
+author: "AJ Smit, Zoë-Angelique Petersen & David Dyer"
+pdf-engine: lualatex 
+format:
+  html: 
+    df_print: paged
+    toc: true 
+    toc_depth: 3
+    theme: journal 
+    highlight: zenburn 
+    number_sections: true
+    code_folding: hide 
+    fig_width: 7 
+    fig_height: 5
+---
+
+# What am I doing?
+
+***Great question***
+
+I want to generate a Bayesian framework model, with Beta distributions for prior and posterior outputs. Using the evidence hierarchy in Smit et al. (in review), habitat and trophic routes will be treated separately. These routes will not overlap in the analysis. Thus, dietary analyses will only be used in the trophic route and habitat assessments will be evaluated in the habitat route. The model will comprise 5 different qmds that define the structure for each route. (Likelihood i am still stuck on and we need to talk on this more once once we get a chance please free up your schedule).
+
+# Bayesian Analysis Framework
+
+The Bayesian analysis framework underpins the assessment of clarifying the dependency of line-fish into categories of dependency or association based on their relationship with kelp forests. Previous literature studies have been nuanced in their descriptions and understanding with the terms dependency and association, often using these terms synonymously. The background of this models aims to establish a difference between the terms dependency and association with each being specified in accordance with the following belong:\
+
+-   *Ecological benefit*: Increased fitness
+-   *Co-occurrence*: The geographical overlap of line-fish and kelp forests along the coast, with no ecological benefit derived from kelp forests by line-fish
+-   *Use*: Species use kelp forests for either trophic or habitat provisioning, there is no evidence of selection or ecological benefit received by species
+-   *Selection*: Species display a disproportionate habitat or trophic use of kelp forests relative to alternative ecosystems. Indicative of species selecting kelp forests for either a trophic or habitat route
+-   *Dependency*: Line-fish obtain an ecological benefit from kelp forests, either in the form of habitat or trophic provisioning. When kelp forests are reduced or lost, species populations will undergo a decline, whereby alternative habitats cannot replace the function lost from kelp forests.
+ 
+
+Dependency can be specifically subdivided to provide clarity on the degree of the ecological benefit line-fish obtain from kelp forests, including:
+
+-   *Facultative*: Line-fish benefit ecologically from kelp forests, but can obtain a benefit from other ecosystems
+-   *Obligatory*: Line-fish strictly and only benefit ecologically from kelp forests
+
+The Bayesian analysis framework intends on providing clarity to the interactions that occur between line-fish and kelp forests and will make use of the above the terminology. A methodology will be setup to determine the dependency ranking of line-fish, focusing specifically on trophic and habitat provisioning. The priors will be set up separately for these two ranking systems, with each focusing on factors that will determine whether fish benefit on kelp and the degree to which the benefit is received.
+
+
+# Structure!
+
+There will be 5 qmds (rendered htmls) for explaining the framework:
+
+- *Priors*: Informative prior parameters will be set in two separate qmds, one for establishing a habitat route and the other a trophic route
+- *Likelihood*: As of yet, I will create one qmd (will possibly be two) whereby I will present the method on how a likelihood estimate will be generated from the literature. I will insert a weighting system, whereby each paper will be weighted to provide a final Beta distribution that will be used in conjunction will an integrated final Prior to form the posteriors
+- *Posteriors*: Posteriors will be rationalised in two separate qmds, one for habitat and one for trophic. Currently, the posteriors needs to be updated (i generated posteriors on random weightings from likelihood to test whether it gives the shape I want - the width and bell shape)
+
+# Please send me message if you are stuck! I will respond!

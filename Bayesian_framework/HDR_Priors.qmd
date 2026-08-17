@@ -15,20 +15,26 @@ format:
     fig_height: 5
 ---
 
-# Bayesian Analysis Framework
+# What is this?
+I want to generate a Bayesian framework mode, with Beta distributions for prior and posterior outputs. Using the evidence hierarchy in Smit et al. (in review), habitat and trophic routes will be treated separately. These routes will not overlap in the analysis, dietary analyses will be only be used in the trophic route and habitat assessments will be evaluated in the habitat route. The model will comprise of 5 different qmds that define the structure for each route. (Likelihood i am still stuck on and we need to talk on this more once once we get a chance please free up your schedule).
 
-The Bayesian analysis framework underpins the assessment of clarifying the dependency of line-fish into categories of dependency or association based on their relationship with kelp forests. Previous literature studies have been nuanced in their descriptions and understanding with the terms dependency and association, often using these terms synonymously. The background of this models aims to establish a difference between the terms dependency and association with each being specified in accordance with the following belong:\
+The qmds will comprise the following:\
 
--   *Ecological benefit*: Increased fitness
--   *Association*: The geographical overlap of line-fish and kelp forests along the coast, with no ecological benefit derived from kelp forests by line-fish
--   *Dependency*: Line-fish obtain an ecological benefit from kelp forests, either in the form of habitat or trophic provisioning
+* priors (trophic and habitat), 
+* likelihood function (i need help with this, how will I join multiple papers?, similar to the integration probably, i will add weights to papers based on the criteria used in my honours- I will upload this thought process on GitHub) 
+* posteriors (trophic and habitat).
 
-Dependency can be specifically subdivided to provide clarity on the degree of the ecological benefit line-fish obtain from kelp forests, including:
+This qmd in particular will be assessed to assign prior parameters to assess habitat dependency of line-fish on kelp forests. Currently it consists of 7 questions in totality:
 
--   *Facultative*: Line-fish benefit ecologically from kelp forests, but can obtain a benefit from other ecosystems
--   *Obligatory*: Line-fish strictly and only benefit ecologically from kelp forests
+* q1-3 forms the basis of kelp accessibility (these questions will place species in regions near or outside of kelp forests, without inferences on kelp occurrence or habitat use by species)
+* q4-5 forms the basis of kelp occurrence - this places importance on species occurrence in kelp and the frequency their occurrence in kelp forests (leaning towards occurrence and selection of species in habitats)
+* q6-7 forms the basis for use and dependency - the questions will draw on use of kelp forests, if there is a repeated, significant or exclusive use of kelp (allows conclusions of dependency to be drawn). Also includes life-stage history, as ontogenetic migrations can occur across habitats, places a greater level of level into the model.
 
-The Bayesian analysis framework intends on providing clarity to the interactions that occur between line-fish and kelp forests and will make use of the above the terminology. A methodology will be setup to determine the dependency ranking of line-fish, focusing specifically on trophic and habitat provisioning. The priors will be set up separately for these two ranking systems, with each focusing on factors that will determine whether fish benefit on kelp and the degree to which the benefit is received.
+The priors for this section will be set-up in two methods:
+* Step 1: provides the parameters and values for Beta distributions for each parameter, which is posed as a question.
+
+* Step 2: combines the individual parameters into a single integrated weighted prior parameter. (the weighting for each is discussed in that section and the equations are provided)
+
 
 # Habitat Dependency Ranking (HDR)
 
@@ -46,7 +52,6 @@ Each question provides qualitative information that can be quantitatively transl
 
 The priors play a big role in shaping the posterior distributions. The type of prior---whether **Diffuse**, **Weakly Informative**, or **Informative**---reflects different levels of prior knowledge or assumptions about the parameter before seeing the data. Pay careful attention to assigning priors. A diffuse or non-informative prior is chosen to exert minimal influence on the posterior distribution and allows the data to drive the posterior in the absence of strong prior beliefs. Weakly informative priors provide some guidance without strongly biasing the posterior. They reflect a minimal level of knowledge or reasonable assumptions about the parameter's likely range without assuming high confidence in specific values. Informative priors are used when there is strong prior knowledge or beliefs about the parameter.
 
-The first part of the priors sets-up informative priors of species accessibility to kelp forests, i.e. if the environment species occur in is within kelp forest parameters (question 1 - 4). The second half of the priors sets-up informative priors on kelp forests for habitat use by line-fish species.
 
 #### **Question 1: Geographic Distribution**
 
@@ -1186,15 +1191,15 @@ Altogether, this generates a single integrated prior, whereby weighted pooling c
 
 Possible weights for each question:
 
-| *Question*       | *Parameter*              | *Weight*      | *Role*                                        |
-|------------------|--------------------------|---------------|-----------------------------------------------|
-| 1                | distribution range       | 0.5           | species accessibility to kelp forests         |
-| 2                | depth profile            | 0.5           | species accessibility to kelp forests         |
-| 3                | distance from shore      | 0.5           | species accessibility to kelp forests         |
-| 4                | habitat occurrence       | 1.5           | species spatial overlap with kelp forests     |
-| 5                | frequency of occurrence  | 2             | repeated kelp occurrence                      |
-| 6                | life-stage               | 2             | ecological relevance                          |
-| 7                | habitat function         | 3             | direct habitat use evidence                   |
+| *Question*       | *Parameter*              | *Weight*        | *Role*                                        |
+|------------------|--------------------------|-----------------|-----------------------------------------------|
+| 1                | distribution range       | 0.05            | species accessibility to kelp forests         |
+| 2                | depth profile            | 0.05            | species accessibility to kelp forests         |
+| 3                | distance from shore      | 0.05            | species accessibility to kelp forests         |
+| 4                | habitat occurrence       | 0.15            | species spatial overlap with kelp forests     |
+| 5                | frequency of occurrence  | 0.2             | repeated kelp occurrence                      |
+| 6                | life-stage               | 0.2             | ecological relevance                          |
+| 7                | habitat function         | 0.3             | direct habitat use evidence                   |
 
 
 ***Example species***

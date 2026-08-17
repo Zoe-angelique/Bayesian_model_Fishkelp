@@ -111,7 +111,7 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#bayesian-analysis-framework" id="toc-bayesian-analysis-framework" class="nav-link active" data-scroll-target="#bayesian-analysis-framework">Bayesian Analysis Framework</a></li>
+  <li><a href="#what-is-this" id="toc-what-is-this" class="nav-link active" data-scroll-target="#what-is-this">What is this?</a></li>
   <li><a href="#habitat-dependency-ranking-hdr" id="toc-habitat-dependency-ranking-hdr" class="nav-link" data-scroll-target="#habitat-dependency-ranking-hdr">Habitat Dependency Ranking (HDR)</a>
   <ul class="collapse">
   <li><a href="#priors" id="toc-priors" class="nav-link" data-scroll-target="#priors">Priors</a>
@@ -150,21 +150,26 @@ window.Quarto = {
 </header>
 
 
-<section id="bayesian-analysis-framework" class="level1">
-<h1>Bayesian Analysis Framework</h1>
-<p>The Bayesian analysis framework underpins the assessment of clarifying the dependency of line-fish into categories of dependency or association based on their relationship with kelp forests. Previous literature studies have been nuanced in their descriptions and understanding with the terms dependency and association, often using these terms synonymously. The background of this models aims to establish a difference between the terms dependency and association with each being specified in accordance with the following belong:<br>
+<section id="what-is-this" class="level1">
+<h1>What is this?</h1>
+<p>I want to generate a Bayesian framework mode, with Beta distributions for prior and posterior outputs. Using the evidence hierarchy in Smit et al.&nbsp;(in review), habitat and trophic routes will be treated separately. These routes will not overlap in the analysis, dietary analyses will be only be used in the trophic route and habitat assessments will be evaluated in the habitat route. The model will comprise of 5 different qmds that define the structure for each route. (Likelihood i am still stuck on and we need to talk on this more once once we get a chance please free up your schedule).</p>
+<p>The qmds will comprise the following:<br>
 </p>
 <ul>
-<li><em>Ecological benefit</em>: Increased fitness</li>
-<li><em>Association</em>: The geographical overlap of line-fish and kelp forests along the coast, with no ecological benefit derived from kelp forests by line-fish</li>
-<li><em>Dependency</em>: Line-fish obtain an ecological benefit from kelp forests, either in the form of habitat or trophic provisioning</li>
+<li>priors (trophic and habitat),</li>
+<li>likelihood function (i need help with this, how will I join multiple papers?, similar to the integration probably, i will add weights to papers based on the criteria used in my honours- I will upload this thought process on GitHub)</li>
+<li>posteriors (trophic and habitat).</li>
 </ul>
-<p>Dependency can be specifically subdivided to provide clarity on the degree of the ecological benefit line-fish obtain from kelp forests, including:</p>
+<p>This qmd in particular will be assessed to assign prior parameters to assess habitat dependency of line-fish on kelp forests. Currently it consists of 7 questions in totality:</p>
 <ul>
-<li><em>Facultative</em>: Line-fish benefit ecologically from kelp forests, but can obtain a benefit from other ecosystems</li>
-<li><em>Obligatory</em>: Line-fish strictly and only benefit ecologically from kelp forests</li>
+<li>q1-3 forms the basis of kelp accessibility (these questions will place species in regions near or outside of kelp forests, without inferences on kelp occurrence or habitat use by species)</li>
+<li>q4-5 forms the basis of kelp occurrence - this places importance on species occurrence in kelp and the frequency their occurrence in kelp forests (leaning towards occurrence and selection of species in habitats)</li>
+<li>q6-7 forms the basis for use and dependency - the questions will draw on use of kelp forests, if there is a repeated, significant or exclusive use of kelp (allows conclusions of dependency to be drawn). Also includes life-stage history, as ontogenetic migrations can occur across habitats, places a greater level of level into the model.</li>
 </ul>
-<p>The Bayesian analysis framework intends on providing clarity to the interactions that occur between line-fish and kelp forests and will make use of the above the terminology. A methodology will be setup to determine the dependency ranking of line-fish, focusing specifically on trophic and habitat provisioning. The priors will be set up separately for these two ranking systems, with each focusing on factors that will determine whether fish benefit on kelp and the degree to which the benefit is received.</p>
+<p>The priors for this section will be set-up in two methods: * Step 1: provides the parameters and values for Beta distributions for each parameter, which is posed as a question.</p>
+<ul>
+<li>Step 2: combines the individual parameters into a single integrated weighted prior parameter. (the weighting for each is discussed in that section and the equations are provided)</li>
+</ul>
 </section>
 <section id="habitat-dependency-ranking-hdr" class="level1">
 <h1>Habitat Dependency Ranking (HDR)</h1>
@@ -177,7 +182,6 @@ window.Quarto = {
 <section id="step-1-assigning-priors-selection" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-assigning-priors-selection">Step 1: Assigning priors selection</h3>
 <p>The priors play a big role in shaping the posterior distributions. The type of prior—whether <strong>Diffuse</strong>, <strong>Weakly Informative</strong>, or <strong>Informative</strong>—reflects different levels of prior knowledge or assumptions about the parameter before seeing the data. Pay careful attention to assigning priors. A diffuse or non-informative prior is chosen to exert minimal influence on the posterior distribution and allows the data to drive the posterior in the absence of strong prior beliefs. Weakly informative priors provide some guidance without strongly biasing the posterior. They reflect a minimal level of knowledge or reasonable assumptions about the parameter’s likely range without assuming high confidence in specific values. Informative priors are used when there is strong prior knowledge or beliefs about the parameter.</p>
-<p>The first part of the priors sets-up informative priors of species accessibility to kelp forests, i.e.&nbsp;if the environment species occur in is within kelp forest parameters (question 1 - 4). The second half of the priors sets-up informative priors on kelp forests for habitat use by line-fish species.</p>
 <section id="question-1-geographic-distribution" class="level4">
 <h4 class="anchored" data-anchor-id="question-1-geographic-distribution"><strong>Question 1: Geographic Distribution</strong></h4>
 <p>Because the distribution of kelp forests and the availability of kelp as a food source vary between the west and east coasts (<em>Ecklonia maxima</em> at De Hoop) regions, fish species that are distributed in different regions along the South African coast may have different HDRs.</p>
@@ -1154,8 +1158,8 @@ Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency
 <colgroup>
 <col style="width: 16%">
 <col style="width: 24%">
-<col style="width: 14%">
-<col style="width: 44%">
+<col style="width: 15%">
+<col style="width: 43%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1169,43 +1173,43 @@ Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency
 <tr class="odd">
 <td>1</td>
 <td>distribution range</td>
-<td>0.5</td>
+<td>0.05</td>
 <td>species accessibility to kelp forests</td>
 </tr>
 <tr class="even">
 <td>2</td>
 <td>depth profile</td>
-<td>0.5</td>
+<td>0.05</td>
 <td>species accessibility to kelp forests</td>
 </tr>
 <tr class="odd">
 <td>3</td>
 <td>distance from shore</td>
-<td>0.5</td>
+<td>0.05</td>
 <td>species accessibility to kelp forests</td>
 </tr>
 <tr class="even">
 <td>4</td>
 <td>habitat occurrence</td>
-<td>1.5</td>
+<td>0.15</td>
 <td>species spatial overlap with kelp forests</td>
 </tr>
 <tr class="odd">
 <td>5</td>
 <td>frequency of occurrence</td>
-<td>2</td>
+<td>0.2</td>
 <td>repeated kelp occurrence</td>
 </tr>
 <tr class="even">
 <td>6</td>
 <td>life-stage</td>
-<td>2</td>
+<td>0.2</td>
 <td>ecological relevance</td>
 </tr>
 <tr class="odd">
 <td>7</td>
 <td>habitat function</td>
-<td>3</td>
+<td>0.3</td>
 <td>direct habitat use evidence</td>
 </tr>
 </tbody>
