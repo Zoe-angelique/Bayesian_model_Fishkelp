@@ -17,7 +17,7 @@ format:
 
 # What is this?
 
-This qmd in particular will be assessed to assign informative prior to assess habitat dependency of line-fish on kelp forests. Currently it consists of 7 questions (parameters) in totality:
+This qmd in particular will be assessed to assign informative prior to assess habitat dependency ranking of line-fish on kelp forests. Currently it consists of 7 questions (parameters) in totality:
 
 * q1-3 forms the basis of kelp accessibility (these questions will place species in regions near or outside of kelp forests, without inferences on kelp occurrence or habitat use by species)
 * q4-5 forms the basis of kelp occurrence - this places importance on species occurrence in kelp and the frequency their occurrence in kelp forests (leaning towards occurrence and selection of species in habitats)
