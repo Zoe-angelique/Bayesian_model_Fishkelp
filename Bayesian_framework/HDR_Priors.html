@@ -152,7 +152,7 @@ window.Quarto = {
 
 <section id="what-is-this" class="level1">
 <h1>What is this?</h1>
-<p>This qmd in particular will be assessed to assign informative prior to assess habitat dependency of line-fish on kelp forests. Currently it consists of 7 questions (parameters) in totality:</p>
+<p>This qmd in particular will be assessed to assign informative prior to assess habitat dependency ranking of line-fish on kelp forests. Currently it consists of 7 questions (parameters) in totality:</p>
 <ul>
 <li>q1-3 forms the basis of kelp accessibility (these questions will place species in regions near or outside of kelp forests, without inferences on kelp occurrence or habitat use by species)</li>
 <li>q4-5 forms the basis of kelp occurrence - this places importance on species occurrence in kelp and the frequency their occurrence in kelp forests (leaning towards occurrence and selection of species in habitats)</li>
@@ -192,7 +192,7 @@ window.Quarto = {
 <p>Example profiles of the Beta distribution for different values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are shown in <a href="#fig-fig1" class="quarto-xref">Figure&nbsp;1</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
+<div id="fig-fig1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fig1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="HDR_Priors_files/figure-html/fig-fig1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="1152">
@@ -248,7 +248,7 @@ Figure&nbsp;1: Parameters of the Beta distribution.
 <p>Visualising these priors helps us understand how they reflect our prior beliefs about the HDR. The priors are shown in <a href="#fig-fig2" class="quarto-xref">Figure&nbsp;2</a> and <a href="#fig-fig3" class="quarto-xref">Figure&nbsp;3</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
+<div id="fig-fig2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fig2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="HDR_Priors_files/figure-html/fig-fig2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
@@ -262,7 +262,7 @@ Figure&nbsp;2: Plot of prior distributions for the geographic distribution effec
 </div>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
+<div id="fig-fig3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fig3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="HDR_Priors_files/figure-html/fig-fig3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
@@ -862,7 +862,7 @@ Figure&nbsp;4: Figure #: Plot of option 1 and B showing, A) decay of the importa
 <p>A visualisation of these priors is given in <a href="#fig-fig5" class="quarto-xref">Figure&nbsp;5</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
+<div id="fig-fig5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fig5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="HDR_Priors_files/figure-html/fig-fig5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
@@ -1048,14 +1048,203 @@ Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency
 <section id="question-7-habitat-function" class="level4">
 <h4 class="anchored" data-anchor-id="question-7-habitat-function"><strong>Question 7: Habitat-function</strong></h4>
 <p>In this question you are asked to select the answer that best described the habitat function of kelp forests for species. Answering ‘Plausible mechanism’, ‘Habitat evidence’, ‘Comparative evidence’, and ‘Fitness evidence’ pertains to instances when you answered ‘West’ in Question 1 and ‘In’ or ‘Both’ in Question 4. Answering ‘None documented’ applies to all categories.</p>
-<p><strong><em>Choices: [None | Plausible mechanism | Reported evidence | Comparative evidence | Fitness evidence ]</em></strong></p>
+<p><strong><em>Choices: [None | Plausible mechanism | Reported evidence | Comparative evidence | Fitness evidence | Dependence evidence ]</em></strong></p>
 <ul>
 <li><strong>[None]</strong>: The species is <em>no documented</em> habitat use of kelp forests for habitat provisioning. There is an expected <em>low HDR</em>, whereby there is <em>no kelp-link</em> for habitat provisioning.</li>
 <li><strong>[Plausible mechanism]</strong>: The species is <em>no documented habitat use</em> of kelp forests but researchers suggest a <em>possible suitability</em> of habitats for species due to their occurrence in kelp and the forests meeting their requirements. Authors describe kelp forests as likely refuge or foraging areas. There is an expected <em>low HDR</em>, whereby there is a speculated use of kelp forests for habitat provisioning.</li>
 <li><strong>[Reported evidence]</strong>: The species has <em>repeated reports of habitat use</em> of kelp forests for shelter, breeding, nursery and/or foraging grounds across many sites, seasons or individuals. There is a documented habitat use of kelp forests by species. There is an expected <em>moderately high HDR</em> indicating a habitat use of kelp for habitat provisioning.</li>
 <li><strong>[Comparative evidence]</strong>: The species has a <em>disproportionate habitat use of kelp</em> for shelter, breeding, nursery and/ foraging grounds relative to alternative ecosystems for habitat use. There is an expected <em>relatively high HDR</em>, indicating a stronger use of kelp for improved species fitness.</li>
-<li><strong>[Fitness evidence]</strong>: The species has a <em>documented ecological fitness linked to kelp forests</em> across several sample sites and years. Kelp is linked to a species survival, growth, recruitment, condition and reproduction with a demonstrated demographic response in kelp loss. There is an expected <em>high HDR</em>, whereby there is an almost exclusive use of kelp for improved species fitness through habitat provisioning.</li>
+<li><strong>[Contribution evidence]</strong>: The species has a <em>documented ecological fitness linked to kelp forests</em> across several sample sites and years. There is an expected <em>high HDR</em>, whereby there is a contribution relationship present through habitat provisioning.</li>
+<li><strong>[Dependence evidence]</strong>: The species has a <em>documented ecological fitness linked to kelp forests</em> across several sample sites and years. Kelp is linked to a species survival, growth, recruitment, condition and reproduction with a demonstrated demographic response in kelp loss, whereby alternative . There is an expected <em>high HDR</em>, whereby there is an almost exclusive use of kelp for improved species fitness through habitat provisioning.</li>
 </ul>
+<p><em>Step 1: Understanding the Ecological Relationship</em><br>
+The expected TDR of line fish will be high for individuals that have a greater kelp trophic function and smaller for line fish that have no kelp trophic function.</p>
+<ul>
+<li><strong>[None]</strong>: No or currently tested kelp or kelp-associated prey link. This places the species trophic pathway in alternative ecosystems.</li>
+<li><strong>[Plausible mechanism]</strong>: No documented habitat use, but researcher suggest a <em>possible suitability</em> of habitats for species occurrence and use through shelter and foraging. While there is a possibility, this is not supported by evidence, which places this choice as an uncertainty and future research gap at a low HDR.</li>
+<li><strong>[Reported evidence]</strong>: The species has a repeated use of habitats for shelter, foraging, breeding or nursery areas, which form part one component of broad habitat use. The habitat functioning is moderate, as kelp forms only a part of their function but no ecological improvement in species fitness is noted.</li>
+<li><strong>[Comparative evidence]</strong>: Species has a disproportionate kelp habitat use relative to alternative ecosystems. It indicates a selection of kelp forests.</li>
+<li><strong>[Contribution evidence]</strong>: There is strong evidence and source justification for an ecological improvement in line-fish ecological fitness. However, species can undergo this contribution in alternative ecosystems if kelp forests were reduced.<br>
+</li>
+<li><strong>[Dependence evidence]</strong>: There is strong evidence and source justification for an ecological improvement in line-fish ecological fitness. Without kelp forests present, there would be a decline in species abundance, whereby alternative ecosystems cannot replace the trophic pathway.</li>
+</ul>
+<p><em>Step 2: Translating to Statistical Properties</em><br>
+For the beta distributions we will set alpha (α) and beta (β) values based on the following:</p>
+<ul>
+<li>Mean = α/(α+β)</li>
+<li>Mode = (α-1)/(α+β-2) [when α,β &gt; 1]</li>
+<li>Variance = αβ/[(α+β)²(α+β+1)]</li>
+</ul>
+<p><em>Step 3: Setting Target Mean Values</em><br>
+I will select target mean values that would reflect the ecological relationships mentioned:</p>
+<ul>
+<li>None ~ 0.12 (low dependency)</li>
+<li>Common ~ 0.54 (moderate dependency)</li>
+<li>Significance ~ 0.75 (high dependency)</li>
+<li>Dependent ~ 0.9 (very high dependency)</li>
+</ul>
+<p>These values create clear separation while remaining in the [0,1] interval appropriate for dependency measure.<br>
+</p>
+<p><em>Step 4: Determining Alpha and Beta Values</em><br>
+For each target mean, I solved for paramter combinations:</p>
+<ol type="1">
+<li>None (target mean = 0.102) Using mean = α/(α+β) = 0.102</li>
+</ol>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.102
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.102 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.102 α + 0.102 β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.898α = 0.102 β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.114β
+\]</span><br>
+</p>
+<p>I selected β = 8.8 for narrow variance, giving α <span class="math inline">\(\approx\)</span> 1<br>
+</p>
+<ol start="2" type="1">
+<li>Plausible evidence (target mean = 0.3): Using mean = α/(α+β) = 0.3</li>
+</ol>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.3
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.3 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.3α + 0.3β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.7α = 0.3β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.429β
+\]</span><br>
+</p>
+<p>I selected β = 7 and α = 3<br>
+</p>
+<ol start="3" type="1">
+<li>Reported evidence (target mean = 0.5):</li>
+</ol>
+<ul>
+<li>Using similar equations: α/(α+β) = 0.5</li>
+</ul>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.5
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.5 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.5α + 0.5β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.5α = 0.5β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = β
+\]</span><br>
+</p>
+<p>I selected β = 5 and α = 5</p>
+<ol start="4" type="1">
+<li>Comparative evidence (target mean = 0.636):</li>
+</ol>
+<ul>
+<li>Using mean = α/(α+β) = 0.636</li>
+</ul>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.636
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.636 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.636α + 0.636β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.364α = 0.636β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 1.75β
+\]</span><br>
+</p>
+<p>I selected β = 4 and α = 7</p>
+<ol start="5" type="1">
+<li>Contribution evidence (target mean = 0.8):</li>
+</ol>
+<ul>
+<li>Using mean = α/(α+β) = 0.8</li>
+</ul>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.8
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.8 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.8α + 0.8β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.2α = 0.8β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 4β
+\]</span><br>
+</p>
+<p>I selected β = 2 and α = 8</p>
+<ol start="6" type="1">
+<li>Dependence (target mean = 0.99): This represents a very strong prior belief that the dependency score is close to one</li>
+</ol>
+<ul>
+<li>Using mean = α/(α+β) = 0.99</li>
+</ul>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.99
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.99 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.99α + 0.99β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.01α = 0.99β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 99β
+\]</span><br>
+</p>
+<p>I selected β = 1 and α = 99</p>
 <p>Translated into Priors:</p>
 <table class="caption-top table">
 <colgroup>
@@ -1075,9 +1264,9 @@ Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency
 <tbody>
 <tr class="odd">
 <td><strong>None</strong></td>
-<td>α = 1, β = 6</td>
-<td>μ ≈ 0.143</td>
-<td>σ² ≈ 0.0153</td>
+<td>α = 1, β = 8.8</td>
+<td>μ ≈ 0.102</td>
+<td>σ² ≈ 0.0085</td>
 </tr>
 <tr class="even">
 <td><strong>Plausible mechanism</strong></td>
@@ -1087,21 +1276,27 @@ Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency
 </tr>
 <tr class="odd">
 <td><strong>Reported evidence</strong></td>
-<td>α = 6, β = 3</td>
-<td>μ ≈ 0.67</td>
-<td>σ² ≈ 0.0222</td>
+<td>α = 5, β = 5</td>
+<td>μ ≈ 0.5</td>
+<td>σ² ≈ 0.0227</td>
 </tr>
 <tr class="even">
 <td><strong>Comparative evidence</strong></td>
 <td>α = 7, β = 4</td>
-<td>μ ≈ 0.78</td>
+<td>μ ≈ 0.636</td>
 <td>σ² ≈ 0.0193</td>
 </tr>
 <tr class="odd">
-<td><strong>Fitness evidence</strong></td>
-<td>α = 9, β = 1</td>
-<td>μ ≈ 0.9</td>
-<td>σ² ≈ 0.0082</td>
+<td><strong>Contribution evidence</strong></td>
+<td>α = 8, β = 2</td>
+<td>μ ≈ 0.8</td>
+<td>σ² ≈ 0.0145</td>
+</tr>
+<tr class="even">
+<td><strong>Dependence evidence</strong></td>
+<td>α = 99, β = 1</td>
+<td>μ ≈ 0.99</td>
+<td>σ² ≈ 0.0001</td>
 </tr>
 </tbody>
 </table>
@@ -1295,16 +1490,16 @@ Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency
 <td>habitat function</td>
 <td>reported evidence</td>
 <td>0.3</td>
-<td>6</td>
-<td>3</td>
+<td>5</td>
+<td>5</td>
 </tr>
 </tbody>
 </table>
 <p>The integrated parameters are:</p>
-<p><span class="math display">\[ \alpha = (0.05 \times 4) + (0.05 \times 1.3 ) + (0.05 \times 1.385) + (0.15 \times 6) + (0.2 \times 6) + (0.2 \times 6) + (0.3 \times 6)  \]</span></p>
-<p><span class="math display">\[ \beta = (0.05 \times 1) + (0.05 \times 1.2 ) + (0.05 \times 3.615) + (0.15 \times 1) + (0.2 \times 5) + (0.2 \times 3) + (0.3 \times 3) \]</span></p>
+<p><span class="math display">\[ \alpha = (0.05 \times 4) + (0.05 \times 1.3 ) + (0.05 \times 1.385) + (0.15 \times 6) + (0.2 \times 6) + (0.2 \times 6) + (0.3 \times 5)  \]</span></p>
+<p><span class="math display">\[ \beta = (0.05 \times 1) + (0.05 \times 1.2 ) + (0.05 \times 3.615) + (0.15 \times 1) + (0.2 \times 5) + (0.2 \times 3) + (0.3 \times 5) \]</span></p>
 <p>Therefore:</p>
-<p><span class="math display">\[ \theta_{H,i}^{prior} \sim Beta(5.43425, 2.94075)\]</span></p>
+<p><span class="math display">\[ \theta_{H,i}^{prior} \sim Beta(5.13425   3.54075)\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># integrated prior</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1340,8 +1535,8 @@ Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Q7 Habitat function"</span></span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="fl">1.3</span>, <span class="fl">1.385</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>)</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>beta  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">1.2</span>, <span class="fl">3.615</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">3</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="fl">1.3</span>, <span class="fl">1.385</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">6</span>, <span class="dv">5</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>beta  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">1.2</span>, <span class="fl">3.615</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">5</span>)</span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.05</span>,</span>
@@ -1365,7 +1560,7 @@ Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency
 <pre><code># A tibble: 1 × 5
   alpha  beta  mean lower_95 upper_95
   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-1  5.43  2.94 0.649    0.320    0.911</code></pre>
+1  5.13  3.54 0.592    0.272    0.872</code></pre>
 </div>
 </div>
 <p>Create a singular plot</p>

@@ -1074,23 +1074,213 @@ ggplot(density_long, aes(x = HDR, y = Density, color = Option)) +
 
 In this question you are asked to select the answer that best described the habitat function of kelp forests for species. Answering 'Plausible mechanism', 'Habitat evidence', 'Comparative evidence', and 'Fitness evidence' pertains to instances when you answered 'West' in Question 1 and 'In' or 'Both' in Question 4. Answering 'None documented' applies to all categories. 
 
-***Choices: \[None \| Plausible mechanism \| Reported evidence \| Comparative evidence \| Fitness evidence \]***
+***Choices: \[None \| Plausible mechanism \| Reported evidence \| Comparative evidence \| Fitness evidence \| Dependence evidence \]***
 
 - **\[None\]**: The species is *no documented*  habitat use of kelp forests for habitat provisioning. There is an expected *low HDR*, whereby there is *no kelp-link* for habitat provisioning.
 - **\[Plausible mechanism\]**: The species is *no documented habitat use* of kelp forests but researchers suggest a *possible suitability* of habitats for species due to their occurrence in kelp and the forests meeting their requirements. Authors describe kelp forests as likely refuge or foraging areas. There is an expected *low HDR*, whereby there is a speculated use of kelp forests for habitat provisioning.
 - **\[Reported evidence\]**: The species has *repeated reports of habitat use* of kelp forests for shelter, breeding, nursery and/or foraging grounds across many sites, seasons or individuals. There is a documented habitat use of kelp forests by species. There is an expected *moderately high HDR* indicating a habitat use of kelp for habitat provisioning.
 - **\[Comparative evidence\]**: The species has a *disproportionate habitat use of kelp* for shelter, breeding, nursery and/ foraging grounds relative to alternative ecosystems for habitat use. There is an expected *relatively high HDR*, indicating a stronger use of kelp for improved species fitness.
-- **\[Fitness evidence\]**: The species has a *documented ecological fitness linked to kelp forests* across several sample sites and years. Kelp is linked to a species survival, growth, recruitment, condition and reproduction with a demonstrated demographic response in kelp loss. There is an expected *high HDR*, whereby there is an almost exclusive use of kelp for improved species fitness through habitat provisioning. 
+- **\[Contribution evidence\]**: The species has a *documented ecological fitness linked to kelp forests* across several sample sites and years. There is an expected *high HDR*, whereby there is a contribution relationship present through habitat provisioning.
+- **\[Dependence evidence\]**: The species has a *documented ecological fitness linked to kelp forests* across several sample sites and years. Kelp is linked to a species survival, growth, recruitment, condition and reproduction with a demonstrated demographic response in kelp loss, whereby alternative . There is an expected *high HDR*, whereby there is an almost exclusive use of kelp for improved species fitness through habitat provisioning.
+
+*Step 1: Understanding the Ecological Relationship*\
+The expected TDR of line fish will be high for individuals that have a greater kelp trophic function and smaller for line fish that have no kelp trophic function. 
+
+- **\[None\]**: No or currently tested kelp or kelp-associated prey link. This places the species trophic pathway in alternative ecosystems. 
+- **\[Plausible mechanism\]**: No documented habitat use, but researcher suggest a *possible suitability* of habitats for species occurrence and use through shelter and foraging. While there is a possibility, this is not supported by evidence, which places this choice as an uncertainty and future research gap at a low HDR.
+- **\[Reported evidence\]**: The species has a repeated use of habitats for shelter, foraging, breeding or nursery areas, which form part one component of broad habitat use. The habitat functioning is moderate, as kelp forms only a part of their function but no ecological improvement in species fitness is noted.
+- **\[Comparative evidence\]**: Species has a disproportionate kelp habitat use relative to alternative ecosystems. It indicates a selection of kelp forests.
+- **\[Contribution evidence\]**: There is strong evidence and source justification for an ecological improvement in line-fish ecological fitness. However, species can undergo this contribution in alternative ecosystems if kelp forests were reduced.  
+- **\[Dependence evidence\]**: There is strong evidence and source justification for an ecological improvement in line-fish ecological fitness. Without kelp forests present, there would be a decline in species abundance, whereby alternative ecosystems cannot replace the trophic pathway. 
+
+*Step 2: Translating to Statistical Properties*\
+For the beta distributions we will set alpha (α) and beta (β) values based on the following:
+
+* Mean = α/(α+β)
+* Mode = (α-1)/(α+β-2) [when α,β > 1]
+* Variance = αβ/[(α+β)²(α+β+1)]
+
+*Step 3: Setting Target Mean Values*\
+I will select target mean values that would reflect the ecological relationships mentioned:
+
+* None ~ 0.12 (low dependency)
+* Common ~ 0.54 (moderate dependency)
+* Significance ~ 0.75 (high dependency)
+* Dependent ~ 0.9 (very high dependency)
+
+These values create clear separation while remaining in the [0,1] interval appropriate for dependency measure.\
+
+*Step 4: Determining Alpha and Beta Values*\
+For each target mean, I solved for paramter combinations:
+
+1. None (target mean = 0.102)
+Using mean = α/(α+β) = 0.102
+
+
+$$
+\frac{α}{(α+β)} = 0.102
+$$\
+
+$$
+α = 0.102 \cdot (α+β)
+$$\
+
+$$
+α = 0.102 α + 0.102 β
+$$\
+
+$$
+0.898α = 0.102 β
+$$\
+
+$$
+α = 0.114β
+$$\
+
+I selected β = 8.8 for narrow variance, giving α $\approx$ 1\
+
+2. Plausible evidence (target mean = 0.3):
+Using mean = α/(α+β) = 0.3
+
+
+$$
+\frac{α}{(α+β)} = 0.3
+$$\
+
+$$
+α = 0.3 \cdot (α+β)
+$$\
+
+$$
+α = 0.3α + 0.3β
+$$\
+
+$$
+0.7α = 0.3β
+$$\
+
+$$
+α = 0.429β
+$$\
+
+I selected β = 7 and α = 3\
+
+3. Reported evidence (target mean = 0.5):
+
+* Using similar equations: α/(α+β) = 0.5
+
+$$
+\frac{α}{(α+β)} = 0.5
+$$\
+
+$$
+α = 0.5 \cdot (α+β)
+$$\
+
+$$
+α = 0.5α + 0.5β
+$$\
+
+$$
+0.5α = 0.5β
+$$\
+
+$$
+α = β
+$$\
+
+I selected β = 5 and α = 5
+
+4. Comparative evidence (target mean = 0.636):
+
+* Using mean = α/(α+β) = 0.636
+
+$$
+\frac{α}{(α+β)} = 0.636
+$$\
+
+$$
+α = 0.636 \cdot (α+β)
+$$\
+
+$$
+α = 0.636α + 0.636β
+$$\
+
+$$
+0.364α = 0.636β
+$$\
+
+$$
+α = 1.75β
+$$\
+
+I selected β = 4 and α = 7
+
+5. Contribution evidence (target mean = 0.8):
+
+* Using mean = α/(α+β) = 0.8
+
+$$
+\frac{α}{(α+β)} = 0.8
+$$\
+
+$$
+α = 0.8 \cdot (α+β)
+$$\
+
+$$
+α = 0.8α + 0.8β
+$$\
+
+$$
+0.2α = 0.8β
+$$\
+
+$$
+α = 4β
+$$\
+
+I selected β = 2 and α = 8
+
+6. Dependence (target mean = 0.99):
+This represents a very strong prior belief that the dependency score is close to one
+
+* Using mean = α/(α+β) = 0.99
+
+$$
+\frac{α}{(α+β)} = 0.99
+$$\
+
+$$
+α = 0.99 \cdot (α+β)
+$$\
+
+$$
+α = 0.99α + 0.99β
+$$\
+
+$$
+0.01α = 0.99β
+$$\
+
+$$
+α = 99β
+$$\
+
+I selected β = 1 and α = 99
+
 
 Translated into Priors:
 
 | **Habitat function**           | **Beta Parameters (α, β)** | **Mean (μ)** | **Variance (σ²)** |
 |--------------------------------|----------------------------|--------------|-------------------|
-| **None**                       | α = 1, β = 6               | μ ≈ 0.143    | σ² ≈ 0.0153       |
+| **None**                       | α = 1, β = 8.8             | μ ≈ 0.102    | σ² ≈ 0.0085       |
 | **Plausible mechanism**        | α = 3, β = 7               | μ = 0.3      | σ² ≈ 0.0191       |
-| **Reported evidence**          | α = 6, β = 3               | μ ≈ 0.67     | σ² ≈ 0.0222       |
-| **Comparative evidence**       | α = 7, β = 4               | μ ≈ 0.78     | σ² ≈ 0.0193       |
-| **Fitness evidence**           | α = 9, β = 1               | μ ≈ 0.9      | σ² ≈ 0.0082       |
+| **Reported evidence**          | α = 5, β = 5               | μ ≈ 0.5      | σ² ≈ 0.0227       |
+| **Comparative evidence**       | α = 7, β = 4               | μ ≈ 0.636    | σ² ≈ 0.0193       |
+| **Contribution evidence**      | α = 8, β = 2               | μ ≈ 0.8      | σ² ≈ 0.0145       |
+| **Dependence evidence**        | α = 99, β = 1              | μ ≈ 0.99     | σ² ≈ 0.0001       |
 
 A visualisation of these priors is given in @fig-fig8:
 
@@ -1106,11 +1296,12 @@ A visualisation of these priors is given in @fig-fig8:
 
 # Define the parameters for each option
 options <- list(
-  None = list(alpha = 1, beta = 9),
-  Plausible_mechanism = list(alpha = 2, beta = 9),
-  Reported_evidence = list(alpha = 5, beta = 4),
-  Significant_evidence = list(alpha = 8, beta = 3),
-  Fitness_evidence = list(alpha = 9, beta = 1)
+  None = list(alpha = 1, beta = 8.8),
+  Plausible_mechanism = list(alpha = 3, beta = 7),
+  Reported_evidence = list(alpha = 5, beta = 5),
+  Comparative_evidence = list(alpha = 7, beta = 4),
+  Contribution_evidence = list(alpha = 8, beta = 2),
+  Dependence_evidence = list(alpha = 9, beta = 1)
 )
 
 # Create a sequence of HDR values from 0 to 1
@@ -1221,17 +1412,17 @@ The species met the following options for the parameters:
 | 4                | habitat occurrence       | both                 | 0.15           | 6              |  1          |
 | 5                | frequency of occurrence  | repeated occurrence  | 0.2            | 6              |  5          |
 | 6                | life-stage               | adult                | 0.2            | 6              |  3          |
-| 7                | habitat function         | reported evidence    | 0.3            | 6              |  3          |
+| 7                | habitat function         | reported evidence    | 0.3            | 5              |  5          |
 
 The integrated parameters are:
 
-$$ \alpha = (0.05 \times 4) + (0.05 \times 1.3 ) + (0.05 \times 1.385) + (0.15 \times 6) + (0.2 \times 6) + (0.2 \times 6) + (0.3 \times 6)  $$
+$$ \alpha = (0.05 \times 4) + (0.05 \times 1.3 ) + (0.05 \times 1.385) + (0.15 \times 6) + (0.2 \times 6) + (0.2 \times 6) + (0.3 \times 5)  $$
 
-$$ \beta = (0.05 \times 1) + (0.05 \times 1.2 ) + (0.05 \times 3.615) + (0.15 \times 1) + (0.2 \times 5) + (0.2 \times 3) + (0.3 \times 3) $$
+$$ \beta = (0.05 \times 1) + (0.05 \times 1.2 ) + (0.05 \times 3.615) + (0.15 \times 1) + (0.2 \times 5) + (0.2 \times 3) + (0.3 \times 5) $$
 
 Therefore:
 
-$$ \theta_{H,i}^{prior} \sim Beta(5.43425, 2.94075)$$
+$$ \theta_{H,i}^{prior} \sim Beta(5.13425	3.54075)$$
 
 ```{r}
 # integrated prior
@@ -1268,8 +1459,8 @@ question <- c(
   "Q7 Habitat function"
 )
 
-alpha <- c(4, 1.3, 1.385, 6, 6, 6, 6)
-beta  <- c(1, 1.2, 3.615, 1, 5, 3, 3)
+alpha <- c(4, 1.3, 1.385, 6, 6, 6, 5)
+beta  <- c(1, 1.2, 3.615, 1, 5, 3, 5)
 
 weight <- c(
   0.05,
