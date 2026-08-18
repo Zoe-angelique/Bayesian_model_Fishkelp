@@ -3,9 +3,9 @@
     "path": "~/Masters/Bayesian_model_Fishkelp/Bayesian_framework/Bayesian_framework_Read_Me.qmd",
     "project_path": "Bayesian_framework_Read_Me.qmd",
     "type": "quarto_markdown",
-    "hash": "0",
+    "hash": "2896104444",
     "contents": "",
-    "dirty": true,
+    "dirty": false,
     "created": 1786968020739.0,
     "source_on_save": false,
     "relative_order": 3,
@@ -22,11 +22,11 @@
         "rmdVisualModeLocation": "311:0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1786994717,
+    "lastKnownWriteTime": 1787055840,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1787052120937,
+    "last_content_update": 1787055840537,
     "read_only": false,
     "read_only_alternatives": []
 }
