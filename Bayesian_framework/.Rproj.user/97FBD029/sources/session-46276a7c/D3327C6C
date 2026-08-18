@@ -3,7 +3,7 @@
     "path": "~/Masters/Bayesian_model_Fishkelp/Bayesian_framework/HDR_Priors.qmd",
     "project_path": "HDR_Priors.qmd",
     "type": "quarto_markdown",
-    "hash": "4189593447",
+    "hash": "2376051978",
     "contents": "",
     "dirty": false,
     "created": 1786468032170.0,
@@ -12,17 +12,17 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "1424,49",
-        "scrollLine": "1419",
-        "docOutlineVisible": "0",
+        "cursorPosition": "503,67",
+        "scrollLine": "504",
+        "docOutlineVisible": "1",
         "docOutlineSize": "109"
     },
     "folds": "",
-    "lastKnownWriteTime": 1787055716,
+    "lastKnownWriteTime": 1787076474,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1787055716783,
+    "last_content_update": 1787076474176,
     "read_only": false,
     "read_only_alternatives": []
 }

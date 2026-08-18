@@ -1,0 +1,20 @@
+# 1_habitat_route_prior_function.R
+# Central script for functions used to generate priorBeta distributions in 
+# the project
+
+
+# Libraries ---------------------------------------------------------------
+
+library(tidyverse)
+library(ggtext)
+library(ggplot2)
+library(dplyr)
+
+# Meta-data ---------------------------------------------------------------
+
+
+
+# Functions ---------------------------------------------------------------
+
+
+

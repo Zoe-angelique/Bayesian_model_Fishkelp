@@ -192,7 +192,7 @@ window.Quarto = {
 <p>Example profiles of the Beta distribution for different values of <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are shown in <a href="#fig-fig1" class="quarto-xref">Figure&nbsp;1</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
+<div id="fig-fig1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fig1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="HDR_Priors_files/figure-html/fig-fig1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="1152">
@@ -248,7 +248,7 @@ Figure&nbsp;1: Parameters of the Beta distribution.
 <p>Visualising these priors helps us understand how they reflect our prior beliefs about the HDR. The priors are shown in <a href="#fig-fig2" class="quarto-xref">Figure&nbsp;2</a> and <a href="#fig-fig3" class="quarto-xref">Figure&nbsp;3</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
+<div id="fig-fig2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fig2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="HDR_Priors_files/figure-html/fig-fig2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
@@ -262,7 +262,7 @@ Figure&nbsp;2: Plot of prior distributions for the geographic distribution effec
 </div>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
+<div id="fig-fig3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fig3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="HDR_Priors_files/figure-html/fig-fig3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
@@ -277,518 +277,252 @@ Figure&nbsp;3: Plot of prior distributions for the geographic distribution effec
 </section>
 <section id="question-2-depth" class="level4">
 <h4 class="anchored" data-anchor-id="question-2-depth"><strong>Question 2: Depth</strong></h4>
-<p>The priors for the depth effect on HDR will have to reflect the fact that species that occur at the same depth as kelp forests are more likely to have a higher HDR on kelp, and as we go into deeper water, the HDR on kelp is expected to decrease. The priors for this question are as follows:</p>
-<p><strong><em>Choices: [0 | 5 | 15 | 30 | 60]</em></strong></p>
-<p>Set up a continuous series of Beta distributions as priors for the effect of depth from shallow to deep water on the HDR on kelp. This reflects the reasoning that species occurring within shallow water <em>could</em> have a higher HDR on kelp, with a decreasing response as depth increases.<br>
-</p>
-<p>following AJs distance formula</p>
-<p><strong><em>Step 1: Define the Prior Mean HDR as a function of Depth</em></strong><br>
-</p>
-<p>We will start by modelling the expected mean HDR as a function of depth from the shore (<em>D</em>). Since kelp dominance and HDR decrease with increasing depth, an exponential decay function is appropriate.</p>
-<p><span class="math display">\[ mean\_HDR(D) = M \cdot e^{(-k \cdot D)} \]</span></p>
-<p>Where:</p>
+<p>The priors for the depth effect on HDR will have to reflect the fact that species that occur at the same depth as kelp forests are more likely to have a higher HDR on kelp, and as we go into deeper water, the HDR on kelp is expected to decrease. Literature often reports depth as a range, broad category or maximum depth rather than consistent point estimates (depending on the assessment done). Therefore depth will be classified into categories rather than exact depth values. The depth itself does not represent occurrence in kelp, but reflects the potential for species to overlap vertically with kelp forests.</p>
+<p><strong><em>Choices: [Unknown | Shallow nearshore | Deeper nearshore | Mid-water | Deep water ]</em></strong></p>
 <ul>
-<li><em>M</em> is the maximum expected HDR at the surface (<em>D</em> = 5m)</li>
-<li><em>k</em> is the decay constant determining how quickly HDR decreases with depth</li>
-<li><em>D</em> is depth (in m)</li>
-</ul>
-<p>Choosing <em>M</em> and <em>k</em> :</p>
-<ul>
-<li>Set M = 0.9 to represent a high HDR at the shore</li>
-<li>Determine k so that <em>D</em> = 15m (intermediate water), the mean HDR reflects the diminishing importance of kelp. Suppose we expect mean HDR to be 0.75 at this point (kelp is still present here and forests are prevalent)</li>
-</ul>
-<p>Calculate <em>k</em>:</p>
-<p><span class="math display">\[
-0.75 =  0.9 \cdot e^{(-k \cdot 15)}
-\]</span></p>
-<p>We start with the equation:</p>
-<p><span class="math display">\[
-0.75 = 0.9 \cdot e^{-k \cdot 15}
-\]</span></p>
-<p><span class="math display">\[
-e^{-k \cdot 15} = \frac{0.75}{0.9}
-\]</span></p>
-<p><span class="math display">\[
--k \cdot 15 = \ln\left(\frac{0.75}{0.9}\right)
-\]</span></p>
-<p><span class="math display">\[
-k = -\frac{1}{15} \cdot \ln\left(\frac{0.75}{0.9}\right) \approx 0.0122
-\]</span></p>
-<p>Resulting Function:<br>
-</p>
-<p><span class="math display">\[ mean\_HDR(D) =  0.9 \cdot e^{-0.0122 \cdot D} \]</span></p>
-<p>Note to consider: The distance-decay model assumes exponential decay of kelp influence, but we need to empirically validate this assumption.<br>
-</p>
-<p><strong><em>Step 2: Define the Shape Parameters α and β</em></strong><br>
-</p>
-<p>Next, we’ll express α and β as functions of distance decay to shape the Beta distributions accordingly.<br>
-</p>
-<p>Option 1: Constant Total Information<br>
-Assuming a constant total information (α + β) reflects consist confidence in our prior across distances.<br>
-</p>
-<ul>
-<li>Set α + β = 20 for moderate confidence</li>
-<li>calculate α and β at each distance</li>
-</ul>
-<p><span class="math display">\[ α(D) = mean\_HDR(D) \cdot (α+β) \]</span></p>
-<p><span class="math display">\[ β(D) = (1 - mean\_HDR(D)) \cdot (α+β) \]</span></p>
-<p>Note: The total information parameter (α + β = 20) seems arbitrarily chosen.<br>
-</p>
-<p>Option 2: Decreasing Total Information<br>
-Alternatively, if uncertainty increases with distance, let (α+β) decrease exponentially:</p>
-<p><span class="math display">\[ (α + β) = A \cdot e ^{-h \cdot D} \]</span></p>
-<p>Where:</p>
-<ul>
-<li><em>A</em> is the initial information weight at <em>D</em> = 5.</li>
-<li><em>h</em> controls the rate of decrease of information.</li>
-</ul>
-<p>We need to select appropriate values for <em>A</em> and <em>h</em> to model the decreasing confidence.</p>
-<ul>
-<li>Initial information (<em>A</em>): Let’s set <em>A</em> = 20 to match the initial total information used in Option 1.</li>
-<li>Decay Rate (<em>h</em>): We’ll choose <em>h</em> such that the total information halves at <em>D</em> = 15m (shallow water).</li>
-</ul>
-<p>Using the half-life formula for exponential decay:</p>
-<p><span class="math display">\[ D_{1/2} = \frac{In(2)}{h} \]</span></p>
-<p>Solving for <em>h</em>:</p>
-<p><span class="math display">\[ h = \frac{In(2)}{D_{1/2}} = \frac{In(2)}{15} \approx 0.0462 \]</span></p>
-<p><strong><em>Step 3: Compute α and β at Specific Depth</em></strong><br>
-Let’s calculate α and β at various distances using Option 1.<br>
-At <em>D</em> = 0m</p>
-<p><span class="math display">\[ mean\_HDR(0) = 0.1 \]</span></p>
-<p><span class="math display">\[ α(0) = 0.1 \cdot 20 = 2 \]</span></p>
-<p><span class="math display">\[ β(0) = (1-0.1) \cdot 20 = 18 \]</span></p>
-<p>At <em>D</em> = 5m<br>
-</p>
-<p><span class="math display">\[ mean\_HDR(5) = 0.9 \]</span></p>
-<p><span class="math display">\[ α(5) = 0.9 \cdot 20 = 18 \]</span></p>
-<p><span class="math display">\[ β(5) = (1-0.9) \cdot 20 = 2 \]</span></p>
-<p>At <em>D</em> = 15m</p>
-<p><span class="math display">\[ mean\_HDR(15) = 0.75 \]</span></p>
-<p><span class="math display">\[ α(15) = 0.75 \cdot 20 = 15 \]</span></p>
-<p><span class="math display">\[ β(15) = (1-0.75) \cdot 20 = 5 \]</span></p>
-<p>At <em>D</em> = 30m</p>
-<p><span class="math display">\[ mean\_HDR(30) \approx 0.624 \]</span></p>
-<p><span class="math display">\[ α(30) = 0.624 \cdot 20 = 12.48 \]</span></p>
-<p><span class="math display">\[ β(30) = (1-0.624) \cdot 20 = 7.52 \]</span></p>
-<p>At <em>D</em> = 60m</p>
-<p><span class="math display">\[ mean\_HDR(60) = 0.433 \]</span></p>
-<p><span class="math display">\[ α(60) = 0.433 \cdot 20 = 8.66 \]</span></p>
-<p><span class="math display">\[ β(60) = (1-0.433) \cdot 20 = 11.34 \]</span></p>
-<p>Now let us calculate the total information (α + β) for Option 2 and model the total information as decreasing exponentially with depth from the shore. This will reflect as increasing uncertainty as we move offshore.<br>
-Using the exponential decay formula:</p>
-<p><span class="math display">\[ (α + β)(D) = 20 \cdot e ^{-0.0462 \cdot D} \]</span></p>
-<p>Calculate at different depths:<br>
-At <em>D</em> = 0m:<br>
-<span class="math display">\[ (α+β)(0) = 20 \cdot e^{-0} = 20 \]</span><br>
-At <em>D</em> = 5m:<br>
-<span class="math display">\[ (α+β)(5) = 20 \cdot e^{-0.0462 \cdot 5} \approx 10.001 \]</span><br>
-At <em>D</em> = 15m:<br>
-<span class="math display">\[ (α+β)(15) = 20 \cdot e^{-0.0462 \cdot 15 } \approx 2.501 \]</span><br>
-At <em>D</em> = 30m:<br>
-<span class="math display">\[ (α+β)(30) = 20 \cdot e^{-0.1386 \cdot 30} \approx 0.313 \]</span></p>
-<p><strong><em>Step 4: Define the Beta Distributions</em></strong><br>
-Now we need to defined the Beta distributions at each depth<br>
-(Option 1):</p>
-<ul>
-<li><em>D</em> = 0m: Beta(α = 18, β = 2)</li>
-<li><em>D</em> = 5m: Beta(α = 15, β = 5)</li>
-<li><em>D</em> = 15m: Beta(α = 10.42, β = 9.58)</li>
-<li><em>D</em> = 30m: Beta(α = 6.02, β = 13.98)</li>
-</ul>
-<p>These distributions reflect a high HDR at shallow water that decreases with increasing depth.<br>
-Similarly, we need to set up the Beta distribution for Option 2.<br>
-Using the mean HDR function:</p>
-<p><span class="math display">\[ mean\_HDR(D) = M \cdot e ^{-k \cdot D} \]</span></p>
-<p>Where:</p>
-<ul>
-<li><em>M</em> = 0.9 (maximum expected HDR at shore)</li>
-<li><em>k</em> = 0.0365 (decay constant for mean TDR)</li>
-</ul>
-<p>Calculate α and β at different distances:<br>
-At <em>D</em> = 0m</p>
-<ul>
-<li>mean_HDR(0) = 0.1 · e<sup>-0</sup> = 0.1</li>
-<li>Total Information: (α + β) = 20</li>
-<li>α(0) = 0.1 · 20 = 18 and β(0) = (1 - 0.1) · 20 = 2</li>
-</ul>
-<p>At <em>D</em> = 5m</p>
-<ul>
-<li>mean_HDR(5) = 0.9 · e<sup>-0.0365 · 5</sup> <span class="math inline">\(\approx\)</span> 0.75</li>
-<li>Total Information: (α + β) = 10</li>
-<li>α(5) = 0.75 · 10 = 7.5 and β(5) = (1 - 0.75) · 10 = 2.5</li>
-</ul>
-<p>At <em>D</em> = 15m</p>
-<ul>
-<li>mean_HDR(15) = 0.9 · e<sup>-0.0365 · 15</sup> <span class="math inline">\(\approx\)</span> 0.521</li>
-<li>Total Information: (α + β) = 2.5</li>
-<li>α(15) = 0.52 · 2.5 <span class="math inline">\(\approx\)</span> 1.3 and β(15) = (1 - 0.52) · 2.5 <span class="math inline">\(\approx\)</span> 1.2</li>
-</ul>
-<p>At <em>D</em> = 30m</p>
-<ul>
-<li>mean_HDR(30) = 0.9 · e<sup>-0.0365 · 30</sup> <span class="math inline">\(\approx\)</span> 0.301</li>
-<li>Total Information: (α + β) <span class="math inline">\(\approx\)</span> 0.31</li>
-<li>α(30) = 0.301 · 0.31 <span class="math inline">\(\approx\)</span> 0.09 and β(30) = (1 - 0.301) · 0.31 <span class="math inline">\(\approx\)</span> 0.22</li>
-</ul>
-<p>The table below summaries the calculated values for <em>Option 2</em></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 19%">
-<col style="width: 40%">
-<col style="width: 9%">
-<col style="width: 9%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>Depth (m)</strong></th>
-<th><strong>Mean HDR</strong></th>
-<th><strong>Total Information (α+β)</strong></th>
-<th><strong>α</strong></th>
-<th><strong>β</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td>0.9</td>
-<td>20</td>
-<td>18</td>
-<td>2</td>
-</tr>
-<tr class="even">
-<td>5</td>
-<td>0.75</td>
-<td>10</td>
-<td>7.5</td>
-<td>2.5</td>
-</tr>
-<tr class="odd">
-<td>15</td>
-<td>0.521</td>
-<td>5</td>
-<td>1.3</td>
-<td>1.2</td>
-</tr>
-<tr class="even">
-<td>30</td>
-<td>0.301</td>
-<td>2.5</td>
-<td>0.09</td>
-<td>0.22</td>
-</tr>
-</tbody>
-</table>
-<p>The Beta distributions at these depths are plotted in the figure below</p>
-<div class="cell" data-layout-align="center" data-messages="false">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="HDR_Priors_files/figure-html/question4-depth-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Figure 3: Plot of A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="question-3-distance-from-the-shore" class="level4">
-<h4 class="anchored" data-anchor-id="question-3-distance-from-the-shore"><strong>Question 3: Distance from the shore</strong></h4>
-<p>The priors for the distance from the shore effect on HDR will have to reflect the fact that species that occur closer to the shore are more likely to have a higher TDR on kelp, and as we move further offshore, the TDR on kelp is expected to decrease. The priors for this question are as follows:</p>
-<p><strong><em>Choices: [0 km |1.5 km |3 km |6 km ]</em></strong></p>
-<p>Set up a continuous series of Beta distributions as priors for the effect of distance from the shore on the HDR on kelp. This reflects our reasoning that species closer to the shore could have a higher HDR on kelp, with a decreasing trend as we move further offshore. (As with the other questions, this is a belief implying we have no actual evidence at this stage. Later, specific evidence will be used to update these (weakly-informative) priors.)<br>
-</p>
-<p><strong><em>Step 1: Define the Prior Mean HDR as a Function of Distance</em></strong><br>
-</p>
-<p>We’ll start by modelling the expected mean HDR as a function of distance from the shore (<em>d</em>). Since kelp dominance and TDR decrease with distance, an exponential decay function is appropriate.</p>
-<p><span class="math display">\[ mean\_HDR(d) = M \cdot e^{(-k \cdot d)} \]</span></p>
-<p>Where:</p>
-<ul>
-<li><em>M</em> is the maximum expected HDR at the shoreline (<em>d</em> = 0km)</li>
-<li><em>k</em> is the decay constant determining how quickly HDR decreases with distance</li>
-<li><em>d</em> is distance (in km)</li>
-</ul>
-<p>Choosing <em>M</em> and <em>k</em> :</p>
-<ul>
-<li>Set M = 0.9 to represent a high TDR at the shore</li>
-<li>Determine k so that <em>d</em> = 1.5km (edge of nearshore), the mean HDR reflects the diminishing importance of kelp.</li>
-</ul>
-<p>Calculate <em>k</em>:</p>
-<p><span class="math display">\[
-0.5 =  0.9 \cdot e^{(-k \cdot 1.5)}
-\]</span></p>
-<p>We start with the equation:</p>
-<p><span class="math display">\[
-e^{(-k \cdot 1.5)} = \frac{0.5}{0.9}
-\]</span><br>
-</p>
-<p><span class="math display">\[
--k \cdot 1.5 = \ln\left(\frac{0.5}{0.9}\right)
-\]</span><br>
-</p>
-<p><span class="math display">\[
-k = - \frac{1}{1.5}\ln\left(\frac{0.7}{0.9}\right) \approx 0.3919
-\]</span><br>
-</p>
-<p>Resulting function:<br>
-</p>
-<p><span class="math display">\[
-mean\_TDR(d) = 0.9 \cdot e^{-0.3919 \cdot d}
-\]</span><br>
-</p>
-<p>Note to consider: The distance-based model assumes exponential decay of kelp influence, but we need to empirically validate this assumption.</p>
-<p><strong><em>Step 2: Define the Shape Parameters 𝛼 and 𝛽</em></strong><br>
-</p>
-<p>Next, we’ll express α and β as functions of distance to shape the Beta distribution accordingly.<br>
-</p>
-<p>Option 1: Constant Total Information<br>
-</p>
-<p>Assuming a constant total information (𝛼 + 𝛽) reflects consistent confidence in our prior across distances.</p>
-<p>• Set𝛼 +𝛽 =20 for moderate confidence. • Calculate α and β at each distance:</p>
-<p><span class="math display">\[
-a(d) = mean\_TDR(d) \cdot (𝛼 + 𝛽 )
-\]</span><br>
-</p>
-<p><span class="math display">\[
-𝛽(d) = (1 - mean\_TDR(d) \cdot (𝛼 + 𝛽 )
-\]</span><br>
-</p>
-<p>Note: The total information parameter (𝛼 + 𝛽 = 20) seems arbitrarily chosen.<br>
-</p>
-<p>Option 2: Decreasing Total Information<br>
-</p>
-<p>Alternatively, if uncertainty increases with distance, let (𝛼 + 𝛽) decrease exponentially:<br>
-</p>
-<p><span class="math display">\[
-(𝛼 + 𝛽)(d) = A \cdot e^{-h \cdot d}
-\]</span><br>
-</p>
-<p>Where:<br>
-</p>
-<ul>
-<li><em>𝐴</em> is the initial information weight at <em>𝑑</em> = 0.</li>
-<li><em>ℎ</em> controls the rate of decrease in information.<br>
+<li><strong>[Unknown]</strong>: <em>No reliable or reported depth</em> parameters for species occurrences in the water column. There will be an expected <em>low HDR</em>, as unknowns have no information to suggest an overlap in kelp boundaries</li>
+<li><strong>[Shallow nearshore]</strong>: Species are reported in <em>intertidal, surf-zone, shallow subtidal zones</em> with depth ranges of <em>0-10m</em> in the water column. There will be an expected <em>moderately high HDR</em> as there is a stronger opportunity for a possible overlap with canopy kelp systems.</li>
+<li><strong>[Deeper nearshore]</strong>: Species are reported in depths from approximately <em>10-30m</em> in the water column. There is an expected <em>moderately high HDR</em>, as there is an opportunity for possible overlap with kelp forest systems.</li>
+<li><strong>[Mid-water]</strong>: Species are reported mainly in offshore reefs, shelf waters or mid-water habitats that range in depth from <em>30-60m</em>. There is an expected <em>moderately low HDR</em>, as there is a limited potential of overlap, with possible deeper kelp forest systems which are not common. and episodic movements between vertical columns.<br>
 </li>
+<li><strong>[Deep water]</strong>: Species has a reported occurrence in deeper waters from which are greater than 60m. There is an expected <em>very low HDR</em> as there is a very low potential for kelp overlap.</li>
+<li><strong>[Many]</strong>: Species are reported at greater depth ranges encompassing depths from two or more options. There is an expected <em>moderately low HDR</em> as species occur outside of ~E. maxima~ distribution boundaries, while occurring in depths suitable for ~E. radiata~</li>
 </ul>
-<p>We need to select appropriate values for <em>𝐴</em> and <em>ℎ</em> to model the decreasing confidence.<br>
-</p>
+<p>NB! In kelp boundaries use the shallowest documented ecological relevant depth rather than the maximum depth. If a species occurs in shallow waters but also deeper waters but along the ‘West’ coast i.e.&nbsp;5-150m, then report shallow option. For species outside of kelp boundaries use ‘Many’.</p>
+<p><em>Step 1: Translating to Statistical Properties</em><br>
+For the beta distributions we will set alpha (α) and beta (β) values based on the following:</p>
 <ul>
-<li>Initial Information (<em>𝐴</em>): Let’s set <em>𝐴</em> = 20 to match the initial total information used in Option 1.</li>
-<li>Decay Rate (<em>ℎ</em>): We’ll choose <em>ℎ</em> such that the total information halves at <em>𝑑</em> = 1.5km (edge of the nearshore area).</li>
+<li>Mean = α/(α+β)</li>
+<li>Mode = (α-1)/(α+β-2) [when α,β &gt; 1]</li>
+<li>Variance = αβ/[(α+β)²(α+β+1)]</li>
 </ul>
-<p>Using the half-life formula for exponential decay<br>
-<span class="math display">\[
-d_{1/2} = \frac{ln(2)}{h}
+<p><em>Step 3: Setting Target Mean Values</em><br>
+I will select target mean values that would reflect the ecological relationships mentioned:</p>
+<ul>
+<li>Unknown ~ 0.5 (low HDR)</li>
+<li>Shallow nearshore ~ 0.7 (very high HDR)</li>
+<li>Deep nearshore ~ 0.6 (high HDR)</li>
+<li>Mid-water ~ 0.35 (moderately low HDR)</li>
+<li>Deep water ~ 0.125 (low HDR)</li>
+<li>Many ~ 0.3 (moderate HDR)</li>
+</ul>
+<p>These values create clear separation while remaining in the [0,1] interval appropriate for dependency measure.<br>
+</p>
+<p><em>Step 4: Determining Alpha and Beta Values</em><br>
+For each target mean, I solved for paramter combinations:</p>
+<ol type="1">
+<li>Unknown (target mean = 0.5) Using mean = α/(α+β) = 0.5</li>
+</ol>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.5
 \]</span><br>
-Solving for <em>h</em>:<br>
-<span class="math display">\[
-h = \frac{ln(2)}{d_{1/2}} = \frac{ln(2)}{1.5} \approx 0.4621
-\]</span><br>
-</p>
-<p><strong><em>Step 3: Compute α and β at Specific Distances</em></strong><br>
-Let’s calculate 𝛼 and 𝛽 at various distances using Option 1.<br>
-At *d** = 0km:<br>
-</p>
-<p><span class="math display">\[ mean\_HDR(0) = 0.9 \]</span><br>
-<span class="math display">\[ α(0) = 0.9 \cdot 20 = 18 \]</span><br>
-<span class="math display">\[ 𝛽(0) = (1 - 0.9) \cdot 20 = 2 \]</span><br>
-</p>
-<p>At <em>d</em> = 1.5km:<br>
-</p>
-<p><span class="math display">\[ mean\_HDR(1.5) = 0.5 \]</span><br>
-<span class="math display">\[ α(1.5) = 0.5 \cdot 20 = 10 \]</span><br>
-<span class="math display">\[ 𝛽(1.5) = (1 - 0.5) \cdot 20 = 10 \]</span><br>
-</p>
-<p>At <em>d</em> = 3km:<br>
-</p>
-<p><span class="math display">\[ mean\_HDR(3) = 0.277 \]</span><br>
-<span class="math display">\[ α(3) = 0.277 \cdot 20 \approx 5.54 \]</span><br>
-<span class="math display">\[ 𝛽(3) = (1 - 0.277) \cdot 20 \approx 14.46 \]</span><br>
-</p>
-<p>At <em>d</em> = 6km:<br>
-<span class="math display">\[ mean\_HDR(6) = 0.085 \]</span><br>
-<span class="math display">\[ α(6) = 0.085 \cdot 20 \approx 1.70 \]</span><br>
-<span class="math display">\[ 𝛽(6) = (1 - 0.085) \cdot 20 \approx 18.30 \]</span><br>
-</p>
-<p>Now let us calculate the total information (𝛼 + 𝛽) for Option 2 and model the total information as decreasing exponentially with distance from the shore. This will reflect an increasing uncertainty as we move offshore.<br>
-<br>
-Using the exponential decay formula:<br>
 </p>
 <p><span class="math display">\[
-(𝛼 + 𝛽)(d) = 20 \cdot e^{-0.4621 \cdot d}
+α = 0.5 \cdot (α+β)
 \]</span><br>
-</p>
-<p>Calculate at different distances:<br>
-</p>
-<p>At <em>d</em> = 0km:<br>
-<span class="math display">\[ (𝛼 + 𝛽)(0) = 20 \cdot e^{-0} = 20 \]</span><br>
-</p>
-<p>At <em>d</em> = 1.5km:<br>
-<span class="math display">\[ (𝛼 + 𝛽)(1.5) = 20 \cdot e^{-0.4621 \cdot 1.5} = 20 \cdot 0.5 = 10 \]</span><br>
-</p>
-<p>At <em>d</em> = 3km: <span class="math display">\[ (𝛼 + 𝛽)(3) = 20 \cdot e^{-0.4621 \cdot 3} = 20 \ cdot 0.25 = 5 \]</span><br>
-</p>
-<p>At <em>d</em> = 6km:<br>
-<span class="math display">\[ (𝛼 + 𝛽)(6) = 20 \cdot e^{-0.4621 \cdot 6} = 20 \cdot 0.0625  = 1.25 \]</span><br>
-</p>
-<p><strong><em>Step 4: Define the Beta Distributions</em></strong><br>
-</p>
-<p>Now, we can define the Beta distributions at each distance (Option 1):<br>
-</p>
-<ul>
-<li>𝑑 = 0km: Beta(𝛼 = 18,𝛽 = 2)</li>
-<li>𝑑 = 1.5km: Beta(𝛼 = 10,𝛽 = 10)</li>
-<li>𝑑 = 3km: Beta(𝛼 = 5.54,𝛽 = 14.46)</li>
-<li>𝑑 = 6km: Beta(𝛼 = 1.70,𝛽 = 18.30)</li>
-</ul>
-<p>These distributions reflect a high HDR nearshore that decreases with distance.<br>
-</p>
-<p>Similarly, we need to set up the Beta distribution for Option 2. Using the mean HDR function:<br>
 </p>
 <p><span class="math display">\[
-mean\_HDR(d) = M \cdot e^{-k \cdot d}
+α = 0.5 α + 0.5 β
 \]</span><br>
 </p>
-<p>Where:<br>
+<p><span class="math display">\[
+0.5α = 0.5 β
+\]</span><br>
 </p>
-<ul>
-<li><em>𝑀</em>= 0.9 (maximum expected HDR at the shore)</li>
-<li><em>𝑘</em> = 0.3919 (decay constant for mean HDR)</li>
-</ul>
-<p>Calculate 𝛼 and 𝛽 at different distances:<br>
-At <em>𝑑</em> = 0km:</p>
-<ul>
-<li>mean_HDR(0) = 0.9 ⋅𝑒−0 = 0.9</li>
-<li>Total Information: (𝛼 + 𝛽)(0) = 20</li>
-<li>𝛼(0) = 0.9 ⋅ 20 = 18 and 𝛽(0) = (1 − 0.9) ⋅ 20 =<br>
-</li>
-</ul>
-<p><br>
-At <em>𝑑</em> = 1.5km:<br>
+<p><span class="math display">\[
+α = β
+\]</span><br>
 </p>
-<ul>
-<li>mean_HDR(1.5) = 0.9 ⋅ 𝑒−0.3919 ⋅ 1.5 ≈ 0.5</li>
-<li>Total Information: (𝛼 + 𝛽)(1.5) = 10</li>
-<li>𝛼(1.5) = 0.5 ⋅ 10 = 5 and 𝛽(1.5) = (1 − 0.5) ⋅ 10 =</li>
-</ul>
-<p><br>
-At <em>𝑑</em> = 3km:<br>
+<p>I selected β = 1 and giving α = 1&nbsp;(uninformative prior)</p>
+<ol start="2" type="1">
+<li>Shallow nearshore (target mean = 0.7): Using mean = α/(α+β) = 0.7</li>
+</ol>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.7
+\]</span><br>
 </p>
-<ul>
-<li>mean_HDR(3) = 0.9 ⋅ 𝑒−0.3919 ⋅ 3 ≈ 0.277</li>
-<li>Total Information: (𝛼 + 𝛽)(3) = 5</li>
-<li>𝛼(3) = 0.277 ⋅ 5 ≈ 1.385 and 𝛽(3) = (1 − 0.277) ⋅ 5 ≈ 3.61</li>
-</ul>
-<p><br>
-5 At <em>𝑑</em> = 6km:<br>
+<p><span class="math display">\[
+α = 0.7 \cdot (α+β)
+\]</span><br>
 </p>
-<ul>
-<li>mean_HDR(6) = 0.9 ⋅ 𝑒−0.3919 ⋅ 6 ≈ 0.085</li>
-<li>Total Information: (𝛼 + 𝛽)(6) = 1.25</li>
-<li>𝛼(6) = 0.085 ⋅ 1.25 ≈ 0.106 and 𝛽(6) = (1 − 0.085) ⋅ 1.25 ≈ 1.144</li>
-</ul>
-<p><br>
-The table below summarises the calculated values:<br>
-<br>
-For Option 1:<br>
+<p><span class="math display">\[
+α = 0.7α + 0.7β
+\]</span><br>
 </p>
+<p><span class="math display">\[
+0.3α = 0.7β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = \frac{7}{3}β
+\]</span><br>
+</p>
+<p>I selected β = 3 and α = 7<br>
+</p>
+<ol start="3" type="1">
+<li>Deeper nearshore (target mean = 0.6):</li>
+</ol>
+<ul>
+<li>Using similar equations: α/(α+β) = 0.6</li>
+</ul>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.6
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.6 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.6α + 0.6β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.4α = 0.6β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 1.5β
+\]</span><br>
+</p>
+<p>I selected β = 4 and α = 6</p>
+<ol start="4" type="1">
+<li>Mid-water (target mean = 0.3):</li>
+</ol>
+<ul>
+<li>Using mean = α/(α+β) = 0.3</li>
+</ul>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.3
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.3 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.3α + 0.3β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.7α = 0.3β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.429β
+\]</span><br>
+</p>
+<p>I selected β = 7 and α = 3</p>
+<ol start="5" type="1">
+<li>Deep water (target mean = 0.125):</li>
+</ol>
+<ul>
+<li>Using mean = α/(α+β) = 0.125</li>
+</ul>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.125
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.125 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.125α + 0.125β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.875α = 0.125β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.143β
+\]</span><br>
+</p>
+<p>I selected β = 7 and α = 1</p>
+<ol start="6" type="1">
+<li>Many (target mean = 0.35): This represents a very strong prior belief that the dependency score is close to one</li>
+</ol>
+<ul>
+<li>Using mean = α/(α+β) = 0.35</li>
+</ul>
+<p><span class="math display">\[
+\frac{α}{(α+β)} = 0.35
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.35 \cdot (α+β)
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.35α + 0.35β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+0.65α = 0.35β
+\]</span><br>
+</p>
+<p><span class="math display">\[
+α = 0.538β
+\]</span><br>
+</p>
+<p>I selected β = 6 and α = 3.228</p>
+<p>Translated into Priors:</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 24%">
-<col style="width: 18%">
-<col style="width: 38%">
-<col style="width: 9%">
-<col style="width: 9%">
+<col style="width: 29%">
+<col style="width: 32%">
+<col style="width: 16%">
+<col style="width: 22%">
 </colgroup>
 <thead>
 <tr class="header">
-<th><strong>Distance (km)</strong></th>
-<th><strong>Mean HDR</strong></th>
-<th><strong>Total Information (α+β)</strong></th>
-<th><strong>α</strong></th>
-<th><strong>β</strong></th>
+<th><strong>Depth</strong></th>
+<th><strong>Beta Parameters (α, β)</strong></th>
+<th><strong>Mean (μ)</strong></th>
+<th><strong>Variance (σ²)</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>0</td>
-<td>0.9</td>
-<td>20</td>
-<td>18</td>
-<td>2</td>
+<td><strong>Unknown</strong></td>
+<td>α = 1, β = 7</td>
+<td>μ = 0.5</td>
+<td>σ² ≈ 0.0833</td>
 </tr>
 <tr class="even">
-<td>1.5</td>
-<td>0.5</td>
-<td>10</td>
-<td>10</td>
-<td>10</td>
+<td><strong>Shallow nearshore</strong></td>
+<td>α = 7, β = 3</td>
+<td>μ = 0.7</td>
+<td>σ² ≈ 0.0191</td>
 </tr>
 <tr class="odd">
-<td>3</td>
-<td>0.277</td>
-<td>5</td>
-<td>5.54</td>
-<td>14.46</td>
+<td><strong>Deeper nearshore</strong></td>
+<td>α = 6, β = 4</td>
+<td>μ = 0.6</td>
+<td>σ² ≈ 0.0218</td>
 </tr>
 <tr class="even">
-<td>6</td>
-<td>0.085</td>
-<td>1.25</td>
-<td>1.70</td>
-<td>18.30</td>
+<td><strong>Mid-water</strong></td>
+<td>α = 3, β = 7</td>
+<td>μ = 0.3</td>
+<td>σ² ≈ 0.0191</td>
+</tr>
+<tr class="odd">
+<td><strong>Deep water</strong></td>
+<td>α = 1, β = 7</td>
+<td>μ = 0.125</td>
+<td>σ² ≈ 0.0122</td>
+</tr>
+<tr class="even">
+<td><strong>Many</strong></td>
+<td>α = 3.228, β = 6</td>
+<td>μ = 0.35</td>
+<td>σ² ≈ 0.0222</td>
 </tr>
 </tbody>
 </table>
-<p>For Option 2:<br>
-</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 18%">
-<col style="width: 38%">
-<col style="width: 9%">
-<col style="width: 9%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>Distance (km)</strong></th>
-<th><strong>Mean HDR</strong></th>
-<th><strong>Total Information (α+β)</strong></th>
-<th><strong>α</strong></th>
-<th><strong>β</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td>0.9</td>
-<td>20</td>
-<td>18</td>
-<td>2</td>
-</tr>
-<tr class="even">
-<td>1.5</td>
-<td>0.5</td>
-<td>10</td>
-<td>5</td>
-<td>5</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>0.277</td>
-<td>5</td>
-<td>1.385</td>
-<td>3.615</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>0.085</td>
-<td>1.25</td>
-<td>0.106</td>
-<td>1.144</td>
-</tr>
-</tbody>
-</table>
-<p>The Beta distributions at these distances are then plotted in the figure below <a href="#fig-fig4" class="quarto-xref">Figure&nbsp;4</a>:</p>
+<p>A visualisation of these priors is given in <a href="#fig-fig4" class="quarto-xref">Figure&nbsp;4</a>:</p>
 <div class="cell" data-messages="false">
 <div class="cell-output-display">
 <div id="fig-fig4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
@@ -797,7 +531,91 @@ For Option 1:<br>
 <img src="HDR_Priors_files/figure-html/fig-fig4-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Figure #: Plot of option 1 and B showing, A) decay of the importance of kelp, B) total information, and C) the prior distributions as a function of depth from shore
+Figure&nbsp;4: Prior beta distribution of species depth profiles along the South African coast.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="question-3-coastal-position" class="level4">
+<h4 class="anchored" data-anchor-id="question-3-coastal-position"><strong>Question 3: Coastal position</strong></h4>
+<p>The priors for the distance from the shore effect on HDR will have to reflect the fact that species that occur closer to the shore are more likely to have a higher HDR on kelp, and as we move further offshore, the HDR on kelp is expected to decrease. The priors for this question are as follows:</p>
+<p><strong><em>Choices: [ Unknown |Immediate nearshore | Nearshore-offshore continuum | Offshore | Pelagic ]</em></strong></p>
+<ul>
+<li><strong>[Unknown]</strong>: There is <em>no clear coastal position</em> described for species in South African waters. There is an expected <em>low HDR</em> as no inferences can be drawn about a species accessibility to kelp forests.</li>
+<li><strong>[Immediare nearshore]</strong>: Species occupies zones <em>closer to the shore</em> such as intertidal, surf-zone, tidal pool, estuary mouth, inshore, nearshore, shallow coastal reef or rocky shore. There will be an expected <em>moderately high HDR</em> as these zones offer the highest opportunity for species accessibility to kelp forests.</li>
+<li><strong>[Offshore]</strong>: The species occurs in habitats <em>further from the shore</em> which include zones noted as offshore reefs, shelf waters, outer coastal zones, continental shelf, deeper coastal waters. There is an expected <em>low HDR</em> as there is a limited opportunity for species to access kelp forest systems.</li>
+<li><strong>[Nearshore-offshore]</strong>: Species occupies zones in between nearshore and offshore regions, together with both zones. These zones include habitats such as inshore and offshore reefs, coastal waters, bays and embayments, reef-associated migrations can be included in this section. There is an expected <em>moderate HDR</em> as there is a possible opportunity for species to access kelp forest environments.<br>
+</li>
+<li><strong>[Pelagic]</strong>: Species occupies zones that are <em>off the continental shelf</em>. These include zones such as pelagic, epipelagic, oceanic, open water column and offshore water. There is an expected <em>low HDR</em> as species has the lowest opportunity to access kelp forests.</li>
+<li><strong>[Many]</strong>: Species occupies nearshore and/or offshore zones together with zones that are <em>off the continental shelf</em>. There is an expected <em>moderately low HDR</em> as species has a low opportunity to access kelp forests.</li>
+</ul>
+<p>Translated into Priors:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 31%">
+<col style="width: 15%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Coastal position</strong></th>
+<th><strong>Beta Parameters (α, β)</strong></th>
+<th><strong>Mean (μ)</strong></th>
+<th><strong>Variance (σ²)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Unknown</strong></td>
+<td>α = 1, β = 1</td>
+<td>μ ≈ 0.5</td>
+<td>σ² ≈ 0.0833</td>
+</tr>
+<tr class="even">
+<td><strong>Immediate nearshore</strong></td>
+<td>α = 7, β = 3</td>
+<td>μ = 0.7</td>
+<td>σ² ≈ 0.0191</td>
+</tr>
+<tr class="odd">
+<td><strong>Offshore</strong></td>
+<td>α = 3, β = 7</td>
+<td>μ ≈ 0.3</td>
+<td>σ² ≈ 0.0191</td>
+</tr>
+<tr class="even">
+<td><strong>Nearshore-offshore</strong></td>
+<td>α = 5, β = 5</td>
+<td>μ ≈ 0.5</td>
+<td>σ² ≈ 0.0227</td>
+</tr>
+<tr class="odd">
+<td><strong>Pelagic</strong></td>
+<td>α = 1, β = 7</td>
+<td>μ ≈ 0.125</td>
+<td>σ² ≈ 0.0122</td>
+</tr>
+<tr class="even">
+<td><strong>Many</strong></td>
+<td>α = 3.228, β = 6</td>
+<td>μ = 0.35</td>
+<td>σ² ≈ 0.0222</td>
+</tr>
+</tbody>
+</table>
+<p>A visualisation of these priors is given in <a href="#fig-fig5" class="quarto-xref">Figure&nbsp;5</a>:</p>
+<div class="cell" data-layout-align="center" data-messages="false">
+<div class="cell-output-display">
+<div id="fig-fig5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fig5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="HDR_Priors_files/figure-html/fig-fig5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Prior beta distribution of species coastal position along the South African coast.
 </figcaption>
 </figure>
 </div>
@@ -859,16 +677,16 @@ Figure&nbsp;4: Figure #: Plot of option 1 and B showing, A) decay of the importa
 </tr>
 </tbody>
 </table>
-<p>A visualisation of these priors is given in <a href="#fig-fig5" class="quarto-xref">Figure&nbsp;5</a>:</p>
+<p>A visualisation of these priors is given in <a href="#fig-fig6" class="quarto-xref">Figure&nbsp;6</a>:</p>
 <div class="cell" data-layout-align="center" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig5" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-pos="t">
+<div id="fig-fig6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-fig5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="HDR_Priors_files/figure-html/fig-fig5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
+<div aria-describedby="fig-fig6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="HDR_Priors_files/figure-html/fig-fig6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-pos="t" width="672">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Plot of prior distributions for the habitat effect on HDR.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Prior Beta distributions for the habitat occurrence in kelp forests.
 </figcaption>
 </figure>
 </div>
@@ -936,16 +754,16 @@ Figure&nbsp;5: Plot of prior distributions for the habitat effect on HDR.
 </tr>
 </tbody>
 </table>
-<p>A visualisation of these priors is given in <a href="#fig-fig6" class="quarto-xref">Figure&nbsp;6</a>:</p>
+<p>A visualisation of these priors is given in <a href="#fig-fig7" class="quarto-xref">Figure&nbsp;7</a>:</p>
 <div class="cell" data-messages="false">
 <div class="cell-output-display">
-<div id="fig-fig6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
+<div id="fig-fig7" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-fig6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="HDR_Priors_files/figure-html/fig-fig6-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
+<div aria-describedby="fig-fig7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="HDR_Priors_files/figure-html/fig-fig7-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency in kelp forests
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Prior Beta distribution of species frequency of occurrence in kelp forests
 </figcaption>
 </figure>
 </div>
@@ -1033,13 +851,17 @@ Figure&nbsp;6: Figure 6: Prior beta distribution of species occurrence frequency
 </tr>
 </tbody>
 </table>
-<p>A visualisation of these priors is given in <strong>?@fig-fig7</strong>:</p>
+<p>A visualisation of these priors is given in <a href="#fig-fig8" class="quarto-xref">Figure&nbsp;8</a>:</p>
 <div class="cell" data-messages="false">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="HDR_Priors_files/figure-html/question6-prior-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Figure 7: Prior beta distribution of reported habitat function by species in kelp forests</figcaption>
+<div id="fig-fig8" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fig8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="HDR_Priors_files/figure-html/fig-fig8-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Prior beta distribution of reported habitat function by species across multiple life-stages
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1300,13 +1122,17 @@ For each target mean, I solved for paramter combinations:</p>
 </tr>
 </tbody>
 </table>
-<p>A visualisation of these priors is given in <strong>?@fig-fig8</strong>:</p>
+<p>A visualisation of these priors is given in <a href="#fig-fig9" class="quarto-xref">Figure&nbsp;9</a>:</p>
 <div class="cell" data-messages="false">
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="HDR_Priors_files/figure-html/question7-prior-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Figure 8: Prior beta distribution of reported habitat function by species in kelp forests</figcaption>
+<div id="fig-fig9" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-pos="t">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fig9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="HDR_Priors_files/figure-html/fig-fig9-1.png" class="img-fluid figure-img" data-fig-pos="t" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fig9-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Prior Beta distribution of reported habitat function of species in kelp forests
+</figcaption>
 </figure>
 </div>
 </div>
@@ -1569,7 +1395,7 @@ For each target mean, I solved for paramter combinations:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="HDR_Priors_files/figure-html/step2-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Figure 9: Prior beta distribution of example species habitat dependency ranking on kelp forests</figcaption>
+<figcaption>Figure 10: Prior beta distribution of example species habitat dependency ranking on kelp forests</figcaption>
 </figure>
 </div>
 </div>
