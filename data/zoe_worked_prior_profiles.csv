@@ -1,0 +1,15 @@
+route,question,parameter,selected_option,alpha,beta,weight,source
+Habitat,Q1,Geographic distribution,West,4,1,0.05,HDR_Priors.qmd worked example
+Habitat,Q2,Depth,15 m,1.3,1.2,0.05,HDR_Priors.qmd worked example
+Habitat,Q3,Coastal position,3 km,1.385,3.615,0.05,HDR_Priors.qmd worked example
+Habitat,Q4,Habitat occurrence,Both,6,1,0.15,HDR_Priors.qmd worked example
+Habitat,Q5,Frequency of occurrence,Regular occurrence,6,5,0.20,HDR_Priors.qmd worked example
+Habitat,Q6,Life-stage use,Adult,6,3,0.20,HDR_Priors.qmd worked example
+Habitat,Q7,Habitat function,Reported evidence,5,5,0.30,HDR_Priors.qmd worked example
+Trophic,Q1,Geographic distribution,West,4,1,0.05,TDR_Priors.qmd worked example
+Trophic,Q2,Depth,15 m,1.3,1.2,0.05,TDR_Priors.qmd worked example
+Trophic,Q3,Coastal position,3 km,1.385,3.615,0.05,TDR_Priors.qmd worked example
+Trophic,Q4,Trophic group,Omnivore,5,4,0.10,TDR_Priors.qmd worked example
+Trophic,Q5,Kelp-based source,Yes,5,5,0.15,TDR_Priors.qmd worked example
+Trophic,Q6,Proportion of prey items,Low,2,15,0.20,TDR_Priors.qmd worked example
+Trophic,Q7,Trophic function,Common,5.4,4.6,0.40,TDR_Priors.qmd worked example

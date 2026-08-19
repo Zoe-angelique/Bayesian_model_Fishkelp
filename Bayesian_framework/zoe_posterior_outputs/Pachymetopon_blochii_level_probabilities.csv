@@ -1,0 +1,13 @@
+"route","level","evidence_level","posterior_probability"
+"Habitat",0,"None",0.800096383498083
+"Habitat",1,"Co-occurrence",0.19990352529321
+"Habitat",2,"Use",9.12085457317454e-08
+"Habitat",3,"Selection",2.53314388795255e-13
+"Habitat",4,"Contribution",7.12444551185953e-20
+"Habitat",5,"Dependence",2.05505462042913e-28
+"Trophic",0,"None",0.0276847638430598
+"Trophic",1,"Co-occurrence",0.772123990901036
+"Trophic",2,"Use",0.196882133548997
+"Trophic",3,"Selection",0.00329549756846313
+"Trophic",4,"Contribution",1.36117493106557e-05
+"Trophic",5,"Dependence",2.38921052936346e-09
