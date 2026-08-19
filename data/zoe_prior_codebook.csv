@@ -1,0 +1,20 @@
+route,question,parameter,response_code,response_label,operational_definition,target_mean,concentration,alpha,beta,default_weight
+Both,Q1,Geographic overlap,G0,No overlap,"The verified species range does not intersect the mapped South African kelp range.",0.05,8,0.4,7.6,
+Both,Q1,Geographic overlap,G1,Marginal overlap,"Less than 25% of the verified South African range intersects the mapped kelp range.",0.10,8,0.8,7.2,
+Both,Q1,Geographic overlap,G2,Partial overlap,"Between 25% and 75% of the verified South African range intersects the mapped kelp range.",0.15,8,1.2,6.8,
+Both,Q1,Geographic overlap,G3,Extensive overlap,"More than 75% of the verified South African range intersects the mapped kelp range.",0.20,8,1.6,6.4,
+Both,Q1,Geographic overlap,GX,Unknown,"Range information is absent, contradictory or too imprecise to apply the thresholds.",0.10,8,0.8,7.2,
+Both,Q2,Vertical overlap,D0,No overlap,"The documented depth range does not overlap the locally verified kelp depth range.",0.05,8,0.4,7.6,
+Both,Q2,Vertical overlap,D1,Marginal overlap,"Less than 25% of the documented depth range overlaps the locally verified kelp depth range.",0.10,8,0.8,7.2,
+Both,Q2,Vertical overlap,D2,Partial overlap,"Between 25% and 75% of the documented depth range overlaps the locally verified kelp depth range.",0.15,8,1.2,6.8,
+Both,Q2,Vertical overlap,D3,Extensive overlap,"More than 75% of the documented depth range overlaps the locally verified kelp depth range.",0.20,8,1.6,6.4,
+Both,Q2,Vertical overlap,DX,Unknown,"Depth information or the local kelp depth limit is absent or too imprecise to apply the thresholds.",0.10,8,0.8,7.2,
+Both,Q3,Coastal access,C0,No access,"The species is restricted to pelagic or offshore habitat beyond plausible access to kelp forests.",0.05,8,0.4,7.6,
+Both,Q3,Coastal access,C1,Limited access,"The species is mainly offshore or pelagic but has documented occasional nearshore occurrence.",0.10,8,0.8,7.2,
+Both,Q3,Coastal access,C2,Partial access,"The species regularly uses both nearshore and offshore habitats.",0.15,8,1.2,6.8,
+Both,Q3,Coastal access,C3,Extensive access,"The species is primarily associated with shallow inshore rocky reef or comparable coastal habitat within reach of kelp.",0.20,8,1.6,6.4,
+Both,Q3,Coastal access,CX,Unknown,"Coastal-position information is absent, contradictory or too imprecise to apply the definitions.",0.10,8,0.8,7.2,
+Trophic,Q4,Feeding guild,F0,Animal-dominated,"Animal material exceeds 70% under one reported quantitative diet metric; this does not exclude an indirect kelp-carbon pathway.",0.10,8,0.8,7.2,0.40
+Trophic,Q4,Feeding guild,F2,Mixed plant and animal diet,"Both plant and animal material exceed 10% and neither exceeds 70% under the same reported quantitative diet metric.",0.15,8,1.2,6.8,0.40
+Trophic,Q4,Feeding guild,F3,Plant or detritus dominated,"Macroalgae, other plant material or detritus exceeds 70% under one reported quantitative diet metric; kelp itself need not be present.",0.20,8,1.6,6.4,0.40
+Trophic,Q4,Feeding guild,FX,Unknown,"Diet information is absent, contradictory or based only on an unverified assertion.",0.10,8,0.8,7.2,0.40

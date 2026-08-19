@@ -7,9 +7,10 @@ Blamey and Bolton (2018).
 Start with
 [`Bayesian_framework/Zoe_HDR_TDR_evidence_model.qmd`](Bayesian_framework/Zoe_HDR_TDR_evidence_model.qmd).
 AJ wrote that document as the main instructional analysis for Zoë. It retains
-her HDR and TDR question priors, treats question weights as uncertain, estimates
-agreement among literature sources, and reports posterior probabilities for the
-six evidence levels.
+her HDR and TDR question structure, adds operational prior and evidence
+codebooks, treats question weights as uncertain, estimates agreement among
+literature sources, and reports posterior probabilities for the six evidence
+levels.
 
 The packaged data are documented in
 [`data/fishkelp_v7/README.md`](data/fishkelp_v7/README.md).
