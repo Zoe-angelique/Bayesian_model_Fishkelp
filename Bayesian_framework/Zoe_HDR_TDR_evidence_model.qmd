@@ -24,12 +24,12 @@ knitr:
 
 FishKelp is used here to identify the fish with the strongest estimated kelp relationship, and it supplies a reproducible set of literature records. The response follows the ordered evidence hierarchy:
 
-1. None
-2. Co-occurrence
-3. Use
-4. Selection
-5. Contribution
-6. Dependence
+0. None
+1. Co-occurrence
+2. Use
+3. Selection
+4. Contribution
+5. Dependence
 
 The evidence hierarchy has to be extracted from the literature and the model cannot produce it. That is what FishKelp does. Your model then combines the literature evidence with context information from your questionnaire to produce a posterior distribution of the Habitat Dependency Rank (HDR) and Trophic Dependency Rank (TDR).
 
