@@ -1,0 +1,277 @@
+---
+title: "Running the FishKelp model for the Blamey and Bolton fish"
+subtitle: "Instructions and results for Zoë"
+author: "AJ Smit"
+date: last-modified
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    code-tools: true
+    embed-resources: true
+    theme: journal
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    fig-align: center
+---
+
+# Zoë, start here
+
+I have prepared the FishKelp data for every fish listed in Table 2 of
+Blamey and Bolton (2018). This file shows you what is available, how the model
+uses it, and how to repeat the full analysis on your computer.
+
+The paper lists 30 fish associated with South African kelp forest and temperate
+reef ecosystems. That wording needs care. The table combines two habitats, and
+its columns describe fisheries and exploitation status. I have used the table
+to define the fish set, but not as evidence that each fish uses kelp. The
+FishKelp literature assessment supplies that evidence.
+
+Please keep the trophic and habitat routes separate. A fish may feed on kelp or
+kelp-associated prey without using kelp structure as habitat. It may also occur
+within a kelp forest without evidence of either action. The model retains those
+distinctions.
+
+# What I have packaged for you
+
+The `data/fishkelp_v7` directory contains the published species list, the
+FishKelp evidence records for those species, their traits, and the posterior
+summaries from the production model. I have included the full model-ready R
+object as well. You do not need access to my FishKelp directory to run this
+analysis.
+
+Five of the 30 fish do not have a posterior estimate in FishKelp v7.
+*Chrysoblephus anglicus* falls outside the review boundary. *Coryphaena
+hippurus* and *Polysteganus praeorbitalis* do not occur in the v7 review species
+frame. *Seriola lalandi* and *Thyrsites atun* are in scope, but no model-ready
+records occur for them in this snapshot.
+
+Do not replace those missing estimates with zero. Missing means that the model
+did not estimate the species. A zero would state that the evidence supports no
+kelp relationship, which is a different claim.
+
+```{r setup}
+qmd_path <- normalizePath(knitr::current_input(dir = TRUE), mustWork = TRUE)
+repo_root <- dirname(dirname(qmd_path))
+bundle_dir <- file.path(repo_root, "data", "fishkelp_v7")
+
+fish <- read.csv(
+  file.path(bundle_dir, "blamey_bolton_2018_fish.csv"),
+  stringsAsFactors = FALSE,
+  check.names = FALSE
+)
+packaged_estimates <- read.csv(
+  file.path(bundle_dir, "fishkelp_posterior_estimates_v7.csv"),
+  stringsAsFactors = FALSE,
+  check.names = FALSE,
+  na.strings = c("NA", "")
+)
+estimates <- packaged_estimates[packaged_estimates$modelled_v7,]
+estimates$species <- estimates$accepted_name
+estimates <- estimates[order(-estimates$T_reach),]
+```
+
+# Check the species coverage
+
+The status table below records all 30 fish. The record counts refer to evidence
+from the full FishKelp literature assessment, not only to Blamey and Bolton
+(2018).
+
+```{r coverage-table}
+coverage <- fish[, c(
+  "table_order",
+  "common_name_published",
+  "scientific_name_published",
+  "accepted_name",
+  "model_status_v7",
+  "n_model_records_v7",
+  "n_analysis_records_v7"
+)]
+names(coverage) <- c(
+  "Order",
+  "Common name",
+  "Published name",
+  "FishKelp name",
+  "Model status",
+  "Model records",
+  "Analysis records"
+)
+knitr::kable(coverage, caption = "Coverage of the 30 fish in Table 2.")
+```
+
+# Current model result
+
+This report uses the production summaries packaged from FishKelp v7. The model
+estimates 25 of the paper's fish.
+
+```{r posterior-table}
+posterior_table <- estimates[, c(
+  "species",
+  "T_reach",
+  "T_reach_lo",
+  "T_reach_hi",
+  "H_reach",
+  "H_reach_lo",
+  "H_reach_hi"
+)]
+names(posterior_table) <- c(
+  "Species",
+  "T mean",
+  "T 2.5%",
+  "T 97.5%",
+  "H mean",
+  "H 2.5%",
+  "H 97.5%"
+)
+knitr::kable(
+  posterior_table,
+  digits = 3,
+  caption = "Posterior expected evidentiary reach for the 25 modelled fish."
+)
+```
+
+```{r forest-plot}
+#| fig-width: 10
+#| fig-height: 11
+#| fig-cap: "Trophic and habitat evidentiary reach for the 25 modelled fish. Points show posterior means and lines show 95% credible intervals."
+plot_data <- rbind(
+  data.frame(
+    species = estimates$species,
+    Route = "Trophic",
+    Mean = estimates$T_reach,
+    Lower = estimates$T_reach_lo,
+    Upper = estimates$T_reach_hi
+  ),
+  data.frame(
+    species = estimates$species,
+    Route = "Habitat",
+    Mean = estimates$H_reach,
+    Lower = estimates$H_reach_lo,
+    Upper = estimates$H_reach_hi
+  )
+)
+plot_data$species <- factor(
+  plot_data$species,
+  levels = rev(estimates$species)
+)
+
+ggplot2::ggplot(
+  plot_data,
+  ggplot2::aes(x = Mean, y = species, colour = Route)
+) +
+  ggplot2::geom_vline(
+    xintercept = 0:4,
+    colour = "grey90",
+    linewidth = 0.35
+  ) +
+  ggplot2::geom_segment(
+    ggplot2::aes(x = Lower, xend = Upper, yend = species),
+    linewidth = 0.55
+  ) +
+  ggplot2::geom_point(size = 1.8) +
+  ggplot2::facet_wrap(~Route, nrow = 1) +
+  ggplot2::scale_colour_manual(
+    values = c(Trophic = "#A64833", Habitat = "#276678"),
+    guide = "none"
+  ) +
+  ggplot2::scale_x_continuous(
+    breaks = 0:4,
+    labels = c("None", "Co-occurrence", "Use", "Selection", "Contribution"),
+    limits = c(0, 4)
+  ) +
+  ggplot2::labs(
+    x = "Expected evidentiary level",
+    y = NULL
+  ) +
+  ggplot2::theme_minimal(base_size = 11) +
+  ggplot2::theme(
+    panel.grid.major.y = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    strip.text = ggplot2::element_text(face = "bold"),
+    axis.text.x = ggplot2::element_text(angle = 25, hjust = 1)
+  )
+```
+
+*Pachymetopon blochii* has the highest trophic reach among the fish. Its
+habitat estimate is also high relative to the other modelled fish, although
+*Poroderma africanum* has the highest habitat mean. These are relative evidence
+positions. They are not probabilities that either species depends on kelp.
+
+# Run the full model
+
+Please use the production run when you need to regenerate the posteriors rather
+than inspect the packaged results. Open a terminal at the repository root and
+run:
+
+```{bash, eval=FALSE}
+Rscript R/run_fishkelp_v7_suite.R
+```
+
+The run uses four chains of 60,000 iterations, with the first 15,000 iterations
+of each chain discarded. It retains 180,000 draws. On my current machine this
+takes several minutes and uses appreciably more memory than rendering this
+document.
+
+The script fits the complete FishKelp dataset, which contains 3,648 records for
+62 model species. It then extracts the 25 Blamey and Bolton fish with estimates.
+Please do not subset the input before fitting. The species share model
+coefficients and a correlated species-effect distribution, so an early subset
+would change the estimates you are trying to reproduce.
+
+The run checks every free fixed effect and cut-point. It stops when maximum
+split-Rhat exceeds 1.05. It also compares the new species summaries with the
+packaged FishKelp results. The largest difference must be no more than 0.01.
+
+The new results are written to `model_outputs`. That directory is excluded from
+Git because the posterior-draw file can be large. When the run finishes, render
+this document again:
+
+```{bash, eval=FALSE}
+quarto render Bayesian_framework/FishKelp_full_species_suite.qmd
+```
+
+The new posterior summaries will be in
+`model_outputs/blamey_bolton_fish_posterior_summary_v7.csv`.
+
+# Reproduce the focal prior and posterior figure
+
+The detailed *P. blochii* report includes the blue dashed prior distribution
+and red posterior distribution that you wanted. Render it with:
+
+```{bash, eval=FALSE}
+quarto render Bayesian_framework/FishKelp_strongest_fish_posteriors.qmd
+```
+
+That document uses the same packaged data. Its retained draws save you from
+repeating the full fit whenever you change the prose or figure formatting.
+
+# Interpret the evidentiary scale
+
+The horizontal scale represents the expected position in the evidence hierarchy,
+namely None, Co-occurrence, Use, Selection, and Contribution. Dependence remains
+level 5 in the review definitions, but no qualifying Dependence record occurs in
+the fitted data.
+
+Do not describe the expected level as a percentage. A posterior mean between
+None and Co-occurrence expresses uncertainty across ordered evidence
+categories. It does not mean that a fish is a given percentage dependent on
+kelp. The ecological claim must remain tied to the source evidence and its
+route.
+
+# Updating the FishKelp data
+
+I can refresh this package from a newer FishKelp checkout with:
+
+```{bash, eval=FALSE}
+Rscript R/package_fishkelp_v7_data.R /path/to/FishKelp
+```
+
+The package records the FishKelp commit and source checksums in
+`data/fishkelp_v7/SOURCE_PROVENANCE.csv`. Please tell me before replacing the
+snapshot, since a change to the evidence data requires a new model fit and a
+check of every reported result.

@@ -1,0 +1,8 @@
+.DS_Store
+.quarto/
+**/.DS_Store
+.RData
+.Rhistory
+*.code-workspace
+Rplots.pdf
+model_outputs/

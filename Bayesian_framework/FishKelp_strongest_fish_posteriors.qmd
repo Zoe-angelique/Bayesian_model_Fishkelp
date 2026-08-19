@@ -1,0 +1,466 @@
+---
+title: "Posterior distributions for the strongest kelp-associated fish"
+subtitle: "A reproducible link to the FishKelp v7 evidence-hierarchy model"
+author: "AJ Smit"
+date: last-modified
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    code-tools: true
+    embed-resources: true
+    theme: journal
+execute:
+  echo: true
+  warning: false
+  message: false
+knitr:
+  opts_chunk:
+    fig-align: center
+---
+
+# Purpose
+
+This document identifies the fish with the strongest modelled relationship with
+kelp in the FishKelp v7 analysis. It then plots that species' trophic and habitat
+posterior distributions. The two routes remain separate throughout.
+
+The document does **not** convert the evidence hierarchy into a percentage of
+"kelp dependence". The FishKelp response is ordinal: None, Co-occurrence, Use,
+Selection, Contribution and Dependence. The fitted v7 data contain observations
+from None to Contribution; Dependence is defined by the review instrument but is
+not represented by a qualifying record. Consequently, the posterior quantity
+shown here is the continuous **expected evidence level** on the observed 0--4
+scale.
+
+# Does the proposed framework make sense?
+
+The ecological structure in `Bayesian_framework_Read_Me.qmd` is useful. In
+particular:
+
+- trophic and habitat evidence should be analysed separately;
+- uncertainty and the specificity of each record should affect inference; and
+- the ordered claims from co-occurrence through dependence should not be treated
+  as synonyms.
+
+The code in `Posteriors.qmd` is not yet a valid implementation of that idea. It
+draws simulated observations from a selected prior and then fits a Beta density
+back to those same observations. This is circular. The optimisation step does
+not combine a stated prior with a data likelihood, does not use the FishKelp
+records, and does not use Stan despite loading `rstan`. It also optimises the two
+Beta shape parameters without constraining them to be positive.
+
+A Beta distribution would be appropriate for an unknown continuous proportion
+with a compatible sampling model. The FishKelp response is instead an ordered
+evidence category. Assigning a high Beta prior merely because a fish occurs in
+the west or at kelp depth also risks treating access to kelp as evidence of use
+or dependence. That contradicts the evidence hierarchy. In the v7 analysis,
+region and species traits are predictors, while the highest level supported by
+each source is the response.
+
+# Analysis inputs
+
+The repository contains a dated copy of the model input, posterior summary,
+evidence records and posterior draws used here. The paths below are relative to
+this document, so the report will work from a fresh clone without access to
+my FishKelp directory.
+
+```{r setup}
+qmd_path <- normalizePath(knitr::current_input(dir = TRUE), mustWork = TRUE)
+analysis_dir <- dirname(qmd_path)
+repo_root <- dirname(analysis_dir)
+bundle_dir <- file.path(repo_root, "data", "fishkelp_v7")
+
+model_data_path <- file.path(
+  bundle_dir, "model", "tdr_model_data_v7.rds"
+)
+estimate_path <- file.path(
+  bundle_dir, "fishkelp_posterior_estimates_v7.csv"
+)
+evidence_path <- file.path(
+  bundle_dir, "fishkelp_model_records_v7.csv"
+)
+
+output_dir <- file.path(analysis_dir, "posterior_outputs")
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+
+estimates <- read.csv(
+  estimate_path,
+  stringsAsFactors = FALSE,
+  na.strings = c("NA", "")
+)
+estimates$species <- estimates$accepted_name
+fish_estimates <- estimates[
+  estimates$modelled_v7 &
+    estimates$n_T > 0 & estimates$n_H > 0,
+]
+fish_estimates$mean_route_reach <- rowMeans(
+  fish_estimates[, c("T_reach", "H_reach")]
+)
+
+# Match the ordering used in the FishKelp summary.
+fish_estimates <- fish_estimates[
+  order(-fish_estimates$T_reach, -fish_estimates$H_reach),
+]
+selected_species <- fish_estimates$species[1]
+species_slug <- gsub("[^A-Za-z0-9]+", "_", selected_species)
+
+top_habitat_fish <- fish_estimates$species[which.max(fish_estimates$H_reach)]
+```
+
+## Selection result
+
+The FishKelp summary ranks evidence-bearing fish by trophic reach. That rule
+selects *`r selected_species`*. It is also the fish with the highest unweighted
+mean across the two routes. The habitat-only leader is *`r top_habitat_fish`*,
+so *`r selected_species`* should not be described as the highest-ranked fish
+under every possible definition of "strongest".
+
+```{r ranking-table}
+ranking_table <- head(
+  fish_estimates[, c(
+    "species", "n_T", "T_reach", "T_reach_lo", "T_reach_hi",
+    "n_H", "H_reach", "H_reach_lo", "H_reach_hi", "mean_route_reach"
+  )],
+  10
+)
+names(ranking_table) <- c(
+  "Species", "T records", "T mean", "T 2.5%", "T 97.5%",
+  "H records", "H mean", "H 2.5%", "H 97.5%", "Mean of routes"
+)
+knitr::kable(
+  ranking_table,
+  digits = 3,
+  caption = "The ten fish with the highest trophic expected reach, matching the FishKelp summary order."
+)
+```
+
+The coded evidence for *`r selected_species`* has the following distribution
+across observed levels. These are input records, not posterior probabilities.
+
+```{r evidence-table}
+evidence <- read.csv(evidence_path, stringsAsFactors = FALSE, check.names = FALSE)
+names(evidence)[8] <- "level"
+selected_evidence <- evidence[evidence$species == selected_species,]
+evidence_counts <- as.data.frame(
+  table(
+    Route = factor(selected_evidence$route, levels = c("T", "H")),
+    Level = factor(selected_evidence$level, levels = 0:4)
+  )
+)
+evidence_counts <- evidence_counts[evidence_counts$Freq > 0,]
+evidence_counts$Route <- c(T = "Trophic", H = "Habitat")[
+  as.character(evidence_counts$Route)
+]
+evidence_counts$Level <- c(
+  "0: None", "1: Co-occurrence", "2: Use",
+  "3: Selection", "4: Contribution"
+)[as.integer(evidence_counts$Level) + 1]
+names(evidence_counts)[3] <- "Records"
+knitr::kable(evidence_counts, caption = "Coded records for the selected fish.")
+```
+
+# Load the posterior draws
+
+The repository includes the 180,000 retained draws from the FishKelp v7 fit.
+Keeping the model fit separate makes this report quicker and easier to follow.
+The full fitting command appears near the end of the document.
+
+```{r posterior-draws}
+posterior_draws_path <- file.path(
+  output_dir, "strongest_fish_posterior_draws_v7.rds"
+)
+posterior_fit <- readRDS(posterior_draws_path)
+posterior_draws <- posterior_fit$draws
+```
+
+# Posterior summaries
+
+The summary below is calculated directly from the retained draws.
+
+```{r posterior-summary}
+summarise_route <- function(values, route) {
+  data.frame(
+    Species = selected_species,
+    Route = route,
+    Mean = mean(values),
+    Median = median(values),
+    `2.5%` = unname(quantile(values, 0.025)),
+    `97.5%` = unname(quantile(values, 0.975)),
+    check.names = FALSE
+  )
+}
+
+posterior_summary <- rbind(
+  summarise_route(posterior_draws$Trophic, "Trophic"),
+  summarise_route(posterior_draws$Habitat, "Habitat")
+)
+
+summary_csv_path <- file.path(
+  output_dir, paste0(species_slug, "_posterior_summary_v7.csv")
+)
+write.csv(posterior_summary, summary_csv_path, row.names = FALSE)
+
+knitr::kable(
+  posterior_summary,
+  digits = 3,
+  caption = "Posterior expected evidence reach in the West (kelp) context."
+)
+```
+
+# Prior-predictive reference
+
+Zoë's existing figures compare a blue dashed prior curve with a red posterior
+curve. The same comparison is useful here, provided that "prior" has a precise
+meaning. The code below samples the prior-predictive expected reach implied by
+the actual FishKelp v7 priors. It includes the priors on route-specific
+coefficients, the species effect and the ordered cut-points. It does not reuse a
+posterior as a prior and does not simulate observations from a selected Beta
+curve.
+
+```{r prior-predictive-draws}
+model_data <- readRDS(model_data_path)
+species_index <- match(selected_species, model_data$species_lab)
+
+set.seed(20260819)
+n_prior_draws <- 50000L
+nu0 <- 40
+tau0 <- 0.7
+cut_sd <- 5
+
+# Under Sigma ~ inverse-Wishart(nu0, S0) and u | Sigma ~ N(0, Sigma),
+# a single species effect has a multivariate t marginal distribution.
+prior_df <- nu0 - model_data$D + 1
+s0_diagonal <- tau0^2 * (nu0 - model_data$D - 1)
+species_effect_scale <- sqrt(s0_diagonal / prior_df)
+
+draw_prior_location <- function(route_index) {
+  coefficient_draws <- matrix(
+    rnorm(
+      n_prior_draws * model_data$P,
+      sd = rep(model_data$prior_scale, each = n_prior_draws)
+    ),
+    nrow = n_prior_draws,
+    ncol = model_data$P
+  )
+  fixed_location <- drop(
+    coefficient_draws %*% model_data$X_ref[species_index,]
+  )
+  species_effect <- species_effect_scale * rnorm(n_prior_draws) /
+    sqrt(rchisq(n_prior_draws, df = prior_df) / prior_df)
+  fixed_location + species_effect
+}
+
+draw_prior_cutpoints <- function() {
+  free_cutpoints <- matrix(
+    abs(rnorm(
+      n_prior_draws * (model_data$C - 2L),
+      sd = cut_sd
+    )),
+    nrow = n_prior_draws
+  )
+  free_cutpoints <- t(apply(free_cutpoints, 1, sort))
+  cbind(0, free_cutpoints)
+}
+
+expected_reach <- function(location, cutpoints) {
+  rowSums(1 - pnorm(cutpoints - location))
+}
+
+prior_draws <- data.frame(
+  Trophic = expected_reach(
+    draw_prior_location(1), draw_prior_cutpoints()
+  ),
+  Habitat = expected_reach(
+    draw_prior_location(2), draw_prior_cutpoints()
+  )
+)
+```
+
+# Prior and posterior distributions
+
+The next figure follows the presentation used in
+`Posteriors_files/figure-html`: blue dashed curves are prior distributions and
+red solid curves are posterior distributions. Unlike the earlier example
+figures, both curves here are generated by the fitted FishKelp model and use the
+evidence-reach scale.
+
+```{r prior-posterior-plot}
+#| fig-width: 10
+#| fig-height: 5
+#| fig-cap: "Prior-predictive and posterior distributions of trophic and habitat evidence reach for Pachymetopon blochii."
+# Convert the wide draws into the long form expected by ggplot2.
+long_draws <- function(draws, distribution) {
+  long <- stack(draws[c("Trophic", "Habitat")])
+  data.frame(
+    Route = long$ind,
+    Distribution = distribution,
+    Reach = long$values
+  )
+}
+
+comparison_long <- rbind(
+  long_draws(prior_draws, "Prior"),
+  long_draws(posterior_draws, "Posterior")
+)
+comparison_long$Route <- factor(
+  comparison_long$Route,
+  levels = c("Trophic", "Habitat")
+)
+comparison_long$Distribution <- factor(
+  comparison_long$Distribution,
+  levels = c("Prior", "Posterior")
+)
+
+level_labels <- c("None", "Co-occurrence", "Use", "Selection", "Contribution")
+comparison_colours <- c(Prior = "#1F4AFF", Posterior = "#E31A1C")
+comparison_linetypes <- c(Prior = "dashed", Posterior = "solid")
+
+p_prior_posterior <- ggplot2::ggplot(
+  comparison_long,
+  ggplot2::aes(
+    x = Reach,
+    colour = Distribution,
+    linetype = Distribution
+  )
+) +
+  ggplot2::geom_density(linewidth = 0.9, adjust = 1.1) +
+  ggplot2::facet_wrap(
+    ~Route,
+    nrow = 1,
+    scales = "free_y",
+    labeller = ggplot2::labeller(
+      Route = c(
+        Trophic = "Trophic evidence reach",
+        Habitat = "Habitat evidence reach"
+      )
+    )
+  ) +
+  ggplot2::scale_colour_manual(values = comparison_colours) +
+  ggplot2::scale_linetype_manual(values = comparison_linetypes) +
+  ggplot2::scale_x_continuous(
+    breaks = 0:4,
+    labels = level_labels,
+    limits = c(0, 4),
+    expand = ggplot2::expansion(mult = c(0.01, 0.01))
+  ) +
+  ggplot2::labs(
+    title = paste("Prior and posterior distributions for", selected_species),
+    subtitle = "FishKelp v7 ordered-probit model",
+    x = "Expected evidence level",
+    y = "Density",
+    colour = NULL,
+    linetype = NULL
+  ) +
+  ggplot2::theme_classic(base_size = 12) +
+  ggplot2::theme(
+    strip.background = ggplot2::element_blank(),
+    strip.text = ggplot2::element_text(face = "bold", size = 12),
+    axis.text.x = ggplot2::element_text(angle = 25, hjust = 1),
+    legend.position = "top",
+    plot.title.position = "plot"
+  )
+
+prior_posterior_png <- file.path(
+  output_dir, paste0(species_slug, "_prior_vs_posterior_v7.png")
+)
+prior_posterior_pdf <- file.path(
+  output_dir, paste0(species_slug, "_prior_vs_posterior_v7.pdf")
+)
+ggplot2::ggsave(
+  prior_posterior_png, p_prior_posterior,
+  width = 10, height = 5, dpi = 300
+)
+ggplot2::ggsave(
+  prior_posterior_pdf, p_prior_posterior,
+  width = 10, height = 5
+)
+
+for (route_name in levels(comparison_long$Route)) {
+  single_comparison <- ggplot2::ggplot(
+    comparison_long[comparison_long$Route == route_name,],
+    ggplot2::aes(
+      x = Reach,
+      colour = Distribution,
+      linetype = Distribution
+    )
+  ) +
+    ggplot2::geom_density(linewidth = 0.9, adjust = 1.1) +
+    ggplot2::scale_colour_manual(values = comparison_colours) +
+    ggplot2::scale_linetype_manual(values = comparison_linetypes) +
+    ggplot2::scale_x_continuous(
+      breaks = 0:4,
+      labels = level_labels,
+      limits = c(0, 4),
+      expand = ggplot2::expansion(mult = c(0.01, 0.01))
+    ) +
+    ggplot2::labs(
+      title = paste(route_name, "reach:", selected_species),
+      subtitle = "Blue dashed: prior; red solid: posterior",
+      x = "Expected evidence level",
+      y = "Density",
+      colour = NULL,
+      linetype = NULL
+    ) +
+    ggplot2::theme_classic(base_size = 12) +
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_text(angle = 25, hjust = 1),
+      legend.position = "top"
+    )
+
+  route_comparison_file <- file.path(
+    output_dir,
+    paste0(
+      species_slug,
+      "_",
+      tolower(route_name),
+      "_prior_vs_posterior_v7.png"
+    )
+  )
+  ggplot2::ggsave(
+    route_comparison_file, single_comparison,
+    width = 7.5, height = 4.8, dpi = 300
+  )
+}
+
+p_prior_posterior
+```
+
+# Interpretation
+
+For *`r selected_species`*, the trophic posterior mean is
+`r sprintf("%.3f", posterior_summary$Mean[posterior_summary$Route == "Trophic"])`
+(95% credible interval
+`r sprintf("%.3f--%.3f", posterior_summary[["2.5%"]][posterior_summary$Route == "Trophic"], posterior_summary[["97.5%"]][posterior_summary$Route == "Trophic"])`).
+The habitat posterior mean is
+`r sprintf("%.3f", posterior_summary$Mean[posterior_summary$Route == "Habitat"])`
+(95% credible interval
+`r sprintf("%.3f--%.3f", posterior_summary[["2.5%"]][posterior_summary$Route == "Habitat"], posterior_summary[["97.5%"]][posterior_summary$Route == "Habitat"])`).
+
+These are relative evidence-reach estimates, not probabilities that the fish
+is kelp-dependent. *P. blochii* is the strongest fish in the stated overall and
+trophic rankings, but its posterior remains concentrated near the lower part of
+the hierarchy. The result supports describing it as the leading fish candidate
+for a kelp relationship in this evidence base. It does not support calling it kelp-
+dependent: no fish record reaches Contribution or Dependence under the review
+criteria.
+
+# Reproduction and outputs
+
+Render from the repository root with:
+
+```{bash, eval=FALSE}
+quarto render Bayesian_framework/FishKelp_strongest_fish_posteriors.qmd
+```
+
+Run the full model after a data change with:
+
+```{bash, eval=FALSE}
+Rscript R/run_fishkelp_v7_suite.R
+```
+
+The model script updates the retained focal draws. Render this report again to
+update the figures. The HTML report is written beside this `.qmd`. The combined
+PNG and PDF, route-specific PNGs, posterior draws and numerical summary are written to
+`Bayesian_framework/posterior_outputs/`.
