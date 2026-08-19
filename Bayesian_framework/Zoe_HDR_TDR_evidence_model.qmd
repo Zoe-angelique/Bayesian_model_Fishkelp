@@ -1,6 +1,6 @@
 ---
-title: "Zoë's Bayesian habitat and trophic evidence model"
-subtitle: "A worked analysis using the strongest kelp-associated fish"
+title: "A Bayesian model for habitat and trophic evidence"
+subtitle: "Working through Zoë's HDR and TDR framework for the strongest kelp-associated fish"
 author: "AJ Smit"
 date: last-modified
 format:
@@ -20,17 +20,19 @@ knitr:
     fig-align: center
 ---
 
-# What I have done
+# Aim
 
-Zoë, your central idea works. You define several lines of prior information for
-habitat and trophic relationships, combine them into an integrated Beta prior,
-and update that prior with the literature evidence. Habitat and trophic evidence
-remain separate throughout.
+Zoë, I think the central idea is worth pursuing. You have defined separate sets
+of questions about habitat and trophic relationships, with the intention that
+the answers should inform a prior distribution and that evidence from the
+literature should update it. Habitat and trophic evidence remain separate
+throughout the analysis.
 
-I have kept that structure. This is your HDR and TDR model, rather than the
-FishKelp model. I use the FishKelp analysis only to select the worked fish and
-to supply a reproducible set of literature records. The response is the ordered
-evidence hierarchy:
+I have treated this as a development of your Habitat Dependency Rank (HDR) and
+Trophic Dependency Rank (TDR) model, not as an implementation of FishKelp.
+FishKelp serves two limited purposes here: it identifies the fish with the
+strongest estimated kelp relationship, and it supplies a reproducible set of
+literature records. The response follows the ordered evidence hierarchy:
 
 0. None
 1. Co-occurrence
@@ -39,19 +41,21 @@ evidence hierarchy:
 4. Contribution
 5. Dependence
 
-The model estimates a continuous Habitat Dependency Rank (HDR) and Trophic
-Dependency Rank (TDR) between zero and one. It also reports the posterior
-probability assigned to each evidence level. The level probabilities are the
-main result because they preserve the meaning of the evidence hierarchy.
+The model estimates continuous HDR and TDR values between zero and one and
+reports the posterior probability assigned to each evidence level. I regard
+these probabilities as the more useful result because they retain the meaning
+of the hierarchy and show the uncertainty around any single classification.
 
-# What needed adjustment
+# How I have interpreted the questions
 
-Your weighted Beta pool is a transparent elicitation device, but it is not a
-standard Bayesian rule for combining independent evidence. Averaging alpha and
-beta values produces a valid Beta distribution, but that result does not follow
-from updating with independent observations. I retain the pool only to express
-a weak context prior. The original ecological logic still needs revision before
-different extractors can apply it consistently. Several problems matter:
+The weighted Beta calculation gives us a prior to work with, but it is not a
+formal Bayesian rule for combining independent evidence. Averaging alpha and
+beta values produces a valid Beta distribution; it does not, however, follow
+from updating with independent observations. I have retained the calculation
+only as a way of expressing a weak context prior.
+
+The original questions also need some revision before different people can
+apply them consistently:
 
 1. Geographic, depth and coastal overlap describe access to kelp. Some original
    priors let access imply strong use or dependence.
@@ -61,43 +65,39 @@ different extractors can apply it consistently. Several problems matter:
    can reasonably choose different answers.
 4. The prose, tables, examples and plotting code contain conflicting alpha and
    beta values.
-5. Fixed weights and precise Beta shapes give an appearance of certainty that
-   has not yet been calibrated.
+5. Fixed weights and narrow Beta distributions imply a degree of certainty that
+   we have not yet justified.
 
-I have therefore kept your questions but changed their roles. Habitat Q1-Q3 and
-Trophic Q1-Q4 provide a weak context prior. All later questions are applied to
-each literature source and enter through the likelihood. The numerical priors
-in your worked examples remain in `data/zoe_worked_prior_profiles.csv` for
-traceability, but they are not used as the recommended priors below.
+I have kept the questions but changed the role of some of them. Habitat Q1-Q3
+and Trophic Q1-Q4 provide a weak context prior. The later questions are applied
+to each literature source and enter through the likelihood. This separation
+prevents us from using the same observation once in the prior and again in the
+likelihood. The numerical priors from your worked examples remain in
+`data/zoe_worked_prior_profiles.csv`, so that we do not lose the original work,
+but they are not used in the analysis below.
 
-The missing part was a likelihood that matches the response. The evidence
-levels are ordered categories, not measured proportions. I therefore use an
-ordered-probit likelihood. A record at a given level is most probable when the
-unknown HDR or TDR lies within the corresponding interval. Knowledge
-specificity controls the width of that observation: High-specificity records
-are more precise than Medium- or Low-specificity records.
+The evidence levels are ordered categories, not measured proportions, and the
+likelihood needs to respect that distinction. I use an ordered-probit
+likelihood. A record at a given level is most probable when the unknown HDR or
+TDR lies within the corresponding interval. The knowledge-specificity class
+controls the observation error, with High-specificity records contributing
+more precise information than Medium- or Low-specificity records.
 
-Agreement among sources supplies another form of uncertainty. The model
-estimates between-source variation for each route. Several records supporting
-the same level give a more focused posterior. Records spread across levels
-support greater between-source variation and a wider posterior.
+The model estimates between-source variation separately for habitat and
+trophic evidence. Independent records that support the same level concentrate
+the posterior, whereas disagreement among records increases the estimated
+variation and widens it. This gives the agreement among studies a direct role
+in the uncertainty.
 
 This calculation treats records as independent. Duplicate publications,
 multiple reports from the same samples, or reviews repeating a primary result
 must be grouped before fitting. Otherwise repetition can be mistaken for
 independent agreement.
 
-The simulated values in `Posteriors.qmd` cannot provide this likelihood. They
-are drawn from a selected prior and fitted back to the same distribution. This
-is circular and does not update the prior with observed evidence. The model
-below replaces those values with coded literature records.
-
-The questions also need a small conceptual revision before the full analysis.
-Questions about geography, depth and coastal position describe access to kelp.
-They can inform a prior, but they cannot establish kelp use or dependence.
-Questions about occurrence, use, selection, contribution and dependence
-describe evidence. Those answers must be recorded independently of the papers
-used in the likelihood. Otherwise the same evidence enters the model twice.
+The simulated values in `Posteriors.qmd` do not provide such a likelihood. They
+are drawn from a selected prior and fitted back to that distribution, so no
+observed evidence updates the prior. The analysis below replaces those values
+with literature records classified against the evidence hierarchy.
 
 | Questionnaire block | Recommended role in the model |
 |---|---|
@@ -106,14 +106,15 @@ used in the likelihood. Otherwise the same evidence enters the model twice.
 | Trophic Q4 | Broad prior information about feeding mode |
 | Trophic Q5-Q7 | Literature evidence |
 
-This division retains your ecological questions but separates background
-traits from observations of the kelp relationship. It is the main change I
-recommend for the final questionnaire.
+This division retains the ecological content of the questions while separating
+background traits from observations of the kelp relationship. I think this is
+the main change needed before we apply the model to all species.
 
-The revised response definitions are in `data/zoe_prior_codebook.csv` and
-`data/zoe_evidence_codebook.csv`. They are deliberately explicit. Every
-extractor should record a response code, the supporting text or value, and the
-source. “Not assessed” is different from evidence of no relationship.
+The revised response definitions are in
+`data/zoe_prior_response_definitions.csv` and
+`data/zoe_evidence_response_definitions.csv`. Each person extracting evidence
+should record the response code, the supporting text or value, and its source.
+“Not assessed” must remain distinct from evidence of no relationship.
 
 # Set up the analysis
 
@@ -134,11 +135,15 @@ prior_path <- file.path(
   "data",
   "zoe_revised_prior_profile_Pachymetopon_blochii.csv"
 )
-prior_codebook_path <- file.path(repo_root, "data", "zoe_prior_codebook.csv")
-evidence_codebook_path <- file.path(
+prior_definitions_path <- file.path(
   repo_root,
   "data",
-  "zoe_evidence_codebook.csv"
+  "zoe_prior_response_definitions.csv"
+)
+evidence_definitions_path <- file.path(
+  repo_root,
+  "data",
+  "zoe_evidence_response_definitions.csv"
 )
 evidence_path <- file.path(
   repo_root,
@@ -157,9 +162,9 @@ dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 selected_species <- "Pachymetopon blochii"
 
 prior_answers <- read.csv(prior_path, stringsAsFactors = FALSE)
-prior_codebook <- read.csv(prior_codebook_path, stringsAsFactors = FALSE)
-evidence_codebook <- read.csv(
-  evidence_codebook_path,
+prior_definitions <- read.csv(prior_definitions_path, stringsAsFactors = FALSE)
+evidence_definitions <- read.csv(
+  evidence_definitions_path,
   stringsAsFactors = FALSE,
   na.strings = c("", "NA")
 )
@@ -176,20 +181,21 @@ names(evidence)[8] <- "level"
 selected_evidence <- evidence[evidence$species == selected_species, ]
 ```
 
-# Use the revised codebooks
+# Define the responses
 
-The context responses have target means from 0.05 to 0.20. This is intentional:
-access to kelp can make a relationship plausible, but cannot by itself support
-use, selection, contribution or dependence. A common concentration of eight
-converts each target mean to a Beta distribution:
+The context responses have target means from 0.05 to 0.20. Access to kelp can
+make a relationship plausible, but it cannot by itself support use, selection,
+contribution or dependence. A common concentration of eight converts each
+target mean to a Beta distribution:
 
 $$
 \alpha = 8\mu, \qquad \beta = 8(1-\mu).
 $$
 
-The same rule is used for every option. The values remain expert judgements and
-must be tested through prior-predictive checks. The rule makes those judgements
-visible and prevents separate, ad hoc choices of alpha and beta.
+The same rule is used for every option. These values remain expert judgements,
+and we will need to assess them with prior-predictive checks. Applying one rule
+does at least make the judgement explicit and avoids unrelated choices of alpha
+and beta for each response.
 
 ```{r revised-prior-profile}
 knitr::kable(
@@ -208,22 +214,22 @@ knitr::kable(
 )
 ```
 
-This focal profile is provisional. The geographic and depth percentages should
-be recalculated from explicit range layers before final classification. The
-table shows the required format, not a substitute for that audit.
+This profile remains provisional. We should calculate the geographic and depth
+percentages from defined range layers before assigning a final classification;
+the table specifies the required format but does not replace that work.
 
-The evidence codebook applies a gate: one paper contributes the highest level
-that its own observations support for a route. Frequency, dietary proportion
-and life stage remain valuable metadata, but they do not raise a level without
-the observation required by the next gate.
+The evidence definitions apply a cumulative criterion: one paper contributes
+the highest level supported by its observations for each route. Frequency,
+dietary proportion and life stage remain useful information, but none raises
+the evidence level without the observation required by the next level.
 
 # Combine Zoë's question priors
 
-The proposed weights are the expected relative weights. The concentration
-parameter controls our confidence in them. A small concentration allows more
-variation among plausible weight combinations. A large concentration keeps
-the sampled weights close to the proposed values. I use 25 as a moderate
-working choice and examine the effect of this decision below.
+I have taken the proposed weights as the centre of a distribution rather than
+as fixed quantities. The concentration parameter controls how much the sampled
+weights vary around those values: a low concentration permits more variation,
+whereas a high concentration keeps them close to the proposed weights. I use 25
+as a working value and examine the effect of changing it below.
 
 ```{r integrated-priors}
 habitat_answers <- prior_answers[prior_answers$route == "Habitat", ]
@@ -275,13 +281,13 @@ The habitat calculation gives Beta(`r round(habitat_prior$alpha, 5)`,
 `r round(habitat_prior$beta, 5)`). The trophic calculation gives
 Beta(`r round(trophic_prior$alpha, 5)`,
 `r round(trophic_prior$beta, 5)`). These are the central values of the revised
-Zoë priors. The fitted model averages over alternative question weights. No
-FishKelp prior is used.
+priors, around which the model averages over alternative question weights. No
+FishKelp prior enters this calculation.
 
 # Prepare the literature evidence
 
 Each paper contributes an ordered evidence level and a knowledge-specificity
-class. The class controls the observation standard deviation used by the
+class. The latter determines the observation standard deviation used in the
 likelihood.
 
 ```{r evidence-settings}
@@ -302,10 +308,9 @@ knitr::kable(
 )
 ```
 
-A smaller standard deviation means that the record gives a more precise
-indication of the underlying HDR or TDR. These three values are transparent
-working choices. They should be checked in a sensitivity analysis before the
-model is used for publication.
+A smaller standard deviation gives the record more influence on the underlying
+HDR or TDR. The three values used here are working choices; they need to be
+examined in a sensitivity analysis and calibrated before publication.
 
 ```{r evidence-counts}
 route_names <- c(H = "Habitat", T = "Trophic")
@@ -341,10 +346,10 @@ knitr::kable(
 
 # Fit the habitat and trophic models
 
-The model evaluates HDR or TDR and between-source variation on a fine grid. It
-averages over both question-weight uncertainty and source variation. This
-is numerical integration for a small model, so Stan and Markov chain Monte
-Carlo are unnecessary.
+The model evaluates HDR or TDR and between-source variation on a fine grid,
+while averaging over uncertainty in the question weights. Numerical
+integration is adequate for a model of this size, so Stan and Markov chain
+Monte Carlo are unnecessary here.
 
 ```{r fit-models}
 habitat_records <- selected_evidence[selected_evidence$route == "H", ]
@@ -390,22 +395,22 @@ knitr::kable(
 )
 ```
 
-The expected level is the continuous HDR or TDR multiplied by five. This places
-Zoë's posterior on the 0-5 reporting scale while retaining her continuous rank.
-The source-variation columns describe agreement among records. Values near zero
-indicate close agreement after knowledge specificity has been considered.
+Multiplying the continuous HDR or TDR by five places the posterior on the 0-5
+reporting scale while retaining the continuous rank. The source-variation
+columns describe agreement among records after allowing for knowledge
+specificity; values near zero indicate closer agreement.
 
 # Comparison with FishKelp
 
-FishKelp is useful here as an external benchmark. It is not used to fit Zoë's
-model. Both analyses use the same fish and evidence records, but their priors
-and model structures differ. Agreement would provide convergent support.
-Disagreement is diagnostic and should lead us back to the questionnaire,
-weights and likelihood.
+FishKelp provides a useful comparison, but it is not used to fit this model.
+The analyses use the same fish and literature records, although their priors
+and model structures differ. Similar estimates would support the consistency
+of the two approaches; marked differences would direct us back to the
+questions, weights and likelihood.
 
-This is a shared-data consistency check, not fully independent validation.
-Both models use the same extracted literature records. A stronger test will use
-held-out species, newly extracted sources, or an independently coded dataset.
+Because both models draw on the same literature records, this comparison is not
+an independent validation. A stronger test would use species withheld during
+development, new sources, or evidence extracted independently.
 
 ```{r fishkelp-comparison}
 fishkelp_summary <- read.csv(
@@ -506,23 +511,23 @@ For Habitat, the two posterior means differ by
 `r round(abs(model_comparison$mean[model_comparison$route == "Habitat" & model_comparison$model == "Zoë HDR/TDR"] - model_comparison$mean[model_comparison$route == "Habitat" & model_comparison$model == "FishKelp v7"]), 3)`
 levels. The mean Trophic estimates differ by
 `r round(abs(model_comparison$mean[model_comparison$route == "Trophic" & model_comparison$model == "Zoë HDR/TDR"] - model_comparison$mean[model_comparison$route == "Trophic" & model_comparison$model == "FishKelp v7"]), 3)`
-levels. The 95% intervals overlap for both routes. The results are broadly
-compatible but not identical. The comparison scale is also approximate because
-the models define their latent quantities differently.
+levels. The 95% intervals overlap for both routes, which suggests broad
+compatibility rather than close agreement. The comparison remains approximate
+because the two models define their latent quantities differently.
 
 The median between-source variation is
 `r round(posterior_summary$source_variation_median[posterior_summary$route == "Habitat"], 3)`
 for Habitat and
 `r round(posterior_summary$source_variation_median[posterior_summary$route == "Trophic"], 3)`
-for Trophic. The greater Trophic value reflects the wider spread of trophic
-records across evidence levels and contributes to its wider posterior.
+for Trophic. The higher Trophic value follows from the wider spread of trophic
+records across evidence levels and contributes to the wider posterior.
 
 # Sensitivity to the question weights
 
-The concentration of the Dirichlet distribution expresses how closely we hold
-to the proposed weights. The values below represent broad, moderate and narrow
-uncertainty around the same central weights. The biological conclusion should
-not rest on one concentration value.
+The concentration of the Dirichlet distribution expresses our confidence in
+the proposed weights. The values below represent broad, moderate and narrow
+uncertainty around the same central values. A biological conclusion should not
+depend on one choice of concentration.
 
 ```{r weight-sensitivity}
 weight_concentrations <- c(10, 25, 100)
@@ -597,17 +602,18 @@ knitr::kable(
 )
 ```
 
-The focal estimates change very little across these concentration values. That
-is expected because the revised context questions all have low and similar
-target means. Relative question weights are therefore not driving this worked
-result. This may change for another fish with more contrasting context answers.
+The estimates change little across these concentration values because the
+revised context questions have low and similar target means. The relative
+question weights do not determine the result for this fish, although they may
+have more influence when the context answers differ more strongly among
+questions.
 
 # Posterior distributions
 
-These figures follow the form of your original posterior figures. The blue
-dashed line is your integrated prior. The red line is the posterior after the
-literature evidence has been included. The pale vertical bands show the six
-evidence levels.
+These figures follow the form of your original posterior plots. The dashed blue
+line shows the integrated prior, the red line shows the posterior after adding
+the literature evidence, and the pale vertical bands mark the six evidence
+levels.
 
 ```{r posterior-plot-function}
 plot_posterior <- function(fit, route, rank_name) {
@@ -717,9 +723,9 @@ trophic_plot
 
 # Probabilities for the evidence levels
 
-The posterior distributions cross the boundaries between levels. It is more
-honest to report all six probabilities than to assign a single level without
-showing uncertainty.
+The posterior distributions extend across the boundaries between evidence
+levels. I would report all six probabilities rather than assign one level and
+omit the uncertainty around it.
 
 ```{r level-probability-plot, fig.cap="Posterior probability assigned to each evidence level."}
 #| fig-width: 10
@@ -782,21 +788,21 @@ knitr::kable(
 
 # How to run the full suite of fish
 
-Zoë, the next stage is mainly data preparation. Use the following sequence for
-each fish and keep habitat and trophic answers separate.
+Zoë, the next step is to prepare the inputs for each fish, while keeping the
+habitat and trophic assessments separate.
 
 1. Copy `data/zoe_prior_profile_template.csv` for each fish. Use
    `data/zoe_revised_prior_profile_Pachymetopon_blochii.csv` as the completed
    reference example.
 2. Add the scientific name in the `species` column.
-3. Select only a response code defined in `data/zoe_prior_codebook.csv`. Copy
-   the label, alpha and beta from that row rather than entering new values.
+3. Select a response code from `data/zoe_prior_response_definitions.csv`. Copy
+   the corresponding label, alpha and beta rather than entering new values.
 4. Record the source, value and short justification used for every context
    answer. Complete these answers separately from the evidence extraction.
 5. Draw plausible integrated priors for each route with
    `draw_integrated_priors()`.
-6. Code every independent literature source with
-   `data/zoe_evidence_codebook.csv` and
+6. Classify every independent literature source using
+   `data/zoe_evidence_response_definitions.csv` and
    `data/zoe_evidence_extraction_template.csv`. Record “not assessed” for a
    silent route. Retain only the highest supported level per independent sample,
    fish and route, and use `source_cluster_id` to link shared samples.
@@ -807,57 +813,59 @@ each fish and keep habitat and trophic answers separate.
    deviations. Report conclusions that remain stable across those settings.
 10. Compare each route's expected level with the FishKelp benchmark.
     Investigate large differences; do not tune the model only to force agreement.
-11. Have a second extractor code a concealed pilot set. Compare response codes,
-    highest levels and “not assessed” decisions. Revise ambiguous definitions
-    before the full extraction and report weighted agreement.
+11. Ask a second person to classify a concealed pilot set. Compare response
+    codes, highest levels and “not assessed” decisions. Resolve ambiguous
+    definitions before the full extraction and report weighted agreement.
 
 The complete Blamey and Bolton fish list is in
-`data/fishkelp_v7/blamey_bolton_2018_fish.csv`. The packaged evidence data cover
-all 30 fish, but the questionnaire answers have not yet been completed for all
-species. Those answers cannot be inferred safely from a scientific name alone.
+`data/fishkelp_v7/blamey_bolton_2018_fish.csv`. The evidence data cover all 30
+fish, but the context questions have not yet been completed for every species.
+We cannot infer those answers from the scientific names alone.
 
 # Remaining flaws in the logic
 
-Zoë, I think the revised framework is coherent enough to test, but several
-limitations remain important.
+Zoë, I think this version gives us a model that can be tested, but it does not
+resolve several parts of the underlying logic.
 
-1. **An evidence level is not a biological amount.** The hierarchy describes
+1. **An evidence level is not a biological quantity.** The hierarchy describes
    the strongest type of claim supported by a study. The continuous HDR and TDR
-   summarise the typical evidence across sources. They are not the probability
-   that a fish is biologically dependent on kelp.
-2. **Averaging can hide decisive evidence.** Many occurrence papers can pull a
-   posterior down even when one strong experiment supports contribution. We
-   must decide whether the target is the typical relationship across contexts
-   or the highest causal claim supported. Those are different questions.
-3. **The literature is not a random sample.** Well-studied species and accessible
-   habitats generate more records. The posterior is conditional on the assembled
-   corpus and its reporting biases.
-4. **Agreement is not automatically independence.** Papers can use the same
-   samples, repeat the same assertion or share the same method bias. Source
-   clusters must be recorded before agreement is allowed to increase precision.
-5. **Observed alternatives are context dependent.** A fish recorded away from
-   kelp can weaken a claim of obligate dependence, but it does not erase a valid
-   observation of kelp use elsewhere. Region, life stage and season may need
-   separate estimates.
+   summarise the typical evidence across sources; they do not estimate the
+   probability that a fish is biologically dependent on kelp.
+2. **Averaging can obscure stronger evidence.** Many occurrence studies can
+   pull the posterior down even when one well-designed experiment supports
+   contribution. We need to decide whether the target is the typical
+   relationship across contexts or the strongest causal claim supported by the
+   evidence. These are different quantities.
+3. **The literature is not a random sample.** More records are available for
+   well-studied species and accessible habitats. The posterior is conditional on
+   the assembled literature and its reporting biases.
+4. **Agreement does not imply independence.** Papers may use the same samples,
+   repeat an earlier assertion, or share a methodological bias. We must identify
+   these links before agreement is allowed to increase precision.
+5. **Alternative habitats are context dependent.** A fish recorded away from
+   kelp can weaken a claim of obligate dependence, but it does not invalidate a
+   reliable observation of kelp use elsewhere. Region, life stage and season
+   may need separate estimates.
 6. **The numerical calibration is provisional.** The context means, Beta
-   concentration, level boundaries and specificity errors are transparent
-   working values, not empirically established constants.
+   concentration, level boundaries and specificity errors are working values,
+   not empirically estimated constants.
 
-The second point is the largest unresolved modelling choice. A useful next
-version may report two outputs: the posterior distribution of typical HDR or
-TDR, and the probability that each causal gate has been passed at least once by
-independent high-specificity evidence.
+The second point is the largest unresolved modelling choice. I suggest that a
+later version should report two results: the posterior distribution of typical
+HDR or TDR, and the probability that each evidential criterion has been met at
+least once by independent, High-specificity evidence.
 
 # Decisions to settle before publication
 
-The working model runs, but seven decisions still need ecological agreement.
+The model runs, but these decisions require ecological agreement before we use
+it for a complete assessment:
 
-1. Review the operational definitions against a concealed set of real papers.
-   Revise a definition only when the current wording cannot resolve the case.
+1. Test the operational definitions against a concealed set of papers, revising
+   them where the present wording does not resolve a genuine case.
 2. Calibrate the target means and common Beta concentration through structured
    expert elicitation, prior-predictive checks and held-out species.
-3. Agree on the boundaries between the six evidence levels. This analysis uses
-   0.10, 0.30, 0.50, 0.70 and 0.90 as transparent working boundaries.
+3. Agree on the boundaries between the six evidence levels. The present
+   analysis uses 0.10, 0.30, 0.50, 0.70 and 0.90 as working boundaries.
 4. Calibrate the High, Medium and Low observation standard deviations through
    prior-predictive checks and sensitivity analysis.
 5. Examine several Dirichlet concentration values for question-weight
@@ -867,6 +875,6 @@ The working model runs, but seven decisions still need ecological agreement.
 7. Set and report an extractor-agreement threshold before the complete run.
    Preserve disagreements and their resolutions in an audit table.
 
-The model is therefore a reproducible working version of your idea. It is ready
-for us to inspect and refine, but the current numerical results should not yet
-be presented as final species classifications.
+This gives us a reproducible version of your idea that we can now examine and
+revise. I would not yet present the numerical results as final species
+classifications.
