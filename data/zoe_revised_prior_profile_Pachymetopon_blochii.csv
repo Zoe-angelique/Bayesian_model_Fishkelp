@@ -1,0 +1,8 @@
+species,route,question,parameter,response_code,selected_option,alpha,beta,weight,source
+Pachymetopon blochii,Habitat,Q1,Geographic overlap,G2,Partial overlap,1.2,6.8,0.3333333333,Species range and FishKelp species frame
+Pachymetopon blochii,Habitat,Q2,Vertical overlap,D2,Partial overlap,1.2,6.8,0.3333333333,Adult depth range 0-55 m and local kelp depth range
+Pachymetopon blochii,Habitat,Q3,Coastal access,C3,Extensive access,1.6,6.4,0.3333333334,Primarily inshore rocky-reef habitat
+Pachymetopon blochii,Trophic,Q1,Geographic overlap,G2,Partial overlap,1.2,6.8,0.20,Species range and FishKelp species frame
+Pachymetopon blochii,Trophic,Q2,Vertical overlap,D2,Partial overlap,1.2,6.8,0.20,Adult depth range 0-55 m and local kelp depth range
+Pachymetopon blochii,Trophic,Q3,Coastal access,C3,Extensive access,1.6,6.4,0.20,Primarily inshore rocky-reef habitat
+Pachymetopon blochii,Trophic,Q4,Feeding guild,F2,Mixed plant and animal diet,1.2,6.8,0.40,Mann 2013 species account
